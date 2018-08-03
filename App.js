@@ -1,49 +1,41 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow
- */
+import React from 'react';
+import { StyleSheet, Text, View, TextInput, Button } from 'react-native';
+import { Provider } from 'react-redux';
+import { createStore, applyMiddleware } from 'redux';
+//import peopleReducer from './src/reducers/peopleReducer';
 
-import React, {Component} from 'react';
-import {Platform, StyleSheet, Text, View} from 'react-native';
+import thunk from "redux-thunk"
+//import AppContainer from "./src/containers/AppContainer";
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' + 'Cmd+D or shake for dev menu',
-  android:
-    'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
+// agregado nuevo
+import AppReducer from './src/reducers/AppReducer';
+import AppWithNavigationState2 from './src/components/MainNavigator';
 
-type Props = {};
-export default class App extends Component<Props> {
-  render() {
+// fin agregado nuevo
+
+const createStoreWithMidddleware = applyMiddleware(thunk)(createStore);
+
+
+//const store = createStoreWithMidddleware(peopleReducer);
+//const store = createStoreWithMidddleware(AppReducer);
+
+export default class App extends React.Component {
+
+   store = createStoreWithMidddleware(AppReducer);
+   //store = createStore(AppReducer);
+
+
+
+  render() { console.disableYellowBox = true
+
+
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>Welcome to React Native!</Text>
-        <Text style={styles.instructions}>To get started, edit App.js</Text>
-        <Text style={styles.instructions}>{instructions}</Text>
-      </View>
+      <Provider store={this.store}>
+    
+    <AppWithNavigationState2 />
+      </Provider>
     );
   }
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F5FCFF',
-  },
-  welcome: {
-    fontSize: 20,
-    textAlign: 'center',
-    margin: 10,
-  },
-  instructions: {
-    textAlign: 'center',
-    color: '#333333',
-    marginBottom: 5,
-  },
-});
+
