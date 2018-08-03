@@ -156,8 +156,10 @@ if (!this.usernotfound)
     render() { console.log("LoginForm Screen");
    
         return (
-         //   <KeyboardAvoidingView behavior="padding" style={{ justifyContent: 'space-around'}}>
-              <View style={styles.container}>
+            
+               <View style={styles.container}>
+   
+       
                <View style={{flexDirection: 'row',  justifyContent: 'space-around',   padding: 5,
                         opacity: this.state.indicator }} >
                   
@@ -169,6 +171,8 @@ if (!this.usernotfound)
                         <Text style={{ color: '#ff3333', textAlign: 'center', }}> Login error, try again
                         </Text>
                    </View>
+
+               
                <TextInput 
                   placeholder="qra"
                   onFocus={() => this.setState({ loginerror: 0})}
@@ -197,6 +201,8 @@ if (!this.usernotfound)
                  onChangeText={(text) => this.setState({password: text})}
                 
                  />
+
+         
                 
                  <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.signIn()} >
                     <Text style={styles.buttonText} >LOGIN</Text>
@@ -215,8 +221,10 @@ if (!this.usernotfound)
                  </View>
                </View>
 
-            </View>
-         //    </KeyboardAvoidingView>
+       
+
+             </View> 
+           
            
         );
        
@@ -258,7 +266,16 @@ if (!this.usernotfound)
      justifyContent: 'space-around',
    padding: 10
   
-   }
+   },
+   title2: {
+    fontSize: 22,
+    color: '#FFF',    
+    marginTop: 100,
+  //  width: 100,
+    textAlign: 'center',
+    opacity: 0.7
+    
+          },
 
         });
 

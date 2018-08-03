@@ -17,22 +17,24 @@ Login = () => {
    
         return (
               <KeyboardAvoidingView behavior="padding"     style={styles.container}  >
-               <View style={styles.container}>
-                <View style={styles.logoContainer}>
+               {/* <View style={styles.container}> */}
+                <View style={styles.logoContainer}> 
+              
+                
                    <Image source={require('../../images/Ham.png')}  style={{width: 250, height: 160, marginTop: 100  } }  />
-                   <Text style={styles.title}> superQso </Text>
+                  
+                  
+                     {/* <Text style={styles.title}> superQso </Text> */}
+                </View>  
                    
-                   
-                 </View>
+                
                
                  <View style={styles.formContainer}>
-                 {/* <TouchableOpacity style={styles.buttonContainer} >
-                    <Text style={styles.buttonText} onPress={ () => this.Login()}>LOGIN</Text>
-                 </TouchableOpacity> */}
+                
                   <LoginForm navigation={this.props.navigation} /> 
                  </View>
 
-            </View>
+            {/* </View> */}
              </KeyboardAvoidingView> 
         );
        
@@ -42,7 +44,7 @@ Login = () => {
 
  const styles = StyleSheet.create({
   container: {
-    flex: 1,
+   flex: 1,
     backgroundColor: '#3498db'
       },
   logoContainer: {
@@ -50,7 +52,7 @@ Login = () => {
     
     
     flex: 0.4,
-     justifyContent: 'center'
+    justifyContent: 'center'
     
           },
  title: {
@@ -60,9 +62,20 @@ Login = () => {
       width: 100,
       textAlign: 'center',
       opacity: 0.7
+      
             },
+            title2: {
+                fontSize: 18,
+                color: '#FFF',    
+                marginTop: 10,
+              //  width: 100,
+                textAlign: 'center',
+                opacity: 0.7
+                
+                      },
  formContainer: {
-    flex: 1
+    flex: 1,
+    marginTop: 25
 
                
                
