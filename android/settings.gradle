@@ -1,0 +1,3 @@
+rootProject.name = 'sqsonative'
+
+include ':app'
