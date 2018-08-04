@@ -180,8 +180,8 @@ constructor(props) {
    
         return (
          //   <KeyboardAvoidingView behavior="padding" style={{ justifyContent: 'space-around'}}>
-         <KeyboardAvoidingView behavior="padding"     style={styles.container}  >
-              <View style={styles.container}>
+         <View style={styles.container}> 
+         
               
                <View style={{flexDirection: 'row',  justifyContent: 'space-around',   padding: 1,
                         opacity: this.state.indicator,   marginTop: 30 }} >
@@ -196,8 +196,10 @@ constructor(props) {
                    </View>
                   
          {(this.state.indicatorQRA===1) ?  
-            <View style={{  justifyContent: 'space-around',   padding: 1,
-                        opacity: this.state.indicatorQRA }} >
+            // <View style={{  justifyContent: 'space-around',   padding: 1,
+            //             opacity: this.state.indicatorQRA }} >
+          <KeyboardAvoidingView behavior="padding"    style={{  justifyContent: 'space-around',   padding: 1,
+                          opacity: this.state.indicatorQRA }}   >
                 
                 <Text style={{ color: '#FFFFFF', fontSize: 18  }}>Password Recovery</Text>
                <TextInput 
@@ -222,8 +224,10 @@ constructor(props) {
                 <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("Root")} >
                     <Text style={styles.buttonText2} >Login Screen</Text>
                  </TouchableOpacity>
+
+                 </KeyboardAvoidingView>
                  
-            </View>
+            // </View>
           :
                 <View style={{  justifyContent: 'space-around',   padding: 1,
                         opacity: this.state.indicatorNewPassword }} >
@@ -279,7 +283,7 @@ constructor(props) {
             </View>
          }
 
-              
+             
 
                 
 
@@ -314,18 +318,8 @@ constructor(props) {
              
 
 
-
-
-
-
-
-
-
-
-
-
+           
             </View>
-            </KeyboardAvoidingView>
            
         );
        
