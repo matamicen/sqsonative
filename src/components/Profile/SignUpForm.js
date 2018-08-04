@@ -279,16 +279,18 @@ signUp = async () => {
    
         return (
          //   <KeyboardAvoidingView behavior="padding" style={{ justifyContent: 'space-around'}}>
-         <KeyboardAvoidingView behavior="padding"     style={styles.container}  >
-              <View style={styles.container}>
+         <View style={styles.container}>
+         <KeyboardAvoidingView behavior="padding"       >
+              {/* <View style={styles.container}> */}
               
-               <View style={{flexDirection: 'row',  justifyContent: 'space-around',   padding: 1, marginTop: 25,
+               <View style={{flexDirection: 'row', justifyContent: 'space-around',   padding: 3, marginTop: 25,
                         opacity: this.state.indicator }} >
                   
                     <ActivityIndicator  animating={true} size="large" color='orange' />
-                    
+                    {/* justifyContent: 'space-around', */}
                  </View>
-                 <View style={{ justifyContent: 'space-around',   padding: 1,
+                 {/* justifyContent: 'space-around' */}
+                 <View style={{   padding: 3,
                         opacity: this.state.loginerror }}>
                         <Text style={{ color: 'red', textAlign: 'center', }}> {this.state.errormessage}
                         </Text>
@@ -373,7 +375,7 @@ signUp = async () => {
                 
                  />
 
-                 
+                
 
                  <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.signUp()} >
                     <Text style={styles.buttonText}> SignUp </Text>
@@ -382,6 +384,8 @@ signUp = async () => {
                  <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("Root")} >
                     <Text style={styles.buttonText2} >Login Screen</Text>
                  </TouchableOpacity>
+
+                  </KeyboardAvoidingView> 
 
                  {/* <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.date_picker_android()} >
                     <Text style={styles.buttonText}> DateAndroid </Text>
@@ -491,7 +495,7 @@ signUp = async () => {
 
 
             </View>
-            </KeyboardAvoidingView>
+           
            
         );
        
