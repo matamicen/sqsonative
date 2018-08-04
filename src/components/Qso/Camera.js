@@ -539,11 +539,36 @@ class CameraScreen extends React.Component {
       const options = { quality: 0.5, base64: true };
       const data = await this.camera.takePictureAsync(options)
       console.log(data.uri);
+   //   console.log('info de foto:' + JSON.stringify(data));
       this.setState({
         url: data.uri
       });
-   //   this.openModalPhotoConfirmation();
-    }
+    
+      uri = data.uri;
+
+    fileName2 = uri.replace(/^.*[\\\/]/, '');
+    console.log('filename2 es: ' + fileName2);
+    envio = {name: fileName2, url: uri, type: 'image', sent: 'false', size: '2222' } 
+    
+    
+    
+     vari2 = await this.props.sendActualMedia(envio);
+     console.log("Fin de espera larga ANDROID")
+     this.goBack();
+     
+     if ( Platform.OS === 'ios')
+     timer = 1000;
+      else timer = 0;
+
+     setTimeout(() => {
+       console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+       this.props.actindicatorImageDisabled();
+        this.props.openModalConfirmPhoto();
+    }, 1000);
+
+
+   
+  }
   };
 
 
