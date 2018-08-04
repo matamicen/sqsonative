@@ -9,6 +9,7 @@ import { NavigationActions } from 'react-navigation';
 import { connect } from 'react-redux';
 import { openModalConfirmPhoto, sendActualMedia, actindicatorImageDisabled,
          actindicatorImageEnabled } from '../../actions';
+import { RNCamera } from 'react-native-camera';
 
 const landmarkSize = 2;
 
@@ -29,22 +30,35 @@ const wbOrder = {
 };
 
 class CameraScreen extends React.Component {
-  state = {
-    flash: 'off',
-    zoom: 0,
-    autoFocus: 'on',
-    depth: 0,
-    type: 'back',
-    whiteBalance: 'auto',
-    ratio: '16:9',
-    ratios: [],
-    photoId: 1,
-    showGallery: false,
-    photos: [],
-    faces: [],
-    permissionsGranted: false,
-    uriresize: ''
-  };
+  // state = {
+  //   flash: 'off',
+  //   zoom: 0,
+  //   autoFocus: 'on',
+  //   depth: 0,
+  //   type: 'back',
+  //   whiteBalance: 'auto',
+  //   ratio: '16:9',
+  //   ratios: [],
+  //   photoId: 1,
+  //   showGallery: false,
+  //   photos: [],
+  //   faces: [],
+  //   permissionsGranted: false,
+  //   uriresize: ''
+  // };
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      photoConfirm: false,
+      url: '',
+      scanQR: false
+    };
+  
+  }
+
+ 
 
   // async UNSAFE_componentWillMount() {
   //   // const { status } = await Permissions.askAsync(Permissions.CAMERA);
@@ -87,15 +101,14 @@ class CameraScreen extends React.Component {
   //   });
   // }
 
-  // goBack = async () => {
+   goBack = async () => {
   //   if ( Platform.OS === 'ios')
   //   {
   //   Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.PORTRAIT);
   //   }
-  //   this.navigateRoot();
+       this.navigateRoot();
    
-
-  // }
+          }
 
   // toggleFacing() {
   //   this.setState({
@@ -507,6 +520,32 @@ class CameraScreen extends React.Component {
   //     </Camera>
   //   );
   // }
+  openModalPhotoConfirmation = () => {
+    
+    this.setState({
+      photoConfirm: true
+    });
+  }
+
+  closeModalPhotoConfirmation = () => {
+
+    this.setState({
+      photoConfirm: false
+    });
+  }
+
+  takePicture = async function() {
+    if (this.camera) {
+      const options = { quality: 0.5, base64: true };
+      const data = await this.camera.takePictureAsync(options)
+      console.log(data.uri);
+      this.setState({
+        url: data.uri
+      });
+   //   this.openModalPhotoConfirmation();
+    }
+  };
+
 
   render() { console.log("camera render permission");
   //  const cameraScreenContent = this.state.permissionsGranted
@@ -515,19 +554,75 @@ class CameraScreen extends React.Component {
   //     : this.renderNoPermissions();
   //   const content = this.state.showGallery ? this.renderGallery() : cameraScreenContent;
  //   return <View style={styles.container}>{content}</View>;
- return <View style={styles.container}>
-    
-            <Text style={styles.flipText}> Hola Camera </Text>
-     
- 
- </View>;
+ //return
+//   <View style={styles.container}>    
+//             <Text style={styles.flipText}> Hola Camera </Text>
+//  </View>;
+   return (
+     <View style={styles.container}>
+
+     <RNCamera
+            ref={ref => {
+              this.camera = ref;
+            }}
+            style = {styles.preview}
+            type={RNCamera.Constants.Type.back}
+            flashMode={RNCamera.Constants.FlashMode.on}
+            permissionDialogTitle={'Permission to use camera'}
+            permissionDialogMessage={'We need your permission to use your camera phone'}
+        />
+
+         <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
+
+
+         {/* <TouchableOpacity
+            onPress={this.signIn.bind(this)}
+            style = {styles.capture} >
+            <Text style={{fontSize: 14}}> SignIn </Text>
+        </TouchableOpacity> */}
+        <TouchableOpacity
+            onPress={this.takePicture.bind(this)}
+            style = {styles.capture} >
+            <Text style={{fontSize: 14}}> SNAP </Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+            onPress={() => this.goBack()}
+            style = {styles.capture} >
+            <Text style={{fontSize: 14}}> Go Back </Text>
+        </TouchableOpacity>
+        </View>
+
+
+
+
+     </View>
+    );
+
+
   }
+
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#000',
+    flexDirection: 'column',
+    backgroundColor: 'black'
+  //  backgroundColor: '#000',
+  },
+  preview: {
+    flex: 1,
+    justifyContent: 'flex-end',
+    alignItems: 'center'
+  },
+  capture: {
+    flex: 0,
+    backgroundColor: '#fff',
+    borderRadius: 5,
+    padding: 15,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+    margin: 20
   },
   navigation: {
     flex: 1,

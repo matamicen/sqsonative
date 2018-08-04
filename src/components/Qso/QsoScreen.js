@@ -108,7 +108,7 @@ OpenEndQsoModal = () => {
 }
   
 
-  //   gotoCameraScreen = async () => {
+    gotoCameraScreen = async () => {
 
   //     const { status } = await Permissions.askAsync(Permissions.CAMERA);
   //     if (status === 'granted') this.props.cameraPermissionTrue();
@@ -121,10 +121,10 @@ OpenEndQsoModal = () => {
   //       {
   //            Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.ALL);
   //       }
-  //       this.props.closeModalConfirmPhoto();
-  //       this.props.navigation.navigate("CameraScreen2");
+         this.props.closeModalConfirmPhoto();
+         this.props.navigation.navigate("CameraScreen2");
       
-  // }
+   }
 
   navigateRoot = () => {
     const navigateToScreen2 = NavigationActions.navigate({
