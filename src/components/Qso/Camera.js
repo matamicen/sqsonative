@@ -47,16 +47,23 @@ class CameraScreen extends React.Component {
   //   uriresize: ''
   // };
 
-  constructor(props) {
-    super(props);
+  // constructor(props) {
+  //   super(props);
 
-    this.state = {
-      photoConfirm: false,
-      url: '',
-      scanQR: false
-    };
+  //   this.state = {
+  //     photoConfirm: false,
+  //     url: '',
+  //     scanQR: false
+  //   };
+  //}
+  state = {
+    photoConfirm: false,
+    url: '',
+    scanQR: false
+  };
+
   
-  }
+ 
 
  
 

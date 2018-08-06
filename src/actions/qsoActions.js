@@ -23,8 +23,10 @@ import {FETCHING_API_REQUEST,
 
 import awsconfig from '../aws-exports';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
-import { NetInfo } from 'react-native';
+import { NetInfo, Platform } from 'react-native';
 import { getDateQslScan } from '../helper';
+import { Buffer } from 'buffer';
+import RNFetchBlob from 'rn-fetch-blob';
 
 Amplify.configure(awsconfig)
 
@@ -573,18 +575,32 @@ export const uploadMediaToS3 = (fileName2, fileaux, sqlrdsid, description, size,
       console.log("ejecuta UPLOAD a S3 desde ACTION");  
     try {
 
-        const response = await fetch(fileaux);
-        const blobi = await response.blob();
-        
-        if (type==='image') folder = 'images/';
+        // const response = await fetch(fileaux);
+        // const blobi = await response.blob();
+
+     //agrego native
+        let fileauxFinal = fileaux;
+        if (Platform.OS == 'ios')
+        {
+          fileauxFinal =  fileaux.replace("file:///", '');
+        }
+        console.log('contenido fileauxFinal: '+fileauxFinal);
+
+           if (type==='image') folder = 'images/';
           else folder = 'audios/';
       
         console.log('folder:'+ folder+fileName2);
+   
 
-        const stored = Storage.vault.put(folder+fileName2, blobi, {
-            level: 'protected'})
-              .then (result => {
-                console.log(result);
+//, contentType: 'image/png'
+         enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => new Buffer(data, 'base64'));
+      //   return this.readFile(fileauxFinal)
+         enBlob
+         .then(buffer => Storage.vault.put(folder+fileName2, buffer, { level: 'protected' }))
+         .then (result => {
+                  console.log('resultado:'+result.key);
+
+
                 // actualizo SENT como TRUE en mediafile para ese file.
                 update = {"sent": true, "progress": 0.8}
                 dispatch(updateMedia(fileName2,update));
@@ -604,18 +620,77 @@ export const uploadMediaToS3 = (fileName2, fileaux, sqlrdsid, description, size,
     
     
               
-              })
-              .catch(err => {
-                console.log(JSON.stringify(err));
-                console.log("fallo el UPLOAD UPLOAD UPLOADS3");
-                console.log("nombre filename:" + fileName2);
+    
+                
+                })
+                .catch(err => {
+                  console.log(JSON.stringify(err));
+                  console.log("fallo el UPLOAD UPLOAD UPLOADS3");
+                  console.log("nombre filename:" + fileName2);
               
-                update = {"status": 'failed'}
-                dispatch(updateMedia(fileName2,update));
+                  update = {"status": 'failed'}
+                  dispatch(updateMedia(fileName2,update));
+                        
+                });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        
+        // if (type==='image') folder = 'images/';
+        //   else folder = 'audios/';
+      
+        // console.log('folder:'+ folder+fileName2);
+
+        // const stored = Storage.vault.put(folder+fileName2, blobi, {
+        //     level: 'protected'})
+        //       .then (result => {
+        //         console.log(result);
+
+
+
+        //         // actualizo SENT como TRUE en mediafile para ese file.
+        //         update = {"sent": true, "progress": 0.8}
+        //         dispatch(updateMedia(fileName2,update));
+    
+        //         // procedo a llamar API de addmedia al RDS
+        //         mediaToRds = {
+        //           "qso":  sqlrdsid,
+        //           "type": type ,
+        //           "datasize": size,
+        //           "datetime": date,      
+        //           "url":  rdsUrlS3,
+        //           "description": description 
+        //       }
+    
+        //       dispatch(postAddMedia(mediaToRds, fileName2));
+        //       console.log("LLLLLLLLLLL LLamo recien a media: "+ fileName2);
+    
+    
+              
+        //       })
+        //       .catch(err => {
+        //         console.log(JSON.stringify(err));
+        //         console.log("fallo el UPLOAD UPLOAD UPLOADS3");
+        //         console.log("nombre filename:" + fileName2);
+              
+        //         update = {"status": 'failed'}
+        //         dispatch(updateMedia(fileName2,update));
               
               
               
-              });
+        //       });
               
     }
     catch (error) {
