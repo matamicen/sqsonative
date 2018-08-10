@@ -174,8 +174,8 @@ return   <View style={{flex: 1}}>
        <View style={{ flexDirection: 'row', flex:0.1, marginTop:9, justifyContent: 'center'}}> 
        
       
-
-       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.scanQR() }>
+       {/* this.scanQR() */}
+       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () =>  this.props.navigation.navigate("QslScanQR") }>
           
             <Image source={require('../../images/qrcodescan.png')}  style={{width: 33, height: 33, marginLeft: 9 } } 
          resizeMode="contain" />    
@@ -185,8 +185,8 @@ return   <View style={{flex: 1}}>
 
 
        </View>
-     
-  
+       
+      
 
     </View>
 

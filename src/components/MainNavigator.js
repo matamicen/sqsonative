@@ -11,6 +11,7 @@ import ProfileScreen from './Profile/InitialScreen';
 import Login from './Profile/Login';
 import SignUpScreen from './Profile/SignUpForm';
 import ForgotScreen from './Profile/ForgotPassword';
+import QslScanQR from './QslScan/QslScanQR';
 
 
 //import MainPage from './MainPage';
@@ -120,7 +121,26 @@ export const AppNavigator = StackNavigator({
           
        },
 
+       QslScanQR: {
+        screen: QslScanQR,
+        navigationOptions: {
+          header: null
+  
+        },
+          
+        },
+
+
        SignUpScreen: {
+        screen: SignUpScreen,
+        navigationOptions: {
+          header: null
+  
+        },
+          
+        },
+
+               SignUpScreen: {
         screen: SignUpScreen,
         navigationOptions: {
           header: null
