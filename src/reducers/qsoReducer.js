@@ -326,7 +326,8 @@ const qsoReducer = (state = initialState, action) => {
    //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
      auxcurrentQso = {
         ...state.currentQso,
-        modalrecording: false          
+        modalrecording: false
+                  
     };
     newStore = Object.assign({}, state,
         {

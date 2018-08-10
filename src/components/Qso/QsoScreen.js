@@ -70,7 +70,7 @@ class QsoScreen extends Component {
     
     
     
-    //   toggleRecordingModal = async () => {
+      toggleRecordingModal = async () => {
     //       console.log("llamo togglepicker")
 
     //       const { status } = await Permissions.askAsync(Permissions.AUDIO_RECORDING);
@@ -80,9 +80,9 @@ class QsoScreen extends Component {
 
     //   //  this.setState({pickerDisplayed: !this.state.pickerDisplayed})
 
-    //      this.props.openModalRecording();
+          this.props.openModalRecording();
 
-    // }
+     }
 
     closeModalPhotoConfirmation = () => {
         // console.log("closeModalPhotoConfirmation");

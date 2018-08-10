@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator,  PermissionsAndroid, TouchableOpacity,
+        Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { addMedia, sendActualMedia, actindicatorImageDisabled, openModalConfirmPhoto,
   closeModalRecording } from '../../actions';
@@ -13,6 +14,7 @@ import {
 
   } from 'react-native';
 //  import Expo, { Asset, Audio, FileSystem, Font, Permissions } from 'expo';
+import {AudioRecorder, AudioUtils} from 'react-native-audio';
 import Amplify, { Auth, API, Storage } from 'aws-amplify'
 import awsconfig from '../../aws-exports'
 
@@ -82,43 +84,74 @@ class RecordAudio2 extends Component {
         this.sound = null;
         this.isSeeking = false;
         this.shouldPlayAtEndOfSeek = false;
-        this.state = {
-          haveRecordingPermissions: false,
-          isLoading: false,
-          isPlaybackAllowed: false,
-          muted: false,
-          soundPosition: null,
-          soundDuration: null,
-          recordingDuration: null,
-          shouldPlay: false,
-          isPlaying: false,
-          isRecording: false,
-          fontLoaded: false,
-          shouldCorrectPitch: true,
-          volume: 1.0,
-          rate: 1.0,
-        };
+        // this.state = {
+        //   haveRecordingPermissions: false,
+        //   isLoading: false,
+        //   isPlaybackAllowed: false,
+        //   muted: false,
+        //   soundPosition: null,
+        //   soundDuration: null,
+        //   recordingDuration: null,
+        //   shouldPlay: false,
+        //   isPlaying: false,
+        //   isRecording: false,
+        //   fontLoaded: false,
+        //   shouldCorrectPitch: true,
+        //   volume: 1.0,
+        //   rate: 1.0,
+        // };
+      this.state = {
+        currentTime: 0.0,
+        recording: false,
+        paused: false,
+        stoppedRecording: false,
+        finished: false,
+        audioPath: AudioUtils.DocumentDirectoryPath + '/test2.mp4',
+        hasPermission: undefined,
+        pausedAudio: false,
+        currentTimePlay: 0.0,
+      };
 
-        
      //   this.recordingSettings = JSON.parse(JSON.stringify(Audio.RECORDING_OPTIONS_PRESET_LOW_QUALITY));
-     this.recordingSettings = JSON.parse(JSON.stringify(RECORDING_OPTIONS_MATIAS));
+    // this.recordingSettings = JSON.parse(JSON.stringify(RECORDING_OPTIONS_MATIAS));
      //Audio.RECORDING_OPTIONS_PRESET_HIGH_QUALITY
         // // UNCOMMENT THIS TO TEST maxFileSize:
         // this.recordingSettings.android['maxFileSize'] = 12000;
       }
+
+
+      prepareRecordingPath(audioPath){
+        AudioRecorder.prepareRecordingAtPath(audioPath, {
+          SampleRate: 22050,
+          Channels: 1,
+          AudioQuality: "Medium",
+          AudioEncoding: "aac",
+          AudioEncodingBitRate: 32000
+        });
+      }
+        
     
       async componentDidMount() {
-      //   (async () => {
-      //     await Font.loadAsync({
-      //       'cutive-mono-regular': require('../assets/fonts/CutiveMono-Regular.ttf'),
-      //     });
-      //     this.setState({ fontLoaded: true });
-      //   })();
-      //  // await this._askForPermissions();
-
-      //  // inicio grabando
-      //  this._stopPlaybackAndBeginRecording();
-        
+       
+        this._checkPermission().then((hasPermission) => {
+          this.setState({ hasPermission });
+    
+          if (!hasPermission) return;
+    
+          this.prepareRecordingPath(this.state.audioPath);
+    
+          AudioRecorder.onProgress = (data) => {
+            this.setState({currentTime: Math.floor(data.currentTime)});
+          };
+    
+          AudioRecorder.onFinished = (data) => {
+            // Android callback comes in the form of a promise instead.
+            if (Platform.OS === 'ios') {
+              this._finishRecording(data.status === "OK", data.audioFileURL, data.audioFileSize);
+            }
+          };
+     });
+      
       }
     
       // _askForPermissions = async () => {
@@ -293,21 +326,140 @@ fileName2 = fileaux.replace(/^.*[\\\/]/, '');
 //      }
 // fin de subir a s3
 
-
-
-
       }
+
+async _record() {
+  if (this.state.recording) {
+    console.warn('Already recording!');
+    return;
+  }
+
+  if (!this.state.hasPermission) {
+    console.warn('Can\'t record, no permission granted!');
+    return;
+  }
+
+  if(this.state.stoppedRecording){
+    this.prepareRecordingPath(this.state.audioPath);
+  }
+
+  this.setState({recording: true, paused: false});
+
+  try {
+    const filePath = await AudioRecorder.startRecording();
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+
+firstStop = async () => {
+
+
+  
+  await this.props.closeModalRecording();
+
+  filepath = await this._stop();
+  fileaux =  filepath;
+  console.log("fileaux uri:"+ fileaux);
+
+  fileName2 = fileaux.replace(/^.*[\\\/]/, '');
+
+     envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: '777' } 
+    
+     vari2 = await this.props.sendActualMedia(envio);
+
+     await this.props.openModalConfirmPhoto();
+
+ 
+
+    
+
+}
+
+async _stop() {
+  if (!this.state.recording) {
+    console.warn('Can\'t stop, not recording!');
+    return;
+  }
+
+  await this.setState({stoppedRecording: true, recording: false, paused: false});
+  //this.props.closeModalRecording();
+  
+
+  try {
+    
+    const filePath = await AudioRecorder.stopRecording();
+    console.log('stringeo filePath: '+ JSON.stringify(filePath));
+    //await this.envio(filePath);
+
+
+   // filePath = await AudioRecorder.stopRecording();
+  
+    console.log('El filePath: '+filePath);
+
+    if (Platform.OS === 'android') {
+      this._finishRecording(true, filePath);
+    }
+
+  
+    return filePath;
+  } catch (error) {
+    console.error(error);
+  }
+}
+
+
+
+_finishRecording(didSucceed, filePath, fileSize) {
+  this.setState({ finished: didSucceed });
+  console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
+}
+
+_checkPermission() {
+  if (Platform.OS !== 'android') {
+    return Promise.resolve(true);
+  }
+
+  const rationale = {
+    'title': 'Microphone Permission',
+    'message': 'AudioExample needs access to your microphone so you can record audio.'
+  };
+
+  return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.RECORD_AUDIO, rationale)
+    .then((result) => {
+      console.log('Permission result:', result);
+      return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);
+    });
+}
 
 
 
       render() {
         
-          <View >
+         return <View >
             <Text> Hola RecordAudio2 </Text>
+
+
+               <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this._record() }>
+                    <Image source={require('../../images/mic.png')}  style={{width: 33, height: 33 } } 
+                 resizeMode="contain" />    
+                 <Text style={{ fontSize: 12, color: '#999'}}>Record</Text>          
+                </TouchableOpacity>
+
+                 <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this.firstStop() }>
+                    <Image source={require('../../images/camera.png')}  style={{width: 33, height: 33 } } 
+                 resizeMode="contain" />    
+                 <Text style={{ fontSize: 12, color: '#999'}}>Stop</Text>          
+                </TouchableOpacity>
       
           </View>
        
       }
+
+
+
     }
     
     const styles = StyleSheet.create({
