@@ -537,7 +537,7 @@ export const postAddMedia = (mediaToadd, filename2) => {
       dispatch(fetchingApiSuccess(respuesta));
       console.log("devuelve addmedia: "+JSON.stringify(respuesta));
      
-      if (respuesta.error===0)
+      if (respuesta.body.error===0)
       {
        // dispatch(updateSqlRdsId(respuesta.message));
         console.log("error es 0 y sqlrdsid: "+respuesta.message);

@@ -28,9 +28,8 @@ class QsoScreen extends Component {
           pickerDisplayed: false,
           photoConfirm: false,
           endQsoModal: false,
-          actindicatorpostQsoNew: false
-          
-         
+          actindicatorpostQsoNew: false,
+          modalRecording: false    
        
         };
       }
@@ -83,6 +82,21 @@ class QsoScreen extends Component {
           this.props.openModalRecording();
 
      }
+
+     toggleRecModal = async () => {
+
+      console.log('ejecuta toggleRecordModal');
+     
+      if(this.state.modalRecording)
+      {
+          this.setState({
+            modalRecording: false
+          });
+        }else{
+          this.setState({
+            modalRecording: true
+        });}
+    }
 
     closeModalPhotoConfirmation = () => {
         // console.log("closeModalPhotoConfirmation");
@@ -204,7 +218,7 @@ endQso = () => {
 
 
               
-              <Modal visible ={this.state.pickerDisplayed} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
+              <Modal visible ={this.state.modalRecording} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
               
                     <View style={{ margin:20,
                          padding:20, 
@@ -217,9 +231,10 @@ endQso = () => {
                          borderRadius: 12                       
                           }}>
                          
-                          <RecordAudio2 />
-                        
-                           <Button onPress={() => this.toggleRecordingModal()} title="Cierro" />
+                          <RecordAudio2 closeModal={this.toggleRecModal.bind(this)}  />
+
+                     
+                           <Button onPress={() => this.toggleRecModal()} title="Cierro" />
                        
                           </View>
                          
@@ -321,7 +336,7 @@ endQso = () => {
 
                 { this.props.sqsonewqsoactive ?
 
-               <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this.toggleRecordingModal() }>
+               <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this.toggleRecModal() }>
                     <Image source={require('../../images/mic.png')}  style={{width: 33, height: 33 } } 
                  resizeMode="contain" />    
                  <Text style={{ fontSize: 12, color: '#999'}}>Record</Text>          

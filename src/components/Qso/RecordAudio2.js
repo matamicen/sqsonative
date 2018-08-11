@@ -131,7 +131,8 @@ class RecordAudio2 extends Component {
       }
         
     
-      async componentDidMount() {
+     async componentDidMount() {
+        // componentDidMount = async () => {
        
         this._checkPermission().then((hasPermission) => {
           this.setState({ hasPermission });
@@ -147,9 +148,22 @@ class RecordAudio2 extends Component {
           AudioRecorder.onFinished = (data) => {
             // Android callback comes in the form of a promise instead.
             if (Platform.OS === 'ios') {
-              this._finishRecording(data.status === "OK", data.audioFileURL, data.audioFileSize);
+               this._finishRecording(data.status === "OK", data.audioFileURL, data.audioFileSize);
+               console.log('url de evento OnFinish:'+data.audioFileURL + ' ' + data.audioFileSize)
+               
+              //    fileaux =  data.audioFileURL;
+              //    fileName2 = fileaux.replace(/^.*[\\\/]/, '');
+         
+              //    envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: '777' } 
+                 
+              //    vari2 = await this.props.sendActualMedia(envio);
+               
+              //  this.props.openModalConfirmPhoto();
+              //  this.props.closeModal();
             }
           };
+
+
      });
       
       }
@@ -341,11 +355,13 @@ async _record() {
 
   if(this.state.stoppedRecording){
     this.prepareRecordingPath(this.state.audioPath);
+    
   }
 
   this.setState({recording: true, paused: false});
 
   try {
+    console.log('comienzo a grabar');
     const filePath = await AudioRecorder.startRecording();
   } catch (error) {
     console.error(error);
@@ -372,13 +388,34 @@ firstStop = async () => {
 
      await this.props.openModalConfirmPhoto();
 
- 
-
-    
+   
 
 }
 
-async _stop() {
+stopRecording = async () => {
+  filepath = await this._stop();
+
+  // this._stop().then(response => {
+  //       console.log('termino el _stop path: '+JSON.stringify(response));
+  //   })
+ // console.log('stopRecording el path: '+filepath);
+     
+ // anda en ANDROID pero no en iOS porque no le llega a tiempo el filepath
+      // fileaux =  filepath;
+      // fileName2 = fileaux.replace(/^.*[\\\/]/, '');
+
+      //   envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: '777' } 
+        
+      //   vari2 = await this.props.sendActualMedia(envio);
+
+ //       this.props.openModalConfirmPhoto();
+ // this.props.closeModal();
+  
+
+
+}
+
+_stop = async () => {
   if (!this.state.recording) {
     console.warn('Can\'t stop, not recording!');
     return;
@@ -400,7 +437,7 @@ async _stop() {
     console.log('El filePath: '+filePath);
 
     if (Platform.OS === 'android') {
-      this._finishRecording(true, filePath);
+      await this._finishRecording(true, filePath);
     }
 
   
@@ -412,9 +449,24 @@ async _stop() {
 
 
 
-_finishRecording(didSucceed, filePath, fileSize) {
+//_finishRecording(didSucceed, filePath, fileSize) {
+  _finishRecording = async (didSucceed, filePath, fileSize) => {
   this.setState({ finished: didSucceed });
   console.log(`Finished recording of duration ${this.state.currentTime} seconds at path: ${filePath} and size of ${fileSize || 0} bytes`);
+  
+  // if (Platform.OS === 'ios') {
+
+    fileaux =  filePath;
+                 fileName2 = fileaux.replace(/^.*[\\\/]/, '');
+         
+                 envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: '777' } 
+                 
+                 vari2 = await this.props.sendActualMedia(envio);
+               
+               this.props.openModalConfirmPhoto();
+               this.props.closeModal();
+  // }
+
 }
 
 _checkPermission() {
@@ -448,7 +500,7 @@ _checkPermission() {
                  <Text style={{ fontSize: 12, color: '#999'}}>Record</Text>          
                 </TouchableOpacity>
 
-                 <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this.firstStop() }>
+                 <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this.stopRecording() }>
                     <Image source={require('../../images/camera.png')}  style={{width: 33, height: 33 } } 
                  resizeMode="contain" />    
                  <Text style={{ fontSize: 12, color: '#999'}}>Stop</Text>          
