@@ -569,7 +569,7 @@ export const postAddMedia = (mediaToadd, filename2) => {
 
 
 
-export const uploadMediaToS3 = (fileName2, fileaux, sqlrdsid, description, size, type, rdsUrlS3, date) => {
+export const uploadMediaToS3 = (fileName2, fileaux, sqlrdsid, description, size, type, rdsUrlS3, date, width, height) => {
     return async dispatch => {
     //  dispatch(fetchingApiRequest());
       console.log("ejecuta UPLOAD a S3 desde ACTION");  
@@ -610,7 +610,9 @@ export const uploadMediaToS3 = (fileName2, fileaux, sqlrdsid, description, size,
                   "qso":  sqlrdsid,
                   "type": type ,
                   "datasize": size,
-                  "datetime": date,      
+                  "datetime": date,   
+                  "width": width,
+                  "height": height,   
                   "url":  rdsUrlS3,
                   "description": description 
               }

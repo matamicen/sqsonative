@@ -1,6 +1,6 @@
 //import { Constants, Camera, FileSystem, Permissions, ImageManipulator } from 'expo';
 import React from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Slider, Vibration, Platform, ActivityIndicator } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Slider, Vibration, Platform, ActivityIndicator, Image } from 'react-native';
 //import GalleryScreen from './GalleryScreen';
 import Muestro from './Muestro';
 import isIPhoneX from 'react-native-is-iphonex';
@@ -56,13 +56,19 @@ class CameraScreen extends React.Component {
   //     scanQR: false
   //   };
   //}
+  constructor(props) {
+       super(props);
+
+  this.width = 0;
+  this.height = 0;
+
   state = {
     photoConfirm: false,
     url: '',
     scanQR: false
   };
 
-  
+}
  
 
  
@@ -541,12 +547,59 @@ class CameraScreen extends React.Component {
     });
   }
 
-  takePicture = async function() {
+  // resolveAfter2Seconds(x) { 
+  //   return new Promise(resolve => {
+  //     setTimeout(() => {
+  //       resolve(x);
+  //     }, 2000);
+  //   });
+  // }
+
+
+  // getStars = () => new Promise((resolve) => {
+  //   const FIVE_SECONDS = 2000
+  //   // Simulate async operation
+  //   setTimeout(() => resolve(1234), FIVE_SECONDS)
+  // })
+
+  getDimensions = (laUrl) => new Promise((resolve) => {
+  //  const FIVE_SECONDS = 2000
+    // Simulate async operation
+   // setTimeout(() => resolve(1234), FIVE_SECONDS)
+   Image.getSize(laUrl, (width, height) => {
+    //   console.log('SIZE 4: ancho: '+width + ' alto:'+height);
+       this.width = width;
+       this.height = height;
+             resolve(1234)
+        });
+
+  })
+
+  // takePicture = async function() {
+    takePicture= async () => {
     if (this.camera) {
-      const options = { quality: 0.5, base64: true };
+      const options = { quality: 0.5, base64: true, forceUpOrientation: true };
       const data = await this.camera.takePictureAsync(options)
       console.log(data.uri);
-   //   console.log('info de foto:' + JSON.stringify(data));
+
+      // const espero = await Image.getSize(data.uri, (width, height) => {
+      //   console.log('SIZE 4: ancho: '+width + ' alto:'+height);
+      //   this.width = width;
+      //   this.height = height;
+    //  });
+    
+    // const stars = await this.getStars(data.uri)
+    // console.log('stars'+stars);
+    const dim = await this.getDimensions(data.uri)
+     console.log('dim'+dim);
+
+
+
+  //   console.log('espero: '+ espero);
+     
+     console.log('SIZE 5:' + this.width + ' '+this.height);
+   //  Image.getSize(data.uri, (width, height) => {console.log('SIZE: ancho: '+width + ' alto:'+height)});
+      //console.log('info de foto:' + JSON.stringify(data));
       this.setState({
         url: data.uri
       });
@@ -555,7 +608,7 @@ class CameraScreen extends React.Component {
 
     fileName2 = uri.replace(/^.*[\\\/]/, '');
     console.log('filename2 es: ' + fileName2);
-    envio = {name: fileName2, url: uri, type: 'image', sent: 'false', size: '2222' } 
+    envio = {name: fileName2, url: uri, type: 'image', sent: 'false', size: '2222', width: this.width, height: this.height } 
     
     
     

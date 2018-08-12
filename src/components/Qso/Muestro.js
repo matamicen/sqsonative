@@ -14,6 +14,9 @@ class Muestro extends Component {
 
     constructor(props) {
         super(props);
+
+        // this.width = 0;
+        // this.height = 0;
         
         this.state = {
           people: [],
@@ -63,7 +66,10 @@ class Muestro extends Component {
 
         fileName2 = fileaux.replace(/^.*[\\\/]/, '');
 
-        if (this.props.sqsomedia.type==='image') folder = 'images/';
+        if (this.props.sqsomedia.type==='image') {
+             folder = 'images/';
+           
+        }
           else folder = 'audios/';
         rdsUrl = this.props.rdsurls3+folder+fileName2;
 
@@ -72,10 +78,14 @@ class Muestro extends Component {
       // fecha = this.getDate();
        fecha = getDate();
        console.log('la fecha es:' + fecha);
+       console.log('jaja: '+  this.props.sqsomedia.width + this.props.sqsomedia.height  )
+
+     //  console.log('SIZE 3:'+ this.width+ ' '+this.height);
+      //  Image.getSize(fileaux, (width, height) => {console.log('SIZE 2: ancho: '+width + ' alto:'+height)});
 
         // agrego a array de media del store
           envio = {name: fileName2, url: fileaux, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
-             status: 'inprogress', progress: 0.3, size: this.props.sqsomedia.size, rdsUrlS3: rdsUrl, date: fecha } 
+             status: 'inprogress', progress: 0.3, size: this.props.sqsomedia.size, rdsUrlS3: rdsUrl, date: fecha, width: this.props.sqsomedia.width, height: this.props.sqsomedia.height  } 
                 
               this.props.addMedia(envio);
 
@@ -85,7 +95,7 @@ class Muestro extends Component {
           // const response = await fetch(fileaux);
           // const blobi = await response.blob();
           
-          this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.props.sqsomedia.size, this.props.sqsomedia.type, rdsUrl, fecha);
+          this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.props.sqsomedia.size, this.props.sqsomedia.type, rdsUrl, fecha, this.props.sqsomedia.width, this.props.sqsomedia.height);
 
 
 
