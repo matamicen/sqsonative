@@ -624,7 +624,11 @@ class CameraScreen extends React.Component {
        console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
        this.props.actindicatorImageDisabled();
         this.props.openModalConfirmPhoto();
-    }, 1000);
+    }, timer);
+
+
+  
+    console.log('este debe aparecer primero');
 
 
    
