@@ -71,6 +71,7 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras)=>{
 
    }
 
+
    getDateHelper =  () => {
     var day = '';
     var month = '';

@@ -346,6 +346,14 @@ async _record() {
   if (this.state.recording) {
     console.warn('Already recording!');
     return;
+  }else{
+   // audioname = getAudioName();
+    var audioname = Date.now();
+    console.log('el audio name recording: '+ audioname + '  mili:'+ audioname);
+    pathcompleto = AudioUtils.DocumentDirectoryPath + '/'+this.props.sqlrdsid+'_'+audioname + '.mp4'
+    this.setState({audioPath: pathcompleto});
+    this.prepareRecordingPath(pathcompleto);
+
   }
 
   if (!this.state.hasPermission) {
@@ -354,6 +362,7 @@ async _record() {
   }
 
   if(this.state.stoppedRecording){
+    
     this.prepareRecordingPath(this.state.audioPath);
     
   }
@@ -370,27 +379,27 @@ async _record() {
 
 
 
-firstStop = async () => {
+// firstStop = async () => {
 
 
   
-  await this.props.closeModalRecording();
+//   await this.props.closeModalRecording();
 
-  filepath = await this._stop();
-  fileaux =  filepath;
-  console.log("fileaux uri:"+ fileaux);
+//   filepath = await this._stop();
+//   fileaux =  filepath;
+//   console.log("fileaux uri:"+ fileaux);
 
-  fileName2 = fileaux.replace(/^.*[\\\/]/, '');
+//   fileName2 = fileaux.replace(/^.*[\\\/]/, '');
 
-     envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: '777' } 
+//      envio = {name: fileName2, url: fileaux, type: 'audio', sent: 'false', size: '777' } 
     
-     vari2 = await this.props.sendActualMedia(envio);
+//      vari2 = await this.props.sendActualMedia(envio);
 
-     await this.props.openModalConfirmPhoto();
+//      await this.props.openModalConfirmPhoto();
 
    
 
-}
+// }
 
 stopRecording = async () => {
   filepath = await this._stop();
@@ -644,7 +653,8 @@ _checkPermission() {
 
  const mapStateToProps = state => {
     // return {  index: state.nav.index, };
-    return {  audiorecordingpermission: state.sqso.audiorecordingpermission};
+    return {  audiorecordingpermission: state.sqso.audiorecordingpermission,
+              sqlrdsid: state.sqso.currentQso.sqlrdsId};
 };
 
 

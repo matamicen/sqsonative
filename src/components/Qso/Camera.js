@@ -576,11 +576,20 @@ class CameraScreen extends React.Component {
   })
 
   // takePicture = async function() {
+
+  
     takePicture= async () => {
+      inicial = new Date();
+
     if (this.camera) {
       const options = { quality: 0.5, base64: true, forceUpOrientation: true };
-      const data = await this.camera.takePictureAsync(options)
+    
+    const data = await this.camera.takePictureAsync(options)
       console.log(data.uri);
+
+    final = new Date();
+    total = final - inicial;
+    console.log('tardo en total sacar foto: '+ total)
 
       // const espero = await Image.getSize(data.uri, (width, height) => {
       //   console.log('SIZE 4: ancho: '+width + ' alto:'+height);
@@ -590,8 +599,12 @@ class CameraScreen extends React.Component {
     
     // const stars = await this.getStars(data.uri)
     // console.log('stars'+stars);
+    inicial = new Date();
     const dim = await this.getDimensions(data.uri)
+    total = final - inicial;
+    final = new Date();
      console.log('dim'+dim);
+     console.log('tardo en total obtener info de foto: '+ total)
 
 
 
