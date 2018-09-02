@@ -562,18 +562,7 @@ class CameraScreen extends React.Component {
   //   setTimeout(() => resolve(1234), FIVE_SECONDS)
   // })
 
-  getDimensions = (laUrl) => new Promise((resolve) => {
-  //  const FIVE_SECONDS = 2000
-    // Simulate async operation
-   // setTimeout(() => resolve(1234), FIVE_SECONDS)
-   Image.getSize(laUrl, (width, height) => {
-    //   console.log('SIZE 4: ancho: '+width + ' alto:'+height);
-       this.width = width;
-       this.height = height;
-             resolve(1234)
-        });
 
-  })
 
   // takePicture = async function() {
 
@@ -591,28 +580,11 @@ class CameraScreen extends React.Component {
     total = final - inicial;
     console.log('tardo en total sacar foto: '+ total)
 
-      // const espero = await Image.getSize(data.uri, (width, height) => {
-      //   console.log('SIZE 4: ancho: '+width + ' alto:'+height);
-      //   this.width = width;
-      //   this.height = height;
-    //  });
-    
-    // const stars = await this.getStars(data.uri)
-    // console.log('stars'+stars);
-    inicial = new Date();
-    const dim = await this.getDimensions(data.uri)
-    total = final - inicial;
-    final = new Date();
-     console.log('dim'+dim);
-     console.log('tardo en total obtener info de foto: '+ total)
+  
 
-
-
-  //   console.log('espero: '+ espero);
-     
-     console.log('SIZE 5:' + this.width + ' '+this.height);
-   //  Image.getSize(data.uri, (width, height) => {console.log('SIZE: ancho: '+width + ' alto:'+height)});
-      //console.log('info de foto:' + JSON.stringify(data));
+     console.log('uri de foto: '+ data.uri);
+  
+ 
       this.setState({
         url: data.uri
       });

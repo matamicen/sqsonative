@@ -7,6 +7,7 @@ import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpac
 import { getDate} from '../../helper';
 import Amplify, { Auth, API, Storage } from 'aws-amplify'
 import awsconfig from '../../aws-exports'
+import ImageResizer from 'react-native-image-resizer';
 
 Amplify.configure(awsconfig);
 
@@ -15,8 +16,11 @@ class Muestro extends Component {
     constructor(props) {
         super(props);
 
-        // this.width = 0;
-        // this.height = 0;
+        this.width = 0;
+        this.height = 0;
+        this.size = 0;
+        this.compressImageURL = '';
+        this.var12 = 'pepe';
         
         this.state = {
           people: [],
@@ -55,13 +59,89 @@ class Muestro extends Component {
         console.log("token: " + session.idToken.jwtToken);
       }
 
+
+
+
+      rotateImage = async () => {
+
+      }
+
+
+      getDimensions = (laUrl) => new Promise((resolve) => {
+ 
+        Image.getSize(laUrl, (width, height) => {
+         //   console.log('SIZE 4: ancho: '+width + ' alto:'+height);
+            this.width = width;
+            this.height = height;
+                  resolve(1234)
+             });
+     
+       })
+
+
+      compressImage = async () => {
+        this.var12 = 'Jose';
+        inicial = new Date();
+        const dim = await this.getDimensions(this.props.sqsomedia.url)
+        final = new Date();
+        total = final - inicial;
+        
+        console.log('dim'+dim);
+        console.log('tardoMuestro en total obtener info de foto: '+ total + ' width:'+ this.width + ' height:'+ this.height)
+
+
+        nuevoWidth = this.width / 5.2;
+        nuevoHeight = this.height / 5.2;
+    
+        inicial = new Date();
+        await ImageResizer.createResizedImage(this.props.sqsomedia.url, nuevoWidth , nuevoHeight, 'JPEG', 86).then((response) => {
+          // response.uri is the URI of the new image that can now be displayed, uploaded...
+          // response.path is the path of the new image
+          // response.name is the name of the new image with the extension
+          // response.size is the size of the new image
+       //   data.uri = response.uri;
+          this.compressImageURL = response.uri;
+          this.size = response.size;
+          console.log('resize ImageResizer: ' + JSON.stringify(response));
+        }).catch((err) => {
+          // Oops, something went wrong. Check that the filename is correct and
+          // inspect err to get more details.
+        });
+        final = new Date();
+        total = final - inicial;
+        console.log('tardoMuestro en total en achicar la imagen: '+ total)
+
+       
+
+      }
+
       subo_s3 = async () => {
 
         this.props.closeModalConfirmPhoto();
 
         console.log("subo a s3 con BLOB");
+
+        console.log('var12 antes: '+this.var12);
+
+        if (this.props.sqsomedia.type==='image') {
+        //  if the media is a photo -> Compress Imgae
+          await this.compressImage();
+          fileaux =  this.compressImageURL;
+
+        } else
+          {
+           fileaux =  this.props.sqsomedia.url;
+           this.size = this.props.sqsomedia.size;
+
+          }
+
+
+        console.log('var12 despues: '+this.var12);
+
+
        
-      fileaux =  this.props.sqsomedia.url;
+    //  fileaux =  this.props.sqsomedia.url;
+   
       console.log("fileaux uri:"+ fileaux);
 
         fileName2 = fileaux.replace(/^.*[\\\/]/, '');
@@ -84,10 +164,15 @@ class Muestro extends Component {
       //  Image.getSize(fileaux, (width, height) => {console.log('SIZE 2: ancho: '+width + ' alto:'+height)});
 
         // agrego a array de media del store
-          envio = {name: fileName2, url: fileaux, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
-             status: 'inprogress', progress: 0.3, size: this.props.sqsomedia.size, rdsUrlS3: rdsUrl, date: fecha, width: this.props.sqsomedia.width, height: this.props.sqsomedia.height  } 
+          // envio = {name: fileName2, url: fileaux, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
+          //    status: 'inprogress', progress: 0.3, size: this.props.sqsomedia.size, rdsUrlS3: rdsUrl, date: fecha, width: this.props.sqsomedia.width, height: this.props.sqsomedia.height  } 
                 
-              this.props.addMedia(envio);
+             envio = {name: fileName2, url: fileaux, sqlrdsid: this.props.sqlrdsid , description: this.state.description , type: this.props.sqsomedia.type, sent: false ,
+              status: 'inprogress', progress: 0.3, size: this.size, rdsUrlS3: rdsUrl, date: fecha, width: this.width, height: this.height  } 
+                    
+              
+             
+             this.props.addMedia(envio);
 
         // Fin de agrego a array de media del store
        
@@ -95,8 +180,8 @@ class Muestro extends Component {
           // const response = await fetch(fileaux);
           // const blobi = await response.blob();
           
-          this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.props.sqsomedia.size, this.props.sqsomedia.type, rdsUrl, fecha, this.props.sqsomedia.width, this.props.sqsomedia.height);
-
+          // this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.props.sqsomedia.size, this.props.sqsomedia.type, rdsUrl, fecha, this.props.sqsomedia.width, this.props.sqsomedia.height);
+          this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl, fecha, this.width, this.height);
 
 
       }
@@ -235,6 +320,9 @@ class Muestro extends Component {
              <View style={{   marginTop: 20, marginLeft: 8 }}>
                     <TouchableHighlight  onPress={() => this.subo_s3()} >
                       <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 16}}>Send</Text>
+                    </TouchableHighlight>
+                    <TouchableHighlight  onPress={() => this.rotateImage()} >
+                      <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 16}}>Rotate</Text>
                     </TouchableHighlight>
              </View>    
 
