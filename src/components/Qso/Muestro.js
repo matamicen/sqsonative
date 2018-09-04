@@ -1,13 +1,14 @@
 import React, { Component } from 'react';
 //import {FileSystem } from 'expo';
 import { connect } from 'react-redux';
-import { addMedia, updateMedia, closeModalConfirmPhoto, postAddMedia, uploadMediaToS3 } from '../../actions';
+import { addMedia, updateMedia, closeModalConfirmPhoto, postAddMedia, uploadMediaToS3, sendActualMedia } from '../../actions';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, TextInput,
   TouchableHighlight, KeyboardAvoidingView    } from 'react-native';
 import { getDate} from '../../helper';
 import Amplify, { Auth, API, Storage } from 'aws-amplify'
 import awsconfig from '../../aws-exports'
 import ImageResizer from 'react-native-image-resizer';
+
 
 Amplify.configure(awsconfig);
 
@@ -19,6 +20,7 @@ class Muestro extends Component {
         this.width = 0;
         this.height = 0;
         this.size = 0;
+        this.compressRotation = 86;
         this.compressImageURL = '';
         this.var12 = 'pepe';
         
@@ -64,6 +66,45 @@ class Muestro extends Component {
 
       rotateImage = async () => {
 
+        const dim = await this.getDimensions(this.props.sqsomedia.url);
+
+        if (this.compressRotation===86){
+          console.log(' entro 1era vez Compress Rotation: '+this.width + ' ' + this.height);
+        nuevoWidth = this.width / 5.2;
+        nuevoHeight = this.height / 5.2;
+
+        }else{
+          nuevoWidth = this.width; 
+          nuevoHeight = this.height; 
+          console.log(' entro 2da vez Compress Rotation: '+this.width + ' ' + this.height);
+        }
+    
+
+        await ImageResizer.createResizedImage(this.props.sqsomedia.url, nuevoWidth , nuevoHeight, 'JPEG',this.compressRotation , 90).then((response) => {
+          // response.uri is the URI of the new image that can now be displayed, uploaded...
+          // response.path is the path of the new image
+          // response.name is the name of the new image with the extension
+          // response.size is the size of the new image
+       //   data.uri = response.uri;
+       console.log('Compress Rotation: '+this.compressRotation); 
+       this.compressRotation = 100;
+          this.compressImageURL = response.uri;
+          this.size = response.size;
+          this.width = nuevoWidth;
+          this.height = nuevoHeight;
+          console.log(' Compress Rotation Rotate resize ImageResizer: ' + JSON.stringify(response));
+
+
+        envio = {name: 'fileName2', url: this.compressImageURL, type: 'image', sent: 'false', size: this.size , width: this.width, height: this.height } 
+ 
+        this.props.sendActualMedia(envio);
+
+        }).catch((err) => {
+          // Oops, something went wrong. Check that the filename is correct and
+          // inspect err to get more details.
+        });
+
+
       }
 
 
@@ -102,7 +143,16 @@ class Muestro extends Component {
        //   data.uri = response.uri;
           this.compressImageURL = response.uri;
           this.size = response.size;
+          this.width = nuevoWidth;
+          this.height = nuevoHeight;
           console.log('resize ImageResizer: ' + JSON.stringify(response));
+         
+
+        // envio = {name: 'fileName2', url: this.compressImageURL, type: 'image', sent: 'false', size: this.size , width: this.width, height: this.height } 
+ 
+        // this.props.sendActualMedia(envio);
+
+
         }).catch((err) => {
           // Oops, something went wrong. Check that the filename is correct and
           // inspect err to get more details.
@@ -125,8 +175,12 @@ class Muestro extends Component {
 
         if (this.props.sqsomedia.type==='image') {
         //  if the media is a photo -> Compress Imgae
-          await this.compressImage();
-          fileaux =  this.compressImageURL;
+        if (this.compressRotation===86){ 
+          console.log('entro a comprimir valor de compressRotation: '+ this.compressRotation);
+           await this.compressImage();
+             }
+            // fileaux =  this.props.sqsomedia.url;
+            fileaux = this.compressImageURL;
 
         } else
           {
@@ -322,7 +376,7 @@ class Muestro extends Component {
                       <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 16}}>Send</Text>
                     </TouchableHighlight>
                     <TouchableHighlight  onPress={() => this.rotateImage()} >
-                      <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 16}}>Rotate</Text>
+                      <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 16, marginTop: 15}}>Rotate</Text>
                     </TouchableHighlight>
              </View>    
 
@@ -413,7 +467,8 @@ const mapDispatchToProps = {
     updateMedia,
     closeModalConfirmPhoto,
     postAddMedia,
-    uploadMediaToS3
+    uploadMediaToS3,
+    sendActualMedia
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Muestro);
