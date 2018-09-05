@@ -13,7 +13,14 @@ Amplify.configure(awsconfig);
 
 class Search extends Component {
   static navigationOptions = {
-      tabBarLabel: 'Search'
+      tabBarLabel: 'Search',  
+        
+
+      tabBarIcon: ({ tintColor }) => {
+        return (<Image
+            style={{ width: 28, height: 28  }}
+            source={require('../../images/search.png')}/>);}
+
 
   }
 

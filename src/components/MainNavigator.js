@@ -4,6 +4,7 @@ import { createStore, combineReducers } from 'redux';
 import { connect } from 'react-redux';
 import QsoScreen from './Qso/QsoScreen';
 import SearchScreen from './Search/Search';
+import Notifications from './Notifications/Notification';
 import CameraScreen from './Qso/Camera';
 import QslScanScreen from './QslScan/QslScanScreen';
 //import SignOutScreen from './SignOutScreen';
@@ -12,6 +13,7 @@ import Login from './Profile/Login';
 import SignUpScreen from './Profile/SignUpForm';
 import ForgotScreen from './Profile/ForgotPassword';
 import QslScanQR from './QslScan/QslScanQR';
+
 
 
 //import MainPage from './MainPage';
@@ -66,8 +68,27 @@ import {
 */
  const AppNavigator2 = TabNavigator({
     QsoScreen: { screen: QsoScreen, },
-    Search: { screen: SearchScreen },
-    CameraScreen: { screen: CameraScreen, },
+    Search: { screen: SearchScreen, },
+    //   tabBarOptions: { 
+
+    //     showIcon: true,
+      
+      
+        
+    //       //  navigationOptions: 
+
+    //         // ({ tintColor }) => {
+    //         //   return (<Image
+    //         //       style={{ width: 25, height: 25 }}
+    //         //       source={require('../images/removecircle.png')}/>);}
+
+    //     //     tabBarIcon: (
+    //     //       <Image style={{ width: 50, height: 50 }} source={require('../images/removecircle.png')}/>
+    //     // )
+    //         // }
+    //  }},
+    // CameraScreen: { screen: CameraScreen, },
+    Notifications: { screen: Notifications, },
     QslScanScreen: { screen: QslScanScreen, },  
     ProfileScreen: { screen: ProfileScreen, },
    
@@ -76,12 +97,27 @@ import {
   tabBarPosition: 'bottom',
   swipeEnabled: true, // fixes a bug in react navigation
     lazy: false, // fixes a bug in react navigation
+ 
 
   tabBarOptions: {
      labelStyle: {
          fontSize: 10,
-         padding: 0
-     }
+         width: 90,
+         padding: 0,   
+     },
+     style: {
+      backgroundColor: 'white'
+  },
+  inactiveTintColor: 'black',
+  activeTintColor : 'black',
+     showIcon: true,
+     iconStyle: {
+      width: 31,
+      height: 31
+  },
+  tabStyle: {
+    height: 75
+},
 
   }
     

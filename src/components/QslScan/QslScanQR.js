@@ -10,10 +10,14 @@ import Comments from './Comments';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
 class QslScanQR extends Component {
-  static navigationOptions = {
-      tabBarLabel: 'Qsl ScanQR'
+  // static navigationOptions = {
+  //     tabBarLabel: 'Qsl ScanQR'
 
-  }
+     
+
+
+
+  // }
 
   constructor(props) {
     super(props);

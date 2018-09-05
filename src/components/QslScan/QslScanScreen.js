@@ -11,7 +11,12 @@ import QRCodeScanner from 'react-native-qrcode-scanner';
 
 class QslScanScreen extends Component {
   static navigationOptions = {
-      tabBarLabel: 'Qsl Scan'
+      tabBarLabel: 'Qsl Scan',
+
+      tabBarIcon: ({ tintColor }) => {
+        return (<Image
+            style={{ width: 28, height: 28  }}
+            source={require('../../images/qrcodescan.png')}/>);}
 
   }
 

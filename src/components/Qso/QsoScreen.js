@@ -37,7 +37,14 @@ class QsoScreen extends Component {
   
 
   static navigationOptions = {
-      tabBarLabel: 'Qso'
+      tabBarLabel: 'Qso',
+
+
+      tabBarIcon: ({ tintColor }) => {
+        return (<Image
+            style={{ width: 31, height: 31  }}
+            source={require('../../images/qsoicon3.png')}/>);}
+
 
   }
 
@@ -318,16 +325,18 @@ endQso = () => {
                { this.props.sqsonewqsoactive ?
                <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.OpenEndQsoModal() }>
                   
-                    <Image source={require('../../images/removecircle.png')}  style={{width: 33, height: 33 } } 
+                    <Image source={require('../../images/removecircle.png')}  style={{width: 29, height: 29 } } 
                  resizeMode="contain" />    
-                 <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>          
+               {/* <Text style={{ fontSize: 12, color: '#999'}}>EndQso</Text>           */}
+               <Text style={{ fontSize: 12, color: 'black'}}>EndQso</Text>    
                 </TouchableOpacity> 
                 : 
                 <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.newQso() }>
                   
-                <Image source={require('../../images/iaddcircle.png')}  style={{width: 33, height: 33 } } 
+                <Image source={require('../../images/iaddcircle.png')}  style={{width: 29, height: 29 } } 
              resizeMode="contain" />    
-             <Text style={{ fontSize: 12, color: '#999'}}>NewQso</Text>          
+             {/* <Text style={{ fontSize: 12, color: '#999'}}>NewQso</Text>           */}
+             <Text style={{ fontSize: 12, color: 'black'}}>NewQso</Text>         
               </TouchableOpacity> }
 
 

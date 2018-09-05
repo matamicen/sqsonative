@@ -11,7 +11,12 @@ Amplify.configure(awsconfig);
 
 class InitialScreen extends Component {
   static navigationOptions = {
-      tabBarLabel: 'Profile'
+      tabBarLabel: 'Profile',
+
+      tabBarIcon: ({ tintColor }) => {
+        return (<Image
+            style={{ width: 31, height: 31  }}
+            source={require('../../images/profile1.png')}/>);}
 
   }
 
