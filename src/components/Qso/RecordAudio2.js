@@ -310,7 +310,7 @@ fileName2 = fileaux.replace(/^.*[\\\/]/, '');
   //     this.props.actindicatorImageDisabled();
   //      this.props.openModalConfirmPhoto();
   //  }, 1000);
-  this.props.openModalConfirmPhoto();
+  this.props.openModalConfirmPhoto(290);
 
     //  envio = {name: fileName2, url: fileaux, type: 'audio', sent: false , status: 'inprogress', progress: 0.3, size: this.props.sqsomedia.size } 
                 
@@ -472,7 +472,7 @@ _stop = async () => {
                  
                  vari2 = await this.props.sendActualMedia(envio);
                
-               this.props.openModalConfirmPhoto();
+               this.props.openModalConfirmPhoto(290);
                this.props.closeModal();
   // }
 

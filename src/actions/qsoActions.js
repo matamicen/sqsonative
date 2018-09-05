@@ -5,7 +5,6 @@ import {FETCHING_API_REQUEST,
         SET_MODE, ADD_QRA, ADD_MEDIA, CLOSE_MODALCONFIRM_PHOTO,
         OPEN_MODALCONFIRM_PHOTO, SEND_ACTUAL_MEDIA,
         ACT_INDICATOR_IMAGE_ENABLED,
-        ACT_INDICATOR_IMAGE_DISABLED,
         CAMERA_PERMISSION_FALSE,
         CAMERA_PERMISSION_TRUE, AUDIO_RECORDING_PERMISSION_TRUE,
         AUDIO_RECORDING_PERMISSION_FALSE,
@@ -103,7 +102,8 @@ export const addMedia = (newmedia) => {
 
 export const closeModalConfirmPhoto = () => {
     return {
-        type: CLOSE_MODALCONFIRM_PHOTO       
+        type: CLOSE_MODALCONFIRM_PHOTO,   
+            
     };
 }
 
@@ -119,9 +119,10 @@ export const openModalRecording = () => {
     };
 }
 
-export const openModalConfirmPhoto = () => {
+export const openModalConfirmPhoto = (height) => {
     return {
-        type: OPEN_MODALCONFIRM_PHOTO       
+        type: OPEN_MODALCONFIRM_PHOTO, 
+        height: height      
     };
 }
 
@@ -138,14 +139,6 @@ export const actindicatorImageEnabled = () => {
        
     };
 }
-
-export const actindicatorImageDisabled = () => {
-    return {
-        type: ACT_INDICATOR_IMAGE_DISABLED       
-       
-    };
-}
-
 
 export const cameraPermissionTrue = () => {
     return {

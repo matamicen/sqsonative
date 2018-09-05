@@ -3,7 +3,7 @@ import {FETCHING_API_REQUEST,
     FETCHING_API_FAILURE,
     SET_BAND, SET_MODE, ADD_QRA, ADD_MEDIA, CLOSE_MODALCONFIRM_PHOTO,
     OPEN_MODALCONFIRM_PHOTO, SEND_ACTUAL_MEDIA,
-    ACT_INDICATOR_IMAGE_ENABLED, ACT_INDICATOR_IMAGE_DISABLED, CAMERA_PERMISSION_TRUE,
+    ACT_INDICATOR_IMAGE_ENABLED, CAMERA_PERMISSION_TRUE,
     CAMERA_PERMISSION_FALSE, AUDIO_RECORDING_PERMISSION_TRUE,
     AUDIO_RECORDING_PERMISSION_FALSE, NEW_QSO_ACTIVE_TRUE, NEW_QSO_ACTIVE_FALSE,
     CHANGE_QSO_TYPE, ON_PROGRESS_TRUE, ON_PROGRESS_FALSE, UPDATE_QRA_URL, SET_QRA,
@@ -42,6 +42,7 @@ const initialState = {
         modeSent: false,
         mediafiles: [],
         modalconfirmphoto: false,
+        modalconfirmphotoHeight: 0,
         modalrecording: false,
         mediatosend: {},
         activityindicatorImage: false,
@@ -300,6 +301,7 @@ const qsoReducer = (state = initialState, action) => {
    //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
      auxcurrentQso = {
         ...state.currentQso,
+        modalconfirmphotoHeight: action.height,
         modalconfirmphoto: true          
     };
     newStore = Object.assign({}, state,
@@ -362,18 +364,6 @@ const qsoReducer = (state = initialState, action) => {
          });
      return newStore; 
 
-     case ACT_INDICATOR_IMAGE_DISABLED:
-    //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
-      auxcurrentQso = {
-         ...state.currentQso,
-         activityindicatorImage: false          
-     };
-     newStore = Object.assign({}, state,
-         {
-             ...state,
-             currentQso: auxcurrentQso
-         });
-     return newStore; 
 
      case ACT_INDICATOR_POST_QSO_NEW_TRUE:
     //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));

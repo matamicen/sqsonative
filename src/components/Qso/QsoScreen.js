@@ -54,7 +54,8 @@ class QsoScreen extends Component {
     console.log("El valor de sqsoactindicatorpostqsonew : " + nextProps.sqsoactindicatorpostqsonew);
     this.setState({
       photoConfirm: nextProps.sqsomodalconfirmphoto,
-      actindicatorpostQsoNew: nextProps.sqsoactindicatorpostqsonew 
+      actindicatorpostQsoNew: nextProps.sqsoactindicatorpostqsonew, 
+      heightPhotoConfirm: nextProps.sqsomodalconfirmphotoheight
      
     });
 
@@ -257,7 +258,7 @@ endQso = () => {
                    left: 15,
                    right: 15,
                    width: 320,
-                   height: 340,
+                   height: this.props.heightPhotoConfirm,
                    paddingVertical: 5,
                  //   position: 'absolute',
                    
@@ -383,6 +384,7 @@ endQso = () => {
     //     routes: state.nav.routes[0].params,
     //     sqso: state.sqso };
         return {  
+          sqsomodalconfirmphotoheight: state.sqso.currentQso.modalconfirmphotoHeight,
           sqsomodalconfirmphoto: state.sqso.currentQso.modalconfirmphoto,
           sqsomodalrecording: state.sqso.currentQso.modalrecording,
           sqsoactivityindicatorImage: state.sqso.currentQso.activityindicatorImage,
