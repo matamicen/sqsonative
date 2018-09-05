@@ -257,7 +257,7 @@ endQso = () => {
                    left: 15,
                    right: 15,
                    width: 320,
-                   height: 290,
+                   height: 340,
                    paddingVertical: 5,
                  //   position: 'absolute',
                    

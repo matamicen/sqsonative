@@ -352,6 +352,16 @@ class Muestro extends Component {
           <Image style={styles.faceImageStyleAudio}
                       source={require('../../images/audio.png')}
                           /> }
+            { (this.props.sqsomedia.type==='image') &&
+                   <TouchableOpacity  onPress={() => this.rotateImage()} >
+                           <Image style={{ width: 26, height: 26,  marginTop: 5, marginLeft: 9}}
+                      source={require('../../images/rotate.png')}
+                          /> 
+
+                         <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 13}}>Rotate</Text>
+                    </TouchableOpacity>
+            }
+
           </View>
 
             <View style={{ flexDirection: 'row'}}>
@@ -371,13 +381,11 @@ class Muestro extends Component {
                   value={this.state.description}
                     onChangeText={(text) => this.setState({description: text})} />
              </View>
-             <View style={{   marginTop: 20, marginLeft: 8 }}>
-                    <TouchableHighlight  onPress={() => this.subo_s3()} >
+             <View style={{   marginTop: 15, marginLeft: 8 }}>
+                    <TouchableOpacity  onPress={() => this.subo_s3()} >
                       <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 16}}>Send</Text>
-                    </TouchableHighlight>
-                    <TouchableHighlight  onPress={() => this.rotateImage()} >
-                      <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 16, marginTop: 15}}>Rotate</Text>
-                    </TouchableHighlight>
+                    </TouchableOpacity>
+                   
              </View>    
 
              {/* <Text style={styles.name} >
