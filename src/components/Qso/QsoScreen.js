@@ -201,20 +201,21 @@ endQso = () => {
  <Modal visible={this.state.actindicatorpostQsoNew} position= {'top'} transparent={true}  onRequestClose={() => console.log('Close was requested')}>
              {/* <KeyboardAvoidingView behavior="padding"  > */}
               <View style={{ 
-                   padding:10, 
+                   padding:10,
+                   margin: 15, 
                   backgroundColor : 'rgba(0,0,0,0.85)',
                    marginTop: 210,
                    left: 120,
                    right: 15,
-                   width: 60,
-                   height: 60,
+                   width: 155,
+                   height: 45,
                    paddingVertical: 5,
                  //   position: 'absolute',
                    
                  //  alignItems: 'center',
                    borderRadius: 12                       
                     }}>
-                   <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 14}}>Wait</Text>
+                   <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 14, marginLeft: 15, marginTop: 5}}>Processing ...</Text>
                    
                   
 
@@ -228,16 +229,18 @@ endQso = () => {
               
               <Modal visible ={this.state.modalRecording} animationType={"slide"} transparent={true} onRequestClose={() => console.log('Close was requested')}>
               
-                    <View style={{ margin:20,
-                         padding:20, 
+                    <View style={{ margin:10,
+                          padding:10, 
                         backgroundColor : 'rgba(0,0,0,0.85)',
                         marginTop: 120,
                        //  bottom: 150,
-                         left: 2,
-                         right: 2,
+                         left: 55,
+                         right: 55,
+                         height: 180,
                          position: 'absolute',
                          alignItems: 'center',
-                         borderRadius: 12                       
+                         borderRadius: 12,
+                                               
                           }}>
                          
                           <RecordAudio2 closeModal={this.toggleRecModal.bind(this)}  />

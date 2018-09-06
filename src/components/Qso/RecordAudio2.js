@@ -545,24 +545,30 @@ cancelRecording = async () => {
 
       render() {
         
-         return <View >
-            <Text> Hola RecordAudio2 </Text>
+         return <View style={{flex: 1}} >
+           {/* ,justifyContent:"center", alignContent: "center" */}
+          <View style={{flex: 1, alignItems: "center", justifyContent: "space-between" }}>
+            <Text style={{ fontSize: 36, color: 'red'}}>REC</Text>
+          
+         
+           <Text style={{ fontSize: 24, color: '#999'}}> {this.state.minutes}:{this.state.secondsText}</Text>
 
-           <Text style={{ fontSize: 20, color: '#999'}}> {this.state.minutes}:{this.state.secondsText}</Text>
-
-               <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this._record() }>
+               {/* <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this._record() }>
                     <Image source={require('../../images/mic.png')}  style={{width: 33, height: 33 } } 
                  resizeMode="contain" />    
                  <Text style={{ fontSize: 12, color: '#999'}}>Record</Text> 
                  
          
+                </TouchableOpacity> */}
+
+                 {/* <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this.stopRecording() }> */}
+                 <TouchableOpacity onPress={ () => this.stopRecording() }> 
+                    <Image source={require('../../images/stop5.png')}  style={{width: 37, height: 37 } } 
+                 resizeMode="contain" />    
+                 <Text style={{ fontSize: 12, color: '#999', marginLeft: 5}}>Stop</Text>          
                 </TouchableOpacity>
 
-                 <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this.stopRecording() }>
-                    <Image source={require('../../images/camera.png')}  style={{width: 33, height: 33 } } 
-                 resizeMode="contain" />    
-                 <Text style={{ fontSize: 12, color: '#999'}}>Stop</Text>          
-                </TouchableOpacity>
+            </View>
 
                 {/* <TouchableOpacity  onPress={() => this.cancelRecording()} >
                              <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
