@@ -183,7 +183,7 @@ endQso = () => {
   this.CancelEndQsoModal();
   
 }
-   
+
 
 
     render() { console.log("RENDER qso Screen" );
@@ -231,7 +231,8 @@ endQso = () => {
                     <View style={{ margin:20,
                          padding:20, 
                         backgroundColor : 'rgba(0,0,0,0.85)',
-                         bottom: 20,
+                        marginTop: 120,
+                       //  bottom: 150,
                          left: 2,
                          right: 2,
                          position: 'absolute',
@@ -242,7 +243,10 @@ endQso = () => {
                           <RecordAudio2 closeModal={this.toggleRecModal.bind(this)}  />
 
                      
-                           <Button onPress={() => this.toggleRecModal()} title="Cierro" />
+                           {/* <Button onPress={() => this.toggleRecModal()} title="Cierro" /> */}
+                           {/* <TouchableHighlight  onPress={() => this.cancelRecording()} >
+                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
+                          </TouchableHighlight> */}
                        
                           </View>
                          

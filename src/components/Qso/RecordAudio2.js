@@ -84,6 +84,10 @@ class RecordAudio2 extends Component {
         this.sound = null;
         this.isSeeking = false;
         this.shouldPlayAtEndOfSeek = false;
+        this.cancel = false;
+        this.restar = 0;
+        this.secondsAux = 0;
+        this.multiplo60anterior = 0;
         // this.state = {
         //   haveRecordingPermissions: false,
         //   isLoading: false,
@@ -102,6 +106,10 @@ class RecordAudio2 extends Component {
         // };
       this.state = {
         currentTime: 0.0,
+        minutes: 0,
+        seconds: 0,
+        restar: 0,
+        secondsText: '00',
         recording: false,
         paused: false,
         stoppedRecording: false,
@@ -142,8 +150,37 @@ class RecordAudio2 extends Component {
           this.prepareRecordingPath(this.state.audioPath);
     
           AudioRecorder.onProgress = (data) => {
-            this.setState({currentTime: Math.floor(data.currentTime)});
-          };
+
+            if (Math.floor(data.currentTime)===0) 
+               console.log('es cero los segundos');
+               else
+      {
+     
+    // console.log('divido: '+ Math.floor(data.currentTime)/60);
+    // console.log('Resto: '+Math.floor(data.currentTime)%60);
+
+              if (Math.floor(data.currentTime)%60===0 && Math.floor(data.currentTime)!==this.multiplo60anterior)
+             {
+               console.log('es multiplo verdadero');
+              this.setState({minutes: this.state.minutes + 1});
+              this.restar = this.restar + 60;
+              this.multiplo60anterior = Math.floor(data.currentTime);
+            
+            }
+         
+            this.secondsAux = Math.floor(data.currentTime) - this.restar;
+
+            if (this.secondsAux<10) 
+               this.setState({secondsText: '0'+ this.secondsAux});
+            else 
+              this.setState({secondsText: this.secondsAux});
+     
+            // console.log('Seconds: '+this.state.secondsText + ' Minutes: '+this.state.minutes);
+          }
+
+       };
+
+
     
           AudioRecorder.onFinished = (data) => {
             // Android callback comes in the form of a promise instead.
@@ -162,9 +199,11 @@ class RecordAudio2 extends Component {
               //  this.props.closeModal();
             }
           };
-
-
+          console.log('pasa por aca');
+          this._record();
      });
+         
+        
       
       }
     
@@ -465,6 +504,8 @@ _stop = async () => {
   
   // if (Platform.OS === 'ios') {
 
+  if (!this.cancel)
+  {
     fileaux =  filePath;
                  fileName2 = fileaux.replace(/^.*[\\\/]/, '');
          
@@ -473,6 +514,7 @@ _stop = async () => {
                  vari2 = await this.props.sendActualMedia(envio);
                
                this.props.openModalConfirmPhoto(290);
+  }
                this.props.closeModal();
   // }
 
@@ -495,18 +537,25 @@ _checkPermission() {
     });
 }
 
+cancelRecording = async () => {
+  this.cancel = true;
+  this.stopRecording();
 
+}
 
       render() {
         
          return <View >
             <Text> Hola RecordAudio2 </Text>
 
+           <Text style={{ fontSize: 20, color: '#999'}}> {this.state.minutes}:{this.state.secondsText}</Text>
 
                <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this._record() }>
                     <Image source={require('../../images/mic.png')}  style={{width: 33, height: 33 } } 
                  resizeMode="contain" />    
-                 <Text style={{ fontSize: 12, color: '#999'}}>Record</Text>          
+                 <Text style={{ fontSize: 12, color: '#999'}}>Record</Text> 
+                 
+         
                 </TouchableOpacity>
 
                  <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this.stopRecording() }>
@@ -514,6 +563,10 @@ _checkPermission() {
                  resizeMode="contain" />    
                  <Text style={{ fontSize: 12, color: '#999'}}>Stop</Text>          
                 </TouchableOpacity>
+
+                {/* <TouchableOpacity  onPress={() => this.cancelRecording()} >
+                             <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
+                 </TouchableOpacity>  */}
       
           </View>
        
