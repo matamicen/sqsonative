@@ -62,10 +62,11 @@ class CameraScreen extends React.Component {
   this.width = 0;
   this.height = 0;
 
-  state = {
+  this.state = {
     photoConfirm: false,
     url: '',
-    scanQR: false
+    scanQR: false,
+    buttonStatus: false
   };
 
 }
@@ -569,6 +570,7 @@ class CameraScreen extends React.Component {
   
     takePicture= async () => {
       inicial = new Date();
+      this.setState({buttonStatus: true});
 
     if (this.camera) {
       const options = { quality: 0.5, base64: true, forceUpOrientation: true };
@@ -603,7 +605,7 @@ class CameraScreen extends React.Component {
      
      if ( Platform.OS === 'ios')
      timer = 1000;
-      else timer = 0;
+      else timer = 200;
 
      setTimeout(() => {
        console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
@@ -654,12 +656,12 @@ class CameraScreen extends React.Component {
             style = {styles.capture} >
             <Text style={{fontSize: 14}}> SignIn </Text>
         </TouchableOpacity> */}
-        <TouchableOpacity
+        <TouchableOpacity disabled={this.state.buttonStatus}
             onPress={this.takePicture.bind(this)}
             style = {styles.capture} >
             <Text style={{fontSize: 14}}> SNAP </Text>
         </TouchableOpacity>
-        <TouchableOpacity
+        <TouchableOpacity disabled={this.state.buttonStatus}
             onPress={() => this.goBack()}
             style = {styles.capture} >
             <Text style={{fontSize: 14}}> Go Back </Text>

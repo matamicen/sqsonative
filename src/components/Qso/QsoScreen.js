@@ -277,9 +277,9 @@ endQso = () => {
                   
                      {/* style={{ paddingBottom: 4}} */}
                      <View style={{ marginTop: 10}}>
-                      <TouchableHighlight  onPress={() => this.closeModalPhotoConfirmation()} >
+                      <TouchableOpacity  onPress={() => this.closeModalPhotoConfirmation()} >
                        <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 16}}>Cancel</Text>
-                      </TouchableHighlight>
+                      </TouchableOpacity>
                     </View>
 
                     </View>
