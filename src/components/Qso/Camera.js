@@ -605,7 +605,7 @@ class CameraScreen extends React.Component {
      
      if ( Platform.OS === 'ios')
      timer = 1000;
-      else timer = 200;
+      else timer = 500;
 
      setTimeout(() => {
        console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");

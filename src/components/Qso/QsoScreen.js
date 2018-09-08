@@ -255,8 +255,8 @@ endQso = () => {
                          
               </Modal>
   
-            {/* position= {'top'} */}
-             <Modal visible={this.state.photoConfirm} position= {'top'} transparent={true} animationType={"slide"} onRequestClose={() => console.log('Close was requested')}>
+            {/* position= {'top'} animationType={"slide"} */}
+             <Modal visible={this.state.photoConfirm} position= {'top'} transparent={true}  onRequestClose={() => console.log('Close was requested')}>
              {/* <KeyboardAvoidingView behavior="padding"  > */}
               <View style={{ 
                    padding:10, 
