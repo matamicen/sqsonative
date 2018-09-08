@@ -646,7 +646,7 @@ class CameraScreen extends React.Component {
             flashMode={RNCamera.Constants.FlashMode.on}
             permissionDialogTitle={'Permission to use camera'}
             permissionDialogMessage={'We need your permission to use your camera phone'}
-        />
+        >
 
          <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
 
@@ -670,7 +670,7 @@ class CameraScreen extends React.Component {
 
 
 
-
+       </RNCamera >
      </View>
     );
 

@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addMedia, updateMedia, closeModalConfirmPhoto, postAddMedia, uploadMediaToS3, sendActualMedia } from '../../actions';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, TextInput,
-  TouchableHighlight, KeyboardAvoidingView    } from 'react-native';
+  TouchableHighlight, KeyboardAvoidingView, Platform   } from 'react-native';
 import { getDate} from '../../helper';
 import Amplify, { Auth, API, Storage } from 'aws-amplify'
 import awsconfig from '../../aws-exports'
@@ -178,6 +178,12 @@ class Muestro extends Component {
         if (this.compressRotation===86){ 
           console.log('entro a comprimir valor de compressRotation: '+ this.compressRotation);
            await this.compressImage();
+             }else
+             {
+               // switch de width con height porque la foto fue girada y el feed necesita calcular el espacio
+               auxWidth = this.width;
+               this.width = this.height;
+               this.height = auxWidth;
              }
             // fileaux =  this.props.sqsomedia.url;
             fileaux = this.compressImageURL;
@@ -212,7 +218,7 @@ class Muestro extends Component {
       // fecha = this.getDate();
        fecha = getDate();
        console.log('la fecha es:' + fecha);
-       console.log('jaja: '+  this.props.sqsomedia.width + this.props.sqsomedia.height  )
+      //  console.log('jaja: '+  this.props.sqsomedia.width + this.props.sqsomedia.height  )
 
      //  console.log('SIZE 3:'+ this.width+ ' '+this.height);
       //  Image.getSize(fileaux, (width, height) => {console.log('SIZE 2: ancho: '+width + ' alto:'+height)});
@@ -352,7 +358,7 @@ class Muestro extends Component {
           <Image style={styles.faceImageStyleAudio}
                       source={require('../../images/audio.png')}
                           /> }
-            { (this.props.sqsomedia.type==='image') &&
+            { (this.props.sqsomedia.type==='image' && Platform.OS === 'android') &&
                    <TouchableOpacity  onPress={() => this.rotateImage()} >
                            <Image style={{ width: 26, height: 26,  marginTop: 5, marginLeft: 9}}
                       source={require('../../images/rotate.png')}
