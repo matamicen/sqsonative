@@ -20,6 +20,12 @@ const flashModeOrder = {
   torch: 'off',
 };
 
+const flashModeOrder2 = {
+  on: 'on',
+  off: 'off',
+  auto: 'auto',
+};
+
 const wbOrder = {
   auto: 'sunny',
   sunny: 'cloudy',
@@ -66,7 +72,10 @@ class CameraScreen extends React.Component {
     photoConfirm: false,
     url: '',
     scanQR: false,
-    buttonStatus: false
+    buttonStatus: false,
+    type: 'back',
+    flash: 'auto',
+    flashtext: 'auto'
   };
 
 }
@@ -124,12 +133,52 @@ class CameraScreen extends React.Component {
    
           }
 
-  // toggleFacing() {
-  //   this.setState({
-  //     type: this.state.type === 'back' ? 'front' : 'back',
-  //   });
-  // }
+  toggleFacing() {
+    this.setState({
+      type: this.state.type === 'back' ? 'front' : 'back',
+    });
+  }
 
+  toggleFlash2 = (estado) => {
+    console.log('paso por toggleflash estado:' + estado);
+    if (estado==='auto')  
+        this.setState({
+          flash: 'on', flashtext: ' on'
+        });
+     if (estado==='on')  
+        this.setState({
+          flash: 'off', flashtext: ' off'
+        });
+    if (estado==='off')  
+        this.setState({
+          flash: 'torch', flashtext: 'torch'
+        });
+     if (estado==='torch') 
+        { 
+          this.setState({
+            flash: 'auto', flashtext: 'auto'
+          });           
+        
+      }
+   
+  }
+
+  // toggleFlash(estado) {
+  //   console.log('paso por toggleflash estado:' + estado);
+  //   if (estado==='auto')  
+  //       this.setState({
+  //         flash: 'on'
+  //       });
+  //    if (estado==='on')  
+  //       this.setState({
+  //         flash: 'off'
+  //       });
+  //   if (estado==='off')  
+  //       this.setState({
+  //         flash: 'auto'
+  //       });
+  // }
+  
   // toggleFlash() {
   //   this.setState({
   //     flash: flashModeOrder[this.state.flash],
@@ -636,17 +685,23 @@ class CameraScreen extends React.Component {
 //  </View>;
    return (
      <View style={styles.container}>
+  
 
      <RNCamera
             ref={ref => {
               this.camera = ref;
             }}
             style = {styles.preview}
-            type={RNCamera.Constants.Type.back}
-            flashMode={RNCamera.Constants.FlashMode.on}
+            // type={RNCamera.Constants.Type.back}
+            type={this.state.type}
+            // flashMode={RNCamera.Constants.FlashMode.on}
+            flashMode={this.state.flash}
             permissionDialogTitle={'Permission to use camera'}
             permissionDialogMessage={'We need your permission to use your camera phone'}
         >
+
+
+        
 
          <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
 
@@ -656,15 +711,39 @@ class CameraScreen extends React.Component {
             style = {styles.capture} >
             <Text style={{fontSize: 14}}> SignIn </Text>
         </TouchableOpacity> */}
-        <TouchableOpacity disabled={this.state.buttonStatus}
+        <TouchableOpacity   style = {styles.capture2} disabled={this.state.buttonStatus}
             onPress={this.takePicture.bind(this)}
-            style = {styles.capture} >
-            <Text style={{fontSize: 14}}> SNAP </Text>
+             >
+            <Image source={require('../../images/snap.png')}  style={{width: 39, height: 39  } } 
+                 resizeMode="contain" /> 
+            {/* <Text style={{fontSize: 14}}> SNAP </Text> */}
         </TouchableOpacity>
+        {/* <TouchableOpacity style={{marginLeft:40}} onPress={ () => this.gotoCameraScreen() }>
+                    <Image source={require('../../images/camera.png')}  style={{width: 33, height: 33  } } 
+                 resizeMode="contain" /> 
+                               
+                </TouchableOpacity> */}
+
+                {/* <TouchableOpacity onPress={this.toggleFlash.bind(this.state.flash)}> */}
+          <TouchableOpacity onPress={ () => this.toggleFlash2(this.state.flash) } >
+            
+             <Image source={require('../../images/flash.png')}  style={{width: 30, height: 30  } } 
+                 resizeMode="contain" />
+                 <Text style={styles.flipText}> {this.state.flashtext} </Text>  
+           </TouchableOpacity>
+
+        <TouchableOpacity onPress={this.toggleFacing.bind(this)}>
+             {/* <Text style={styles.flipText}> FLIP </Text> */}
+             <Image source={require('../../images/selfie2.png')}  style={{width: 42, height: 42  } } 
+                 resizeMode="contain" />
+                 {/* <Text style={styles.flipText}> selfie </Text>  */}
+           </TouchableOpacity>
         <TouchableOpacity disabled={this.state.buttonStatus}
             onPress={() => this.goBack()}
-            style = {styles.capture} >
-            <Text style={{fontSize: 14}}> Go Back </Text>
+            style = {styles.capture2} >
+            <Image source={require('../../images/exit.png')}  style={{width: 31, height: 31 } } 
+                 resizeMode="contain" /> 
+            {/* <Text style={{fontSize: 14}}> Back </Text> */}
         </TouchableOpacity>
         </View>
 
@@ -695,6 +774,15 @@ const styles = StyleSheet.create({
     flex: 0,
     backgroundColor: '#fff',
     borderRadius: 5,
+    padding: 15,
+    paddingHorizontal: 20,
+    alignSelf: 'center',
+    margin: 20
+  },
+  capture2: {
+    flex: 0,
+   // backgroundColor: '#fff',
+   // borderRadius: 5,
     padding: 15,
     paddingHorizontal: 20,
     alignSelf: 'center',
