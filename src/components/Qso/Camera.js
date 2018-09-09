@@ -139,6 +139,15 @@ class CameraScreen extends React.Component {
     });
   }
 
+  toggleFacing2 = () => {
+
+    this.setState({
+      type: this.state.type === 'back' ? 'front' : 'back',
+    });
+
+
+  }
+
   toggleFlash2 = (estado) => {
     console.log('paso por toggleflash estado:' + estado);
     if (estado==='auto')  
@@ -701,55 +710,57 @@ class CameraScreen extends React.Component {
         >
 
 
-        
+         {/* <View style={{flex: 3}}></View> */}
 
-         <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
+         <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center', marginBottom: 12}}>
 
 
-         {/* <TouchableOpacity
-            onPress={this.signIn.bind(this)}
-            style = {styles.capture} >
-            <Text style={{fontSize: 14}}> SignIn </Text>
-        </TouchableOpacity> */}
-        <TouchableOpacity   style = {styles.capture2} disabled={this.state.buttonStatus}
-            onPress={this.takePicture.bind(this)}
-             >
-            <Image source={require('../../images/snap.png')}  style={{width: 39, height: 39  } } 
-                 resizeMode="contain" /> 
-            {/* <Text style={{fontSize: 14}}> SNAP </Text> */}
-        </TouchableOpacity>
-        {/* <TouchableOpacity style={{marginLeft:40}} onPress={ () => this.gotoCameraScreen() }>
-                    <Image source={require('../../images/camera.png')}  style={{width: 33, height: 33  } } 
-                 resizeMode="contain" /> 
-                               
-                </TouchableOpacity> */}
-
-                {/* <TouchableOpacity onPress={this.toggleFlash.bind(this.state.flash)}> */}
-          <TouchableOpacity onPress={ () => this.toggleFlash2(this.state.flash) } >
+      <View style={{flex: 0.25, flexDirection: 'row', alignItems: 'center'}}>
+       
+      <TouchableOpacity  style={{marginLeft: 10}} onPress={ () => this.toggleFlash2(this.state.flash) } >
             
-             <Image source={require('../../images/flash.png')}  style={{width: 30, height: 30  } } 
-                 resizeMode="contain" />
-                 <Text style={styles.flipText}> {this.state.flashtext} </Text>  
-           </TouchableOpacity>
+            <Image source={require('../../images/flash.png')}  style={{width: 27, height: 27  } } 
+                resizeMode="contain" />
+                <Text style={styles.flipText}> {this.state.flashtext} </Text>  
+          </TouchableOpacity>
 
-        <TouchableOpacity onPress={this.toggleFacing.bind(this)}>
+        <TouchableOpacity onPress={ () => this.toggleFacing2() } style={{marginLeft: 20}}>
              {/* <Text style={styles.flipText}> FLIP </Text> */}
-             <Image source={require('../../images/selfie2.png')}  style={{width: 42, height: 42  } } 
+             <Image source={require('../../images/selfie2.png')}  style={{width: 35, height: 35  } } 
                  resizeMode="contain" />
                  {/* <Text style={styles.flipText}> selfie </Text>  */}
            </TouchableOpacity>
-        <TouchableOpacity disabled={this.state.buttonStatus}
-            onPress={() => this.goBack()}
-            style = {styles.capture2} >
-            <Image source={require('../../images/exit.png')}  style={{width: 31, height: 31 } } 
+
+        </View> 
+
+    <View style={{flex: 0.5, alignItems: 'center'}}> 
+        <TouchableOpacity  disabled={this.state.buttonStatus}
+            onPress={this.takePicture.bind(this)}
+             >
+            <Image source={require('../../images/snap.png')}  style={{width: 41, height: 41  } } 
+                 resizeMode="contain" /> 
+            {/* <Text style={{fontSize: 14}}> SNAP </Text> */}
+        </TouchableOpacity>
+
+       
+
+      </View>
+
+        <View style={{flex: 0.25, alignItems: 'flex-end'}}>
+
+        <TouchableOpacity disabled={this.state.buttonStatus} style={{marginTop: 11, marginRight: 10}}
+            onPress={() => this.goBack()} >
+            {/* style = {styles.capture2} */}
+            <Image source={require('../../images/exit.png')}  style={{width: 28, height: 28 } } 
                  resizeMode="contain" /> 
             {/* <Text style={{fontSize: 14}}> Back </Text> */}
         </TouchableOpacity>
+
         </View>
 
-
-
+        </View>
        </RNCamera >
+
      </View>
     );
 
