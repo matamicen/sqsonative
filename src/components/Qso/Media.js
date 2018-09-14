@@ -45,7 +45,7 @@ class Media extends Component {
                
                <View style={{flexDirection: 'row', marginTop: 6}}>
 
-                      { (this.props.type==='image') ? <Image
+                      { (this.props.type==='image' || this.props.type==='profile') ? <Image
                     style={styles.faceImageStyle}
                     source={{ uri: this.props.imageurl }}
                       />

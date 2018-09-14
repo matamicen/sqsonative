@@ -42,6 +42,7 @@ const initialState = {
         modeSent: false,
         mediafiles: [],
         modalconfirmphoto: false,
+        phototype: '',
         modalconfirmphotoHeight: 0,
         modalrecording: false,
         mediatosend: {},
@@ -288,7 +289,8 @@ const qsoReducer = (state = initialState, action) => {
    //  console.log("desdeREDUCER!! : "+JSON.stringify(action.newmedia));
      auxcurrentQso = {
         ...state.currentQso,
-        modalconfirmphoto: false          
+        modalconfirmphoto: false,
+        phototype: action.phototype          
     };
     newStore = Object.assign({}, state,
         {

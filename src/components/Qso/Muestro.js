@@ -95,7 +95,7 @@ class Muestro extends Component {
           console.log(' Compress Rotation Rotate resize ImageResizer: ' + JSON.stringify(response));
 
 
-        envio = {name: 'fileName2', url: this.compressImageURL, type: 'image', sent: 'false', size: this.size , width: this.width, height: this.height } 
+        envio = {name: 'fileName2', url: this.compressImageURL, type: this.props.sqsomedia.type, sent: 'false', size: this.size , width: this.width, height: this.height } 
  
         this.props.sendActualMedia(envio);
 
@@ -173,7 +173,7 @@ class Muestro extends Component {
 
         console.log('var12 antes: '+this.var12);
 
-        if (this.props.sqsomedia.type==='image') {
+        if (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') {
         //  if the media is a photo -> Compress Imgae
         if (this.compressRotation===86){ 
           console.log('entro a comprimir valor de compressRotation: '+ this.compressRotation);
@@ -207,11 +207,27 @@ class Muestro extends Component {
         fileName2 = fileaux.replace(/^.*[\\\/]/, '');
 
         if (this.props.sqsomedia.type==='image') {
-             folder = 'images/';
+             folder = 'images/'+fileName2;
            
         }
-          else folder = 'audios/';
-        rdsUrl = this.props.rdsurls3+folder+fileName2;
+          else folder = 'audios/'+fileName2;
+
+
+          if (this.props.sqsomedia.type==='profile') 
+            { 
+              folder = 'profile/profile.jpg';
+              // para que no se repita el nombre en la lista de enviados si sue mas de 1 vez su profile picture 
+              //  fileNameaux = fileName2+''+ new Date().getTime();
+              //  fileName2 = fileNameaux;
+              
+              fileName2 = 'profile.jpg'+ new Date().getTime();;
+            }
+          
+       
+        rdsUrl = this.props.rdsurls3+folder;
+
+
+
 
         console.log('RDSurl: '+rdsUrl);
 
@@ -350,7 +366,7 @@ class Muestro extends Component {
         <View >
             
             <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 15}}>
-            { (this.props.sqsomedia.type==='image') ?
+            { (this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') ?
              <Image style={styles.faceImageStyle}
             source={{ uri: this.props.sqsomedia.url }}
           />
@@ -358,7 +374,7 @@ class Muestro extends Component {
           <Image style={styles.faceImageStyleAudio}
                       source={require('../../images/audio.png')}
                           /> }
-            { (this.props.sqsomedia.type==='image' && Platform.OS === 'android') &&
+            { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && Platform.OS === 'android') &&
                    <TouchableOpacity  onPress={() => this.rotateImage()} >
                            <Image style={{ width: 26, height: 26,  marginTop: 5, marginLeft: 9}}
                       source={require('../../images/rotate.png')}
@@ -372,8 +388,11 @@ class Muestro extends Component {
 
             <View style={{ flexDirection: 'row'}}>
 
+            { (this.props.sqsomedia.type!=='profile') &&
+
              <View style={{   width: 230, height: 70}}>
 
+              
                   <TextInput 
                   placeholder="description (Optional)"
                   
@@ -386,13 +405,27 @@ class Muestro extends Component {
                   style={styles.input}
                   value={this.state.description}
                     onChangeText={(text) => this.setState({description: text})} />
+            
+
              </View>
-             <View style={{   marginTop: 15, marginLeft: 8 }}>
+            }
+            
+             { (this.props.sqsomedia.type!=='profile') ?
+              <View style={{   marginTop: 15, marginLeft: 8 }}>
                     <TouchableOpacity  onPress={() => this.subo_s3()} >
                       <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 16}}>Send</Text>
                     </TouchableOpacity>
+                </View>  
+                :
+                <View style={{   marginTop: 15, marginLeft: 0 }}>
+                    <TouchableOpacity  onPress={() => this.subo_s3()} >
+                       <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 16}}>Send Profile Photo</Text>
+                    </TouchableOpacity>
+                    </View>  
+
+            }
                    
-             </View>    
+              
 
              {/* <Text style={styles.name} >
                  imagen

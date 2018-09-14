@@ -143,7 +143,7 @@ OpenEndQsoModal = () => {
   //       {
   //            Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.ALL);
   //       }
-         this.props.closeModalConfirmPhoto();
+         this.props.closeModalConfirmPhoto('image');
          this.props.navigation.navigate("CameraScreen2");
       
    }
@@ -319,10 +319,10 @@ endQso = () => {
 
                       
                <View style={{flex: 2, width:820}}>
-               { this.props.sqsonewqsoactive ?
+               {/* { this.props.sqsonewqsoactive ? */}
                <MediaFiles /> 
-               :
-                null }
+               {/* :
+                null } */}
                </View>
               
                </View>
@@ -351,7 +351,7 @@ endQso = () => {
 
 
 
-                { this.props.sqsonewqsoactive ?
+                { (this.props.sqsosqlrdsid !== '') ?
 
                <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this.toggleRecModal() }>
                     <Image source={require('../../images/mic.png')}  style={{width: 33, height: 33 } } 
@@ -364,7 +364,7 @@ endQso = () => {
                {/* <Button onPress={() => this.props.navigation.navigate("QslScanScreen")} title="QslScan" /> */}
                {/* <Button onPress={() => this.gotoCameraScreen()} title="Camera" /> */}
                
-               { this.props.sqsonewqsoactive ?
+               { (this.props.sqsosqlrdsid !== '') ?
 
                <TouchableOpacity style={{marginLeft:40}} onPress={ () => this.gotoCameraScreen() }>
                     <Image source={require('../../images/camera.png')}  style={{width: 33, height: 33  } } 
@@ -394,6 +394,7 @@ endQso = () => {
           sqsomodalconfirmphotoheight: state.sqso.currentQso.modalconfirmphotoHeight,
           sqsomodalconfirmphoto: state.sqso.currentQso.modalconfirmphoto,
           sqsomodalrecording: state.sqso.currentQso.modalrecording,
+          sqsosqlrdsid: state.sqso.currentQso.sqlrdsId,
           sqsoactivityindicatorImage: state.sqso.currentQso.activityindicatorImage,
           sqsonewqsoactive: state.sqso.newqsoactive,
           qsotype: state.sqso.currentQso.qsotype,

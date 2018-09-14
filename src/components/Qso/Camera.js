@@ -652,8 +652,10 @@ class CameraScreen extends React.Component {
       uri = data.uri;
 
     fileName2 = uri.replace(/^.*[\\\/]/, '');
+    
+
     console.log('filename2 es: ' + fileName2);
-    envio = {name: fileName2, url: uri, type: 'image', sent: 'false', size: '2222', width: this.width, height: this.height } 
+    envio = {name: fileName2, url: uri, type: this.props.phototype, sent: 'false', size: '2222', width: this.width, height: this.height } 
     
     
     
@@ -878,7 +880,8 @@ const styles = StyleSheet.create({
 const mapStateToProps = state => {
   return { 
     sqsoactivityindicatorImage: state.sqso.currentQso.activityindicatorImage,
-    sqsocamerapermission: state.sqso.camerapermission
+    sqsocamerapermission: state.sqso.camerapermission,
+    phototype: state.sqso.currentQso.phototype
    // camerapermission: state.sqso.camerapermission
       };
 };

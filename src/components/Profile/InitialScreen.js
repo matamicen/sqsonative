@@ -5,6 +5,7 @@ import Login from './Login';
 import Amplify, { Auth, API, Storage } from 'aws-amplify'
 import awsconfig from '../../aws-exports'
 import Qra from './../Qso/Qra';
+import { closeModalConfirmPhoto } from '../../actions';
 
 
 Amplify.configure(awsconfig);
@@ -51,8 +52,17 @@ signOut = async () => {
 
   }
 
+  gotoCameraScreen = async () => {
+
+
+           this.props.closeModalConfirmPhoto('profile');
+           this.props.navigation.navigate("CameraScreen2");
+        
+     }
+
    
     render() { console.log("InitialScreen Screen");
+    console.log("InitialScreen Screen profile.jpg"+this.props.rdsurl+'/profile/profile.jpg');
    
         return <View style={{marginTop: 50, marginLeft: 10}}>
           
@@ -68,8 +78,14 @@ signOut = async () => {
                 </TouchableOpacity> */}
 
              <View style={{flexDirection: 'row'}}>
-                  <Qra qra={this.props.qra} imageurl="https://randomuser.me/api/portraits/med/women/80.jpg" />  
-                  
+                  <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg'} />  
+                 
+                  <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.gotoCameraScreen() }>
+                    <Image source={require('../../images/camera.png')}  style={{width: 23, height: 23  } } 
+                 resizeMode="contain" /> 
+                  <Text  style={{ fontSize: 14, color: '#999'}}>Edit</Text>             
+                </TouchableOpacity>
+
                   {/* ProfileScreen */}
  
               </View> 
@@ -141,11 +157,13 @@ signOut = async () => {
       qra: state.sqso.qra,
       followers: state.sqso.currentQso.followers,
       followings: state.sqso.currentQso.followings,
+      rdsurl: state.sqso.urlRdsS3
     };
 };
 
 
 const mapDispatchToProps = {
+  closeModalConfirmPhoto
     
    }
 

@@ -100,9 +100,10 @@ export const addMedia = (newmedia) => {
     };
 }
 
-export const closeModalConfirmPhoto = () => {
+export const closeModalConfirmPhoto = (phototype) => {
     return {
         type: CLOSE_MODALCONFIRM_PHOTO,   
+        phototype: phototype
             
     };
 }
@@ -504,6 +505,66 @@ export const deleteQsoQra = (qra) => {
 }
 
 
+export const postSetProfilePic = (url, filename2) => {
+    return async dispatch => {
+      dispatch(fetchingApiRequest());
+      console.log("ejecuta llamada API SetProfilePic");  
+    try {
+        session = await Auth.currentSession();
+        console.log("Su token es: " + session.idToken.jwtToken);
+        let apiName = 'superqso';
+        let path = '/qra-set-profile-pic';
+        let myInit = { // OPTIONAL
+          headers: {
+            'Authorization': session.idToken.jwtToken,
+            'Content-Type': 'application/json'
+          }, // OPTIONAL
+          body: {
+            "url":  url
+               }
+          
+        }
+
+
+      respuesta = await API.post(apiName, path, myInit);
+      console.log("llamo api SetProfilePic!");
+    
+      
+      dispatch(fetchingApiSuccess(respuesta));
+      console.log("devuelve SetProfilePic: "+JSON.stringify(respuesta));
+     
+      if (respuesta.error==='0')
+      {
+       // dispatch(updateSqlRdsId(respuesta.message));
+        console.log("error es 0 y sqlrdsid: "+respuesta.message);
+
+      //  update = {"status": "sent", "progress": 1}
+      update = {"status": 'sent', "progress": 1}
+        dispatch(updateMedia(filename2, update));
+        // stat = {"sent": true, "progress": 0.8}
+        // this.props.updateMediaSent(fileName2,stat);
+
+      }else
+      {
+        update = {status: 'failed'}
+        dispatch(updateMedia(filename2, update ));
+      }
+     
+    }
+    catch (error) {
+      console.log('Api catch error:', error);
+      update = {status: 'failed'}
+      dispatch(updateMedia(filename2, update ));
+      dispatch(fetchingApiFailure(error));
+      // Handle exceptions
+    }
+         
+      
+    };
+  };
+
+
+
 export const postAddMedia = (mediaToadd, filename2) => {
     return async dispatch => {
       dispatch(fetchingApiRequest());
@@ -579,17 +640,20 @@ export const uploadMediaToS3 = (fileName2, fileaux, sqlrdsid, description, size,
         }
         console.log('contenido fileauxFinal: '+fileauxFinal);
 
-           if (type==='image') folder = 'images/';
-          else folder = 'audios/';
+           if (type==='image') folder = 'images/'+fileName2;
+          else folder = 'audios/'+fileName2;
+          
+
+          if (type==='profile') folder = 'profile/profile.jpg';
       
-        console.log('folder:'+ folder+fileName2);
+        console.log('folder:'+ folder);
    
 
 //, contentType: 'image/png'
          enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => new Buffer(data, 'base64'));
       //   return this.readFile(fileauxFinal)
          enBlob
-         .then(buffer => Storage.vault.put(folder+fileName2, buffer, { level: 'protected' }))
+         .then(buffer => Storage.vault.put(folder, buffer, { level: 'protected' }))
          .then (result => {
                   console.log('resultado:'+result.key);
 
@@ -609,9 +673,17 @@ export const uploadMediaToS3 = (fileName2, fileaux, sqlrdsid, description, size,
                   "url":  rdsUrlS3,
                   "description": description 
               }
-    
+           if (type !== 'profile')
+           {
               dispatch(postAddMedia(mediaToRds, fileName2));
               console.log("LLLLLLLLLLL LLamo recien a media: "+ fileName2);
+           }else
+           {
+            dispatch(postSetProfilePic(rdsUrlS3, fileName2));
+            console.log("LLLLLLLLLLL LLamo recien a postSetProfilePic: "+ fileName2);
+            
+           }
+
     
     
               
