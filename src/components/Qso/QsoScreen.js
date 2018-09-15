@@ -399,6 +399,7 @@ endQso = () => {
           sqsonewqsoactive: state.sqso.newqsoactive,
           qsotype: state.sqso.currentQso.qsotype,
           sqsoactindicatorpostqsonew: state.sqso.currentQso.activityindicatorPostQsoNew,
+         
          };
 };
 

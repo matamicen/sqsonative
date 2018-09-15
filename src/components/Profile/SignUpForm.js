@@ -242,6 +242,7 @@ signUp = async () => {
 
     this.setState({indicator: 0});
      this.props.navigation.navigate("AppNavigator2");
+  
 
      }
 

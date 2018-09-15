@@ -220,7 +220,7 @@ class Muestro extends Component {
               //  fileNameaux = fileName2+''+ new Date().getTime();
               //  fileName2 = fileNameaux;
               
-              fileName2 = 'profile.jpg'+ new Date().getTime();;
+              fileName2 = 'profile.jpg'+ new Date().getTime();
             }
           
        
@@ -259,6 +259,8 @@ class Muestro extends Component {
           // this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.props.sqsomedia.size, this.props.sqsomedia.type, rdsUrl, fecha, this.props.sqsomedia.width, this.props.sqsomedia.height);
           this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl, fecha, this.width, this.height);
 
+          //this.props.navigation.navigate("Root");
+        
 
       }
 

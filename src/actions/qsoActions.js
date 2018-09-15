@@ -18,7 +18,7 @@ import {FETCHING_API_REQUEST,
         QSO_QRA_DELETE, SET_URL_RDS_S3, INSERT_FOLLOWINGS, INSERT_FOLLOWERS,
         FOLLOWERS_ALREADY_CALLED, FOLLOWINGS_SELECTED, QRA_SEARCH,
         UPDATE_QSL_SCAN, UPDATE_QSL_SCAN_RESULT,
-        REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL  } from './types';
+        REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL, PROFILE_PICTURE_REFRESH  } from './types';
 
 import awsconfig from '../aws-exports';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -64,6 +64,14 @@ export const setMode = (mode) => {
         mode: mode
     };
 }
+
+export const profilePictureRefresh = () => {
+    return {
+        type: PROFILE_PICTURE_REFRESH
+       
+    };
+}
+
 export const addQra = (newqra) => {
     return {
         type: ADD_QRA,
@@ -541,6 +549,7 @@ export const postSetProfilePic = (url, filename2) => {
       //  update = {"status": "sent", "progress": 1}
       update = {"status": 'sent', "progress": 1}
         dispatch(updateMedia(filename2, update));
+        dispatch(profilePictureRefresh());
         // stat = {"sent": true, "progress": 0.8}
         // this.props.updateMediaSent(fileName2,stat);
 

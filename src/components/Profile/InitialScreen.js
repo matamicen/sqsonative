@@ -78,7 +78,7 @@ signOut = async () => {
                 </TouchableOpacity> */}
 
              <View style={{flexDirection: 'row'}}>
-                  <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg'} />  
+                  <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />  
                  
                   <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.gotoCameraScreen() }>
                     <Image source={require('../../images/camera.png')}  style={{width: 23, height: 23  } } 
@@ -157,7 +157,8 @@ signOut = async () => {
       qra: state.sqso.qra,
       followers: state.sqso.currentQso.followers,
       followings: state.sqso.currentQso.followings,
-      rdsurl: state.sqso.urlRdsS3
+      rdsurl: state.sqso.urlRdsS3,
+      sqsoprofilepicrefresh: state.sqso.profilePicRefresh
     };
 };
 

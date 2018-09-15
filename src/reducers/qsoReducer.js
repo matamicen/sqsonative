@@ -14,8 +14,8 @@ import {FETCHING_API_REQUEST,
     ACT_INDICATOR_POST_QSO_NEW_FALSE, ACT_INDICATOR_POST_QSO_NEW_TRUE,
     QSO_QRA_DELETE, SET_URL_RDS_S3, INSERT_FOLLOWINGS, INSERT_FOLLOWERS, 
     FOLLOWERS_ALREADY_CALLED,
-    FOLLOWINGS_SELECTED, QRA_SEARCH, UPDATE_QSL_SCAN, REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL
-    } from '../actions/types';
+    FOLLOWINGS_SELECTED, QRA_SEARCH, UPDATE_QSL_SCAN, REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL,
+    PROFILE_PICTURE_REFRESH } from '../actions/types';
 
 const initialState = {
     qra: '',
@@ -26,6 +26,7 @@ const initialState = {
     audiorecordingpermission: false,
     newqsoactive: false,
     urlRdsS3: '',
+    profilePicRefresh: new Date().getTime(),
     currentQso: {
         
         sqlrdsId: '',
@@ -462,6 +463,16 @@ const qsoReducer = (state = initialState, action) => {
          {
              ...state,
              urlRdsS3: action.urlrds
+         });
+     return newStore; 
+
+     case PROFILE_PICTURE_REFRESH:
+     // console.log("desdeREDUCER camera TRUE!! : "+JSON.stringify(action.newmedia));
+     
+     newStore = Object.assign({}, state,
+         {
+             ...state,
+             profilePicRefresh: new Date().getTime()
          });
      return newStore; 
 

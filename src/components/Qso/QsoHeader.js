@@ -44,7 +44,7 @@ class QsoHeader extends Component {
         return(  <View style={styles.content} >
                
                <View style={{flexDirection: 'row'}}>
-                  <Qra qra={this.props.qra} imageurl="https://randomuser.me/api/portraits/med/women/80.jpg" />  
+                  <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />  
                   { this.props.sqsonewqsoactive ?
                   <QsoType /> : null }
                   { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?
@@ -83,7 +83,9 @@ class QsoHeader extends Component {
  const mapStateToProps = state => {
     return {  sqsonewqsoactive: state.sqso.newqsoactive,
         qsotype: state.sqso.currentQso.qsotype,
-        qra: state.sqso.qra
+        qra: state.sqso.qra,
+        sqsoprofilepicrefresh: state.sqso.profilePicRefresh,
+        rdsurl: state.sqso.urlRdsS3
      };
 };
 
