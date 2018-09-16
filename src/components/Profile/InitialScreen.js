@@ -4,7 +4,8 @@ import { connect } from 'react-redux';
 import Login from './Login';
 import Amplify, { Auth, API, Storage } from 'aws-amplify'
 import awsconfig from '../../aws-exports'
-import Qra from './../Qso/Qra';
+//import Qra from './../Qso/Qra';
+import QraProfile from './../Qso/QraProfile';
 import { closeModalConfirmPhoto } from '../../actions';
 
 
@@ -78,7 +79,8 @@ signOut = async () => {
                 </TouchableOpacity> */}
 
              <View style={{flexDirection: 'row'}}>
-                  <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />  
+                  {/* <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
+                  <QraProfile qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />  
                  
                   <TouchableOpacity style={{marginLeft:18, marginTop: 13}} onPress={ () => this.gotoCameraScreen() }>
                     <Image source={require('../../images/camera.png')}  style={{width: 23, height: 23  } } 
