@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, Keyboard,
-     ActivityIndicator, KeyboardAvoidingView , AsyncStorage} from 'react-native';
+     ActivityIndicator, KeyboardAvoidingView , AsyncStorage, Modal} from 'react-native';
 import { connect } from 'react-redux';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
@@ -8,6 +8,7 @@ import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, checkInternet } 
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
 //import {  Permissions } from 'expo';
+import { hasAPIConnection } from '../../helper';
 
 Amplify.configure(awsconfig);
 
@@ -31,6 +32,7 @@ constructor(props) {
      password: '',
      indicator: 0,
      loginerror: 0,
+     nointernet: false
      
     };
   }
@@ -38,6 +40,11 @@ constructor(props) {
   async componentDidMount() {
 
     console.log("COMPONENT did mount LOGINFORM");
+
+
+  if (await hasAPIConnection())
+  {
+    console.log('SI hay internet: ');
     // const { status } = await Permissions.askAsync(Permissions.CAMERA);
     //  console.log("status DidMount loginFORM"+status);
 // Compruebo si ya estaba logueado con sus credenciales
@@ -78,11 +85,14 @@ constructor(props) {
       // Handle exceptions
     }
 
+  }else {
+          console.log('lo siento no hay Internet');
+          this.setState({nointernet: true});
+         }
      
  
        }
 
-  
  
 
 signIn = async () => {
@@ -98,10 +108,13 @@ signIn = async () => {
     // });
 
    Keyboard.dismiss();
+   this.setState({indicator: 1, loginerror: 0});
 
 //if(this.internet){
+  if (await hasAPIConnection())
+  {
 
- this.setState({indicator: 1, loginerror: 0});
+ //this.setState({indicator: 1, loginerror: 0});
   console.log("username: "+this.state.username.toUpperCase() + "password: "+ this.state.password);
     await Auth.signIn(this.state.username.toUpperCase(), this.state.password)
       .then(() => { console.log('entro!');
@@ -144,12 +157,17 @@ if (!this.usernotfound)
      this.props.navigation.navigate("AppNavigator2");
 
      }
-    this.setState({indicator: 0});
-    Keyboard.dismiss();
+    // this.setState({indicator: 0});
+    // Keyboard.dismiss();
 
    // }
     
-
+    }
+    else 
+      { this.setState({indicator: 0}); 
+        this.setState({nointernet: true});
+        
+      }
    
   }
    
@@ -220,6 +238,40 @@ if (!this.usernotfound)
                  </TouchableOpacity>
                  </View>
                </View>
+
+               <Modal visible ={this.state.nointernet}  transparent={true} onRequestClose={() => console.log('Close was requested')}>
+                    <View style={{
+                      //  margin:20,
+                          padding:20, 
+                          backgroundColor:  '#475788',
+                          top: 90,
+                          left: 30,
+                          right: 30,
+                          position: 'absolute',
+                                                    
+                        //  alignItems: 'center'                      
+                          }}>
+          
+
+                    <View style={{flex: 1, alignItems: 'center'}}>
+
+                    <Image source={require('../../images/noInternet.png')}  style={{width: 60, height: 60 } } 
+                      resizeMode="contain" /> 
+
+                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>There is no Internet connection.</Text>
+
+                    <TouchableOpacity  onPress={() =>  this.setState({nointernet: false})} style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
+                      <Text style={{ color: '#999', fontSize: 22}}>OK</Text>
+                    </TouchableOpacity>
+                    
+                    </View>
+                    
+                    </View>
+
+               
+               </Modal>
+             
+
 
        
 

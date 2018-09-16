@@ -11,6 +11,7 @@ import RecordAudio2 from './RecordAudio2';
 import Muestro from './Muestro';
 import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 //import {  Permissions } from 'expo';
+import { hasAPIConnection } from '../../helper';
 
 
 
@@ -173,6 +174,13 @@ this.props.navigation.dispatch(NavigationActions.init());
 
 newQso = () => {
   this.props.newqsoactiveTrue();
+  
+}
+
+checkInternet = async () => {
+  res = await hasAPIConnection();
+  console.log('check internet: '+ res);
+  
   
 }
 
@@ -372,6 +380,12 @@ endQso = () => {
                   <Text  style={{ fontSize: 12, color: '#999'}}>Photo</Text>             
                 </TouchableOpacity>
                 : null }
+
+                 <TouchableOpacity style={{marginLeft:40}} onPress={ () => this.checkInternet() }>
+                    <Image source={require('../../images/camera.png')}  style={{width: 33, height: 33  } } 
+                 resizeMode="contain" /> 
+                  <Text  style={{ fontSize: 12, color: '#999'}}>check Internet</Text>             
+                </TouchableOpacity>
                
                </View>
              

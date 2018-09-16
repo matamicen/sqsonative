@@ -186,3 +186,18 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras)=>{
 
 
   }
+  // , {method: Method.HEAD}
+  export async function hasAPIConnection() {
+    const timeout = 2500
+    try {
+        return await new Promise((resolve, reject) => {
+            setTimeout(() => {reject()}, timeout)
+            fetch('https://www.google.com')
+                .then((response) => { 
+                resolve(response.ok)})
+                .catch(() => {reject()})
+        })
+    } catch (e) {
+        return false
+    }
+}
