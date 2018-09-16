@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TextInput  } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchPeople } from '../../actions';
-import Qra from './Qra';
+//import Qra from './Qra';
+import QraProfile from './QraProfile';
 import QsoQras from './QsoQras';
 import QsoType from './QsoType';
 import QsoBand from './QsoBand';
@@ -19,11 +20,13 @@ class QsoHeader extends Component {
           people: [],
           errorMessage: "",
           isFetching: true,
-          text: ''
+          text: '',
+   
         };
       }
 
-  
+ 
+    
 
    componentDidMount() {
     
@@ -36,6 +39,8 @@ class QsoHeader extends Component {
         //this.props.navigation.navigate('CameraScreen');
       }
 
+  
+
 
     render() { console.log("RENDER qso Header");
            
@@ -44,7 +49,8 @@ class QsoHeader extends Component {
         return(  <View style={styles.content} >
                
                <View style={{flexDirection: 'row'}}>
-                  <Qra qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />  
+                  <QraProfile qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />  
+            
                   { this.props.sqsonewqsoactive ?
                   <QsoType /> : null }
                   { this.props.sqsonewqsoactive && this.props.qsotype!=='POST' ?
@@ -76,7 +82,12 @@ class QsoHeader extends Component {
     
     //flexDirection: 'row'
    
-    }
+    },
+    faceImageStyle: {
+        width: 65,
+        height: 65,
+        borderRadius: 30
+         }
 });
 
 
@@ -86,6 +97,7 @@ class QsoHeader extends Component {
         qra: state.sqso.qra,
         sqsoprofilepicrefresh: state.sqso.profilePicRefresh,
         rdsurl: state.sqso.urlRdsS3
+       
      };
 };
 

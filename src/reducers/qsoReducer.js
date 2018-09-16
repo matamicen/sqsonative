@@ -27,6 +27,7 @@ const initialState = {
     newqsoactive: false,
     urlRdsS3: '',
     profilePicRefresh: new Date().getTime(),
+    profileUrlCondition: true,
     currentQso: {
         
         sqlrdsId: '',
@@ -472,7 +473,8 @@ const qsoReducer = (state = initialState, action) => {
      newStore = Object.assign({}, state,
          {
              ...state,
-             profilePicRefresh: new Date().getTime()
+             profilePicRefresh: new Date().getTime(),
+             profileUrlCondition: true
          });
      return newStore; 
 
