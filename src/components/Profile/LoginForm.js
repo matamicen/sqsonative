@@ -9,6 +9,7 @@ import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, checkInternet } 
 import { NavigationActions } from 'react-navigation';
 //import {  Permissions } from 'expo';
 import { hasAPIConnection } from '../../helper';
+import NoInternetModal from '../Qso/NoInternetModal';
 
 Amplify.configure(awsconfig);
 
@@ -93,7 +94,9 @@ constructor(props) {
  
        }
 
- 
+       closeNoInternetModal = () => {
+        this.setState({nointernet: false}); 
+      }
 
 signIn = async () => {
 
@@ -239,41 +242,8 @@ if (!this.usernotfound)
                  </View>
                </View>
 
-               <Modal visible ={this.state.nointernet}  transparent={true} onRequestClose={() => console.log('Close was requested')}>
-                    <View style={{
-                      //  margin:20,
-                          padding:20, 
-                          backgroundColor:  '#475788',
-                          top: 90,
-                          left: 30,
-                          right: 30,
-                          position: 'absolute',
-                                                    
-                        //  alignItems: 'center'                      
-                          }}>
-          
+               <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
 
-                    <View style={{flex: 1, alignItems: 'center'}}>
-
-                    <Image source={require('../../images/noInternet.png')}  style={{width: 60, height: 60 } } 
-                      resizeMode="contain" /> 
-
-                     <Text style={{ color: '#FFFFFF', fontSize: 20, padding: 10 }}>There is no Internet connection.</Text>
-
-                    <TouchableOpacity  onPress={() =>  this.setState({nointernet: false})} style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
-                      <Text style={{ color: '#999', fontSize: 22}}>OK</Text>
-                    </TouchableOpacity>
-                    
-                    </View>
-                    
-                    </View>
-
-               
-               </Modal>
-             
-
-
-       
 
              </View> 
            

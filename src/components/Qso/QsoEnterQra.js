@@ -7,6 +7,8 @@ import { addQra, onprogressTrue, onprogressFalse, fetchQraProfileUrl, postQsoNew
   actindicatorPostQsoNewTrue } from '../../actions';
 import PropTypes from 'prop-types';
 import { updateOnProgress, check_firstTime_OnProgress} from '../../helper';
+import { hasAPIConnection } from '../../helper';
+import NoInternetModal from './NoInternetModal';
 
 
 class QsoEnterQra extends Component {
@@ -18,7 +20,8 @@ class QsoEnterQra extends Component {
        //   pickerSelection: 'Choose Band',
          // pickerDisplayed: false
          qra: '',
-         envio: {name: 'LW8PPP', url: 'https://s3.amazonaws.com/sqso/us-east-1%3A29a10ff3-e4d7-45cf-a432-7821674b8d77/profile/profile.jpg'}
+         envio: {name: 'LW8PPP', url: 'https://s3.amazonaws.com/sqso/us-east-1%3A29a10ff3-e4d7-45cf-a432-7821674b8d77/profile/profile.jpg'},
+         nointernet: false
          
         };
       }
@@ -30,7 +33,10 @@ class QsoEnterQra extends Component {
     
        addQra = async () => {
      //     this.setState({pickerSelection: value});
-    
+
+
+    if (await hasAPIConnection())
+        {
         // chequea el haya una API en ejecucion
         if(!this.props.isfetching && this.state.qra !== '')
         { 
@@ -77,13 +83,20 @@ class QsoEnterQra extends Component {
 
           Keyboard.dismiss();
           this.setState({qra: ''});
-        
       }
+          else this.setState({nointernet: true});
+        
+    }
+
+    closeNoInternetModal = () => {
+      this.setState({nointernet: false}); 
+    }
    
 
     render() { console.log("RENDER Enter QRA" );
     
-              return <View style={{flexDirection: 'row'}}>          
+              return <View style={{flexDirection: 'row'}}>  
+                    
         
                    <TextInput style={{height: 40, width:90, fontSize: 16, marginTop: 8}}
                     placeholder="enter Qra" value={this.state.qra}
@@ -92,6 +105,12 @@ class QsoEnterQra extends Component {
                     <Image source={require('../../images/personadd.png')}  style={{width: 38, height: 38, marginTop: 3 } } 
                  resizeMode="contain" />              
            </TouchableOpacity>
+
+           <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
+
+       
+                                                 
+
 
                           </View>
        

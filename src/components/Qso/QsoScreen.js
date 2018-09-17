@@ -12,6 +12,7 @@ import Muestro from './Muestro';
 import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 //import {  Permissions } from 'expo';
 import { hasAPIConnection } from '../../helper';
+import NoInternetModal from './NoInternetModal';
 
 
 
@@ -30,7 +31,8 @@ class QsoScreen extends Component {
           photoConfirm: false,
           endQsoModal: false,
           actindicatorpostQsoNew: false,
-          modalRecording: false    
+          modalRecording: false,
+          nointernet: false    
        
         };
       }
@@ -92,7 +94,18 @@ class QsoScreen extends Component {
 
      }
 
+
+     checkInternetOpenRecording = async () => {
+      if (await hasAPIConnection())
+          this.toggleRecModal();
+        else
+          this.setState({nointernet: true});
+
+     }
      toggleRecModal = async () => {
+
+      // if (await hasAPIConnection())
+      // {
 
       console.log('ejecuta toggleRecordModal');
      
@@ -105,6 +118,9 @@ class QsoScreen extends Component {
           this.setState({
             modalRecording: true
         });}
+
+      // }
+      // else this.setState({nointernet: true});
     }
 
     closeModalPhotoConfirmation = () => {
@@ -144,8 +160,12 @@ OpenEndQsoModal = () => {
   //       {
   //            Expo.ScreenOrientation.allow(Expo.ScreenOrientation.Orientation.ALL);
   //       }
+
+  if (await hasAPIConnection())
+  {
          this.props.closeModalConfirmPhoto('image');
          this.props.navigation.navigate("CameraScreen2");
+  }else this.setState({nointernet: true});
       
    }
 
@@ -177,12 +197,7 @@ newQso = () => {
   
 }
 
-checkInternet = async () => {
-  res = await hasAPIConnection();
-  console.log('check internet: '+ res);
-  
-  
-}
+
 
 endQso = () => {
 
@@ -190,6 +205,10 @@ endQso = () => {
   this.props.resetQso();
   this.CancelEndQsoModal();
   
+}
+
+closeNoInternetModal = () => {
+  this.setState({nointernet: false}); 
 }
 
 
@@ -231,6 +250,8 @@ endQso = () => {
                 {/* </KeyboardAvoidingView > */}
                    
                       </Modal>
+
+                  <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
 
 
 
@@ -361,7 +382,7 @@ endQso = () => {
 
                 { (this.props.sqsosqlrdsid !== '') ?
 
-               <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this.toggleRecModal() }>
+               <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this.checkInternetOpenRecording() }>
                     <Image source={require('../../images/mic.png')}  style={{width: 33, height: 33 } } 
                  resizeMode="contain" />    
                  <Text style={{ fontSize: 12, color: '#999'}}>Record</Text>          
@@ -381,11 +402,6 @@ endQso = () => {
                 </TouchableOpacity>
                 : null }
 
-                 <TouchableOpacity style={{marginLeft:40}} onPress={ () => this.checkInternet() }>
-                    <Image source={require('../../images/camera.png')}  style={{width: 33, height: 33  } } 
-                 resizeMode="contain" /> 
-                  <Text  style={{ fontSize: 12, color: '#999'}}>check Internet</Text>             
-                </TouchableOpacity>
                
                </View>
              

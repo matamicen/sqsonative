@@ -3,7 +3,9 @@ import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpac
   TouchableHighlight  } from 'react-native';
 import { connect } from 'react-redux';
 import { cambioqsotype, postQsoEdit, resetQso } from '../../actions';
-import PropTypes from 'prop-types';
+import { hasAPIConnection } from '../../helper';
+import NoInternetModal from './NoInternetModal';
+
 
 
 class QsoType extends Component {
@@ -11,7 +13,8 @@ class QsoType extends Component {
     constructor(props) {
         super(props);
         this.state = {
-          changeqsoModal: false
+          changeqsoModal: false,
+          nointernet: false
         }
       }
 
@@ -24,6 +27,9 @@ class QsoType extends Component {
        }
 
        changeQsoType = async (typetochange) => {
+
+        if (await hasAPIConnection())
+        {
 
         if(typetochange==='listen'){
          if (this.props.qsotype==='POST') await this.props.resetQso();
@@ -52,16 +58,25 @@ class QsoType extends Component {
         }
 
         this.closeQsoTypeModal();
+      }
+        else this.setState({nointernet: true});
       
       }
 
-      openQsoTypeModal = () => {
+      openQsoTypeModal = async () => {
         //this.props.cambioqsotype();
-        this.setState({changeqsoModal: true})
+        if (await hasAPIConnection())
+            this.setState({changeqsoModal: true});
+          else 
+             this.setState({nointernet: true}); 
         }
 
       closeQsoTypeModal = () => {
         this.setState({changeqsoModal: false})
+      }
+
+      closeNoInternetModal = () => {
+        this.setState({nointernet: false}); 
       }
 
    
@@ -94,10 +109,8 @@ class QsoType extends Component {
                  
                  : null
                 }
-  
-              
-
-
+  <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
+    
 <Modal visible ={this.state.changeqsoModal}  transparent={true} onRequestClose={() => console.log('Close was requested')}>
                     <View style={{
                       //  margin:20,
