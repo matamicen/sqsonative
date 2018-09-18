@@ -9,6 +9,7 @@ import FollowerList from './FollowerList';
 import SearchHeader from './SearchHeader';
 
 
+
 Amplify.configure(awsconfig);
 
 class Search extends Component {
@@ -23,6 +24,8 @@ class Search extends Component {
 
 
   }
+
+
 
   async componentDidMount() {
     console.log("component Did Mount Search");

@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, Modal, StyleSheet, TouchableHighlight } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, Modal, StyleSheet, TouchableHighlight, TouchableOpacity  } from 'react-native';
 import { connect } from 'react-redux';
 import { setBand, postQsoNew, onprogressTrue, onprogressFalse, postQsoEdit, actindicatorPostQsoNewTrue } from '../../actions';
 import PropTypes from 'prop-types';
-import { updateOnProgress, check_firstTime_OnProgress} from '../../helper';
+import { updateOnProgress, check_firstTime_OnProgress, hasAPIConnection } from '../../helper';
+import NoInternetModal from './NoInternetModal';
+
 
 
 class QsoBand extends Component {
@@ -13,7 +15,8 @@ class QsoBand extends Component {
         
         this.state = {
        //   pickerSelection: 'Choose Band',
-          pickerDisplayed: false
+          pickerDisplayed: false,
+          nointernet: false
          
        
         };
@@ -26,6 +29,9 @@ class QsoBand extends Component {
     
       setPickerValue = async (value) => {
      //     this.setState({pickerSelection: value});
+
+     if (await hasAPIConnection())
+     {
      if (this.props.band!==value){    
                 console.log("pasa por setBand");
                 await this.props.setBand(value);
@@ -61,7 +67,19 @@ class QsoBand extends Component {
 
             }
           this.togglePicker();
+        }else
+        { this.togglePicker();
+          this.setState({nointernet: true});
+        }
+        
       }
+
+      closeNoInternetModal = () => {
+        this.setState({nointernet: false}); 
+        // this.togglePicker();
+      }
+
+
       togglePicker = () => {
           console.log("llamo togglepicker")
         this.setState({pickerDisplayed: !this.state.pickerDisplayed})
@@ -141,18 +159,20 @@ class QsoBand extends Component {
                           
                     <Text style={{ fontWeight: 'bold', alignItems: 'center', marginBottom:10}}>Please pick a Band </Text>
                     {pickerValues.map((value, index) => {
-                        return  <TouchableHighlight key={index} onPress={() => this.setPickerValue(value.title)} style={{ paddingTop: 4, paddingBottom: 4 }}>
+                        return  <TouchableOpacity key={index} onPress={() => this.setPickerValue(value.title)} style={{ paddingTop: 4, paddingBottom: 4 }}>
                                  <Text style={{ fontSize: 18, padding:3}} >{value.title}</Text>
-                                 </TouchableHighlight>
+                                 </TouchableOpacity >
                     })}
 
-                    <TouchableHighlight  onPress={() => this.togglePicker()} style={{ paddingTop: 4, paddingBottom: 4}}>
+                    <TouchableOpacity   onPress={() => this.togglePicker()} style={{ paddingTop: 4, paddingBottom: 4}}>
                       <Text style={{ color: '#999'}}>Cancel</Text>
-                    </TouchableHighlight>
+                    </TouchableOpacity >
                     </View>
 
                
                </Modal>
+
+               <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
              
           
 

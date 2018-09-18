@@ -6,8 +6,8 @@ import { Text, Image, View, Button, ActivityIndicator, Modal, StyleSheet, TextIn
      import User from './User';
 import {  followingsSelected, getQrasFromSearch, insertQraSearched, getFollowingFollowers, refreshFollowings,
           searchQrasLocal} from '../../actions';
-import PropTypes from 'prop-types';
-import { updateOnProgress, check_firstTime_OnProgress} from '../../helper';
+import { hasAPIConnection} from '../../helper';
+
 
 
 class SearchEnterQra extends Component {
@@ -22,7 +22,7 @@ class SearchEnterQra extends Component {
          // pickerDisplayed: false
          qra: '',
          addfollowersModal: false,
-         actindicatorfecthQras: false
+         actindicatorfecthQras: false      
         };
       }
 
@@ -30,23 +30,42 @@ class SearchEnterQra extends Component {
  
        }
 
-       switch= () => {
+       switch = () => {
          this.props.followingsSelected(!this.props.followingsselected);
       
        }
 
-       addFollowers = () => {
+       addFollowers = async () => {
         // if (this.props.refreshfollowings){
         //   // esto chequea si el usaurio hizo algun follow o unfollow actualiza la lista
         //   this.props.getFollowingFollowers();
         //   this.props.refreshFollowings(false);
         // } 
-  
+        if (await hasAPIConnection())
+        {
          qrasearchedvacia = [];
         this.props.insertQraSearched(qrasearchedvacia);
         this.setState({qra: ''});
         this.setState({addfollowersModal: !this.state.addfollowersModal});
+        }
+        else 
+        { console.log('no hay internet searchenterqra');
+          // this.setState({nointernet: true});
+          // this.setState({addfollowersModal: !this.state.addfollowersModal});
+          this.props.openNointernetModal();
+        }
       }
+
+      closeAddFollowers = async () => {
+       
+        this.setState({addfollowersModal: false});
+
+        if (await hasAPIConnection()===false) 
+                    this.props.openNointernetModal();
+
+      }
+
+    
 
       _keyExtractor = item => item.qra;
 
@@ -58,6 +77,7 @@ class SearchEnterQra extends Component {
           <View>
            <View style={{ paddingRight: 8 }}>
             <User name={qra} imageurl={profilepic} following={following}  />
+           
             </View>
            
           </View>
@@ -65,7 +85,10 @@ class SearchEnterQra extends Component {
       };
 
       onChange = async (text) => {
-        this.setState({qra: text});
+   
+      this.setState({qra: text});
+     if (await hasAPIConnection())
+     { 
        // this.countLenght = this.countLenght + 1;
          long = text.length.toString();
          long2 = text.length;
@@ -87,6 +110,13 @@ class SearchEnterQra extends Component {
           this.props.searchQrasLocal('',long2);
 
         }
+      }else 
+      {
+        this.setState({addfollowersModal: false});
+        this.props.openNointernetModal();
+      }
+           
+      
       }
 
       searchQras = () => {
@@ -165,7 +195,7 @@ class SearchEnterQra extends Component {
                         </TouchableOpacity> 
 
                             {/* <View style={{   marginLeft: 15, marginTop: 5}}> */}
-                    <TouchableOpacity   onPress={() => this.addFollowers()} style={{ marginTop: 16, marginLeft: 100}}>
+                    <TouchableOpacity   onPress={() => this.closeAddFollowers()} style={{ marginTop: 16, marginLeft: 100}}>
                       <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 14}}>Close</Text>
                     </TouchableOpacity >
                  {/* </View> */}

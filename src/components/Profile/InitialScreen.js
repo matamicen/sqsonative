@@ -7,6 +7,8 @@ import awsconfig from '../../aws-exports'
 //import Qra from './../Qso/Qra';
 import QraProfile from './../Qso/QraProfile';
 import { closeModalConfirmPhoto } from '../../actions';
+import { hasAPIConnection } from '../../helper';
+import NoInternetModal from '../Qso/NoInternetModal';
 
 
 Amplify.configure(awsconfig);
@@ -22,6 +24,14 @@ class InitialScreen extends Component {
 
   }
 
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+        nointernet: false
+    };
+  }
+
   gotoLoginScreen = () => {
     console.log("va camara Login Screen");
    
@@ -30,6 +40,9 @@ class InitialScreen extends Component {
 }
 
 signOut = async () => {
+
+  if (await hasAPIConnection())
+  {
     
     await Auth.signOut()
       .then(data => console.log(JSON.stringify(data)))
@@ -48,16 +61,24 @@ signOut = async () => {
         // Handle exceptions
       }
 
-    
-
+    } else
+    this.setState({nointernet: true});
 
   }
 
-  gotoCameraScreen = async () => {
 
+  closeNoInternetModal = () => {
+    this.setState({nointernet: false}); 
+  }
+
+  gotoCameraScreen = async () => {
+    if (await hasAPIConnection())
+    {
 
            this.props.closeModalConfirmPhoto('profile');
            this.props.navigation.navigate("CameraScreen2");
+          } else
+          this.setState({nointernet: true});
         
      }
 
@@ -104,9 +125,11 @@ signOut = async () => {
                     <Text style={styles.buttonText2} >You have {this.props.followers.length} followers</Text>
                  </TouchableOpacity>
 
-                  <TouchableOpacity style={{marginTop: 10}} onPress={ () => this.gotoLoginScreen() } >
+                  {/* <TouchableOpacity style={{marginTop: 10}} onPress={ () => this.gotoLoginScreen() } >
                     <Text style={styles.buttonText2} >Login Screen</Text>
-                 </TouchableOpacity>
+                 </TouchableOpacity> */}
+
+                 <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
                
 
             </View>

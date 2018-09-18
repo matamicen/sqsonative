@@ -6,23 +6,44 @@ import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 import { getFollowingFollowers } from '../../actions';
 import SearchEnterQra from './SearchEnterQra';
+import { hasAPIConnection} from '../../helper';
+import NoInternetModal from '../Qso/NoInternetModal';
 
 
 Amplify.configure(awsconfig);
 
 class SearchHeader extends Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {
+         
+          nointernet: false
+        }
+      }
+
 
 //   async componentDidMount() {
 //     console.log("component Did Mount Search");
  
-refresh = () => {
-    this.props.getFollowingFollowers();
-
+refresh = async () => {
+    if (await hasAPIConnection())
+     this.props.getFollowingFollowers();
+   else 
+     this.setState({nointernet: true});
     }
 
 
 //   }
+closeNoInternetModal = () => {
+    this.setState({nointernet: false}); 
+   
+  }
+
+  openNoInternetModal = () => {
+    this.setState({nointernet: true}); 
+   
+  }
 
  
    
@@ -32,7 +53,7 @@ refresh = () => {
             
                 
             <View style={{flex: 0.5}}>
-              <SearchEnterQra />
+              <SearchEnterQra openNointernetModal={this.openNoInternetModal.bind(this)}/>
             </View>
 
             <View style={{flex: 0.5}}>
@@ -62,6 +83,8 @@ refresh = () => {
              </View>
 
             </View> 
+
+            <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
 
             </View>
 
