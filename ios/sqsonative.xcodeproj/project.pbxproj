@@ -40,6 +40,7 @@
 		2DF0FFEE2056DD460020B375 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 3DAD3EA31DF850E9000B6D8A /* libReact.a */; };
 		52994915279D4E6A8B053DD5 /* libRCTImageResizer.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 71B8C5BA62E64108BC6FE3B6 /* libRCTImageResizer.a */; };
 		5E9157361DD0AC6A00FF2AA8 /* libRCTAnimation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5E9157331DD0AC6500FF2AA8 /* libRCTAnimation.a */; };
+		68DDC293F3AF424CAEA2840C /* libRCTVideo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D3571C6EFAA4408BA00E833 /* libRCTVideo.a */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
 		ADBDB9381DFEBF1600ED6528 /* libRCTBlob.a in Frameworks */ = {isa = PBXBuildFile; fileRef = ADBDB9271DFEBF0700ED6528 /* libRCTBlob.a */; };
 		F293702A2F9E477F8CDDB615 /* libReactNativePermissions.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 897CF66D20624BB0B513B0F1 /* libReactNativePermissions.a */; };
@@ -306,6 +307,20 @@
 			remoteGlobalIDString = 4107012F1ACB723B00C6AA39;
 			remoteInfo = RNCamera;
 		};
+		6738F17B2152D4D800C2C250 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49CEB59C44E14FE2817A5B9B /* RCTVideo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 134814201AA4EA6300B7C361;
+			remoteInfo = RCTVideo;
+		};
+		6738F17D2152D4D800C2C250 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 49CEB59C44E14FE2817A5B9B /* RCTVideo.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 641E28441F0EEC8500443AF6;
+			remoteInfo = "RCTVideo-tvOS";
+		};
 		673D635B211E11DF00B8318D /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 859329F8EB6944718B1D70A7 /* RNAudio.xcodeproj */;
@@ -388,11 +403,13 @@
 		2D02E4901E0B4A5D006451C7 /* sqsonative-tvOSTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "sqsonative-tvOSTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		2D16E6891FA4F8E400B85C8A /* libReact.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libReact.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		36EE257F6D4A4168AF45028E /* libRNCamera.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNCamera.a; sourceTree = "<group>"; };
+		49CEB59C44E14FE2817A5B9B /* RCTVideo.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTVideo.xcodeproj; path = "../node_modules/react-native-video/ios/RCTVideo.xcodeproj"; sourceTree = "<group>"; };
 		4A52B1553C694299809986F6 /* RCTImageResizer.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTImageResizer.xcodeproj; path = "../node_modules/react-native-image-resizer/ios/RCTImageResizer.xcodeproj"; sourceTree = "<group>"; };
 		5E91572D1DD0AC6500FF2AA8 /* RCTAnimation.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTAnimation.xcodeproj; path = "../node_modules/react-native/Libraries/NativeAnimation/RCTAnimation.xcodeproj"; sourceTree = "<group>"; };
 		6D57A8B1ABF046F189A7A713 /* RNFetchBlob.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNFetchBlob.xcodeproj; path = "../node_modules/rn-fetch-blob/ios/RNFetchBlob.xcodeproj"; sourceTree = "<group>"; };
 		71B8C5BA62E64108BC6FE3B6 /* libRCTImageResizer.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTImageResizer.a; sourceTree = "<group>"; };
 		78C398B01ACF4ADC00677621 /* RCTLinking.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTLinking.xcodeproj; path = "../node_modules/react-native/Libraries/LinkingIOS/RCTLinking.xcodeproj"; sourceTree = "<group>"; };
+		7D3571C6EFAA4408BA00E833 /* libRCTVideo.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTVideo.a; sourceTree = "<group>"; };
 		832341B01AAA6A8300B99B32 /* RCTText.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = RCTText.xcodeproj; path = "../node_modules/react-native/Libraries/Text/RCTText.xcodeproj"; sourceTree = "<group>"; };
 		859329F8EB6944718B1D70A7 /* RNAudio.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNAudio.xcodeproj; path = "../node_modules/react-native-audio/ios/RNAudio.xcodeproj"; sourceTree = "<group>"; };
 		897CF66D20624BB0B513B0F1 /* libReactNativePermissions.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libReactNativePermissions.a; sourceTree = "<group>"; };
@@ -437,6 +454,7 @@
 				F293702A2F9E477F8CDDB615 /* libReactNativePermissions.a in Frameworks */,
 				276F927955D744EEB479435B /* libRNAudio.a in Frameworks */,
 				52994915279D4E6A8B053DD5 /* libRCTImageResizer.a in Frameworks */,
+				68DDC293F3AF424CAEA2840C /* libRCTVideo.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -607,6 +625,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6738F1772152D4D800C2C250 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6738F17C2152D4D800C2C250 /* libRCTVideo.a */,
+				6738F17E2152D4D800C2C250 /* libRCTVideo.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		673D6358211E11DF00B8318D /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -632,6 +659,7 @@
 				897CF66D20624BB0B513B0F1 /* libReactNativePermissions.a */,
 				D7D0F5C2C0014F17B4BD9C0A /* libRNAudio.a */,
 				71B8C5BA62E64108BC6FE3B6 /* libRCTImageResizer.a */,
+				7D3571C6EFAA4408BA00E833 /* libRCTVideo.a */,
 			);
 			name = "Recovered References";
 			sourceTree = "<group>";
@@ -690,6 +718,7 @@
 				B8710393BE07474593D29CC4 /* ReactNativePermissions.xcodeproj */,
 				859329F8EB6944718B1D70A7 /* RNAudio.xcodeproj */,
 				4A52B1553C694299809986F6 /* RCTImageResizer.xcodeproj */,
+				49CEB59C44E14FE2817A5B9B /* RCTVideo.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -895,6 +924,10 @@
 				{
 					ProductGroup = 00C302E01ABCB9EE00DB3ED1 /* Products */;
 					ProjectRef = 00C302DF1ABCB9EE00DB3ED1 /* RCTVibration.xcodeproj */;
+				},
+				{
+					ProductGroup = 6738F1772152D4D800C2C250 /* Products */;
+					ProjectRef = 49CEB59C44E14FE2817A5B9B /* RCTVideo.xcodeproj */;
 				},
 				{
 					ProductGroup = 139FDEE71B06529A00C62182 /* Products */;
@@ -1181,6 +1214,20 @@
 			remoteRef = 672B8D6B21163F54009D503A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		6738F17C2152D4D800C2C250 /* libRCTVideo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTVideo.a;
+			remoteRef = 6738F17B2152D4D800C2C250 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6738F17E2152D4D800C2C250 /* libRCTVideo.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRCTVideo.a;
+			remoteRef = 6738F17D2152D4D800C2C250 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		673D635C211E11DF00B8318D /* libRNAudio.a */ = {
 			isa = PBXReferenceProxy;
 			fileType = archive.ar;
@@ -1383,12 +1430,14 @@
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-audio/ios",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
 				);
 				INFOPLIST_FILE = sqsonativeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1418,12 +1467,14 @@
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-audio/ios",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
 				);
 				INFOPLIST_FILE = sqsonativeTests/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1455,6 +1506,7 @@
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-audio/ios",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
 				);
 				INFOPLIST_FILE = sqsonative/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1483,6 +1535,7 @@
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-audio/ios",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
 				);
 				INFOPLIST_FILE = sqsonative/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -1517,11 +1570,13 @@
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-audio/ios",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
 				);
 				INFOPLIST_FILE = "sqsonative-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1561,11 +1616,13 @@
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-audio/ios",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
 				);
 				INFOPLIST_FILE = "sqsonative-tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1604,11 +1661,13 @@
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-audio/ios",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
 				);
 				INFOPLIST_FILE = "sqsonative-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -1647,11 +1706,13 @@
 					"$(SRCROOT)/../node_modules/react-native-permissions/ios/**",
 					"$(SRCROOT)/../node_modules/react-native-audio/ios",
 					"$(SRCROOT)/../node_modules/react-native-image-resizer/ios/RCTImageResizer",
+					"$(SRCROOT)/../node_modules/react-native-video/ios",
 				);
 				INFOPLIST_FILE = "sqsonative-tvOSTests/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",

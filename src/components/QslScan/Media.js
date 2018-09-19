@@ -3,8 +3,9 @@ import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpac
 import { connect } from 'react-redux';
 import { uploadMediaToS3 } from '../../actions';
 import PropTypes from 'prop-types';
-//import { S3Image } from 'aws-amplify-react';
-import * as Progress from 'react-native-progress';
+import PlayMediaAudio from './PlayMediaAudio';
+
+
 
 class Media extends Component {
 
@@ -54,7 +55,9 @@ class Media extends Component {
                  {
                    (this.props.mostrar==='audio') &&  
                         (this.props.type===this.props.mostrar) && 
-                        <Text> es audio {this.props.imageurl.substr(0,5)}</Text>
+                        // <Text> es audio {this.props.imageurl}</Text>
+                         <PlayMediaAudio url={this.props.imageurl} />
+                        // <PlayMediaAudio url="https://s3.amazonaws.com/sqso/protected/us-east-1%3Acc508f7e-92fb-41f5-b0ef-8ba6831ce09c/images/test.mp4" />
                        
                  }
 

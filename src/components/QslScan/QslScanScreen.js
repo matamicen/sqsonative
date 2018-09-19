@@ -162,7 +162,7 @@ return   <View style={{flex: 1}}>
         <MediaImages mostrar='image'/> 
        {/* :
         null } */}
-       <MediaImages mostrar='image'/> 
+       <MediaImages mostrar='audio'/> 
 
        <Likes />
        <Comments />
