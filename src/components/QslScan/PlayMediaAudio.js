@@ -21,6 +21,12 @@ import Video from 'react-native-video';
     constructor(props) {
         super(props);
 
+        this.restar = 0;
+        this.secondsAux = 0;
+        this.multiplo60anterior = 0;
+        this.duracionminutos = 0;
+        this.duracionsegundos = 0;
+
        // this.followstatus = '';
        this.state = {
         currentTime: 0.0,
@@ -32,7 +38,13 @@ import Video from 'react-native-video';
         hasPermission: undefined,
         pausedAudio: true,
         currentTimePlay: 0.0,
-        playingAudio: false
+        playingAudio: false,
+        minutes: 0,
+        // seconds: 0,
+        // restar: 0,
+        secondsText: '00',
+        minutesDuration: 0,
+        secondsDuration: 0
       };
         
       }
@@ -91,34 +103,87 @@ import Video from 'react-native-video';
   onEnd = async () => {
   
     console.log('termino el audio! lo pauso y lo vuelvo al inicio');
-    this.setState({pausedAudio: true, playingAudio: false});
+    this.setState({pausedAudio: true, playingAudio: false,  minutes: 0, secondsText: '00' });
+    this.restar = 0;
+    this.secondsAux = 0;
+    this.multiplo60anterior = 0;
+  
     setTimeout(() => {
       console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
      //  this.props.actindicatorImageDisabled();
      this.player.seek(0);
        
-   }, 250);
+   }, 200);
    
   }
 
   onVideoLoad(e) {
     this.setState({currentTimePlay: e.currentTime, duration: e.duration});
     console.log('duracion: '+  Math.floor(e.duration));
+    this.duracionminutos = parseInt(Math.floor(e.duration)/60);
+    console.log('duracionminutos:'+ this.duracionminutos );
+ if (this.duracionminutos!==0)
+    { 
+    // this.duracionminutos = cuentaAux/60;
+    // console.log('duracion en minutos:'+ this.duracionminutos);
+    this.minutosensegundos = this.duracionminutos*60;
+    this.duracionsegundos = (Math.floor(e.duration) - this.minutosensegundos);
+    }else
+    {
+      this.duracionminutos = 0;
+      this.duracionsegundos = Math.floor(e.duration);
+    }
+
+    if (this.duracionsegundos<10) 
+    this.setState({secondsDuration: '0'+ this.duracionsegundos});
+ else 
+   this.setState({secondsDuration: this.duracionsegundos});
+
+   // console.log('duracionsegundos:'+ this.duracionsegundos );
+    this.setState({minutesDuration: this.duracionminutos});
     
+
    // console.log('duracion Float: '+ Math.floor(e.duration));
     //parseFloat
 }
 
-  onProgress(e) {
-    //this.setState({currentTime: e.currentTime});
-   // console.log('Progress: '+ e.currentTime + ' anterior: '+this.state.currentTimePlay);
-    if (Math.floor(this.state.currentTimePlay) !== Math.floor(e.currentTime))
-    {
-       console.log('Progress '+ this.props.url + ': ' + Math.floor( e.currentTime));
-       this.setState({currentTimePlay: e.currentTime});
-    }
+  onProgress(data) {
+    
+    // if (Math.floor(this.state.currentTimePlay) !== Math.floor(e.currentTime))
+    // {
+    //    console.log('Progress '+ this.props.url + ': ' + Math.floor( e.currentTime));
+    //    this.setState({currentTimePlay: Math.floor(e.currentTime)});
+    // }
 
-   // this.setState({currentTime: e.currentTime})
+    if (Math.floor(data.currentTime)===0) 
+    console.log('es cero los segundos');
+    else
+{
+
+// console.log('divido: '+ Math.floor(data.currentTime)/60);
+// console.log('Resto: '+Math.floor(data.currentTime)%60);
+
+   if (Math.floor(data.currentTime)%60===0 && Math.floor(data.currentTime)!==this.multiplo60anterior)
+  {
+    console.log('es multiplo verdadero');
+   this.setState({minutes: this.state.minutes + 1});
+   this.restar = this.restar + 60;
+   this.multiplo60anterior = Math.floor(data.currentTime);
+ 
+ }
+
+ this.secondsAux = Math.floor(data.currentTime) - this.restar;
+
+ if (this.secondsAux<10) 
+    this.setState({secondsText: '0'+ this.secondsAux});
+ else 
+   this.setState({secondsText: this.secondsAux});
+
+ // console.log('Seconds: '+this.state.secondsText + ' Minutes: '+this.state.minutes);
+}
+
+
+
 }
 
 
@@ -156,9 +221,9 @@ import Video from 'react-native-video';
            </TouchableOpacity> 
           
        </View>
-       <View>
+       <View  style={{ alignItems: 'center', width:200}}>
 
-         
+           <Text> {this.state.minutes}:{this.state.secondsText} / {this.state.minutesDuration}:{this.state.secondsDuration}</Text>
            <Text> QTR: {this.props.datetime.substr(11, 8)}</Text>
            <Text>  {this.props.description}</Text>
 
