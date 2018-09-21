@@ -56,6 +56,25 @@ class QslScanQR extends Component {
        //   this.setState({scanQR: !this.state.scanQR})
      }
 
+     onSuccess_test = async function() {
+      // onSuccess(e) {
+      // 
+         // Linking
+         //   .openURL(e.data)
+         //   .catch(err => console.error('An error occured', err));
+         //this.ScanQSL2(e);
+          this.setState({actindicatorfecthQslCard: true})
+        //  console.log('el codigo Scaneado es: ' +e.data);
+         await this.props.getQslScan('cef4b543-bdad-11e8-ae0b-061cacc9b2a2');
+         this.setState({actindicatorfecthQslCard: false})
+         this.gotoQslScanScreen();
+       //   this.setState({scanQR: !this.state.scanQR})
+  
+          
+     
+         //   this.setState({scanQR: !this.state.scanQR})
+       }
+
      render() { console.log("RENDER QSL SCAN SCREEN!" );
 
 return   <View style={{flex: 1}}>
@@ -103,6 +122,12 @@ return   <View style={{flex: 1}}>
                     onPress={() => this.gotoQslScanScreen()}
                     style = {styles.capture} >
                     <Text style={{fontSize: 14}}> Go Back </Text>
+                </TouchableOpacity>
+
+                <TouchableOpacity
+                    onPress={() => this.onSuccess_test()}
+                    style = {styles.capture} >
+                    <Text style={{fontSize: 14}}> test </Text>
                 </TouchableOpacity>
             </View>
 

@@ -56,7 +56,7 @@ class Media extends Component {
                    (this.props.mostrar==='audio') &&  
                         (this.props.type===this.props.mostrar) && 
                         // <Text> es audio {this.props.imageurl}</Text>
-                         <PlayMediaAudio url={this.props.imageurl} />
+                         <PlayMediaAudio url={this.props.imageurl} description={this.props.description} datetime={this.props.datetime}/>
                         // <PlayMediaAudio url="https://s3.amazonaws.com/sqso/protected/us-east-1%3Acc508f7e-92fb-41f5-b0ef-8ba6831ce09c/images/test.mp4" />
                        
                  }
@@ -78,8 +78,8 @@ const styles = StyleSheet.create({
        faceImageStyle: {
         //    height: 350,
         //    width: 750
-        height: 180,
-        width: 320
+        height: 216,
+        width: 384
        
        
     //   borderRadius: 30

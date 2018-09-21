@@ -8,7 +8,9 @@ import {
   View,
   TouchableHighlight,
   Platform,
-  PermissionsAndroid
+  PermissionsAndroid, 
+  TouchableOpacity,
+  Image
 } from 'react-native';
 
 
@@ -30,6 +32,7 @@ import Video from 'react-native-video';
         hasPermission: undefined,
         pausedAudio: true,
         currentTimePlay: 0.0,
+        playingAudio: false
       };
         
       }
@@ -73,12 +76,30 @@ import Video from 'react-native-video';
   }
 
 
-  tooglePaused = () => {
+  PauseAudio = () => {
    
-    this.setState({pausedAudio: !this.state.pausedAudio});
+    this.setState({pausedAudio: true, playingAudio: false});
    
   }
 
+  PlayAudio = () => {
+   
+    this.setState({pausedAudio: false, playingAudio: true});
+   
+  }
+
+  onEnd = async () => {
+  
+    console.log('termino el audio! lo pauso y lo vuelvo al inicio');
+    this.setState({pausedAudio: true, playingAudio: false});
+    setTimeout(() => {
+      console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+     //  this.props.actindicatorImageDisabled();
+     this.player.seek(0);
+       
+   }, 250);
+   
+  }
 
   onVideoLoad(e) {
     this.setState({currentTimePlay: e.currentTime, duration: e.duration});
@@ -105,18 +126,42 @@ import Video from 'react-native-video';
 
     return (
     //   <View style={styles.container}>
-    <View >
+    <View style={{ alignItems: 'center', width:200}}>
+      <View style={{ flexDirection: 'row'}}>
+      
        
-          <TouchableHighlight onPress={() => this.tooglePaused()}>
-            <Text >
-              Play/Pause
-            </Text>
-          </TouchableHighlight>
-          <TouchableHighlight onPress={() => this.player.seek(0)}>
-            <Text >
-              Seek 0
-            </Text>
-          </TouchableHighlight>
+
+          {(this.state.playingAudio===false) ?
+           <TouchableOpacity  style={{}}  onPress={ () => this.PlayAudio() }>
+                  
+                  <Image source={require('../../images/playMedia.png')}  style={{width: 50, height: 50 } } 
+               resizeMode="contain" />    
+               
+           </TouchableOpacity> 
+           :
+           <TouchableOpacity  style={{}}  onPress={ () => this.PauseAudio() }>
+                  
+                  <Image source={require('../../images/pauseMedia.png')}  style={{width: 50, height: 50 } } 
+               resizeMode="contain" />    
+               
+           </TouchableOpacity> 
+          }
+         
+           
+           <TouchableOpacity  style={{marginLeft: 10 }}  onPress={ () => this.onEnd() }>
+                  
+                  <Image source={require('../../images/stopMedia.png')}  style={{width: 50, height: 50 } } 
+               resizeMode="contain" />    
+               
+           </TouchableOpacity> 
+          
+       </View>
+       <View>
+
+         
+           <Text> QTR: {this.props.datetime.substr(11, 8)}</Text>
+           <Text>  {this.props.description}</Text>
+
           
           {/* http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4 */}
           <Video source={{uri: this.props.url}}   // Can be a URL or a local file.
@@ -133,8 +178,11 @@ import Video from 'react-native-video';
        
        paused={this.state.pausedAudio} />
 
+      </View>
+       
          
-        {/* </View> */}
+        
+        
       </View>
     );
   }

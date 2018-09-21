@@ -31,12 +31,12 @@ class MediaImages extends Component {
   
 
   _renderItem = ({ item }) => {
-    const {  url, description , type } = item;
+    const {  url, description , type, datetime } = item;
 
     return (
       <View>
        <View style={{ paddingRight: 8 }}>
-        <Media  imageurl={url}  description={description} type={type} mostrar={this.props.mostrar}  />
+        <Media  imageurl={url}  description={description} type={type} datetime={datetime} mostrar={this.props.mostrar}  />
         </View>
        
       </View>
