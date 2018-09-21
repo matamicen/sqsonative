@@ -225,7 +225,7 @@ import Video from 'react-native-video';
 
            <Text> {this.state.minutes}:{this.state.secondsText} / {this.state.minutesDuration}:{this.state.secondsDuration}</Text>
            <Text> QTR: {this.props.datetime.substr(11, 8)}</Text>
-           <Text>  {this.props.description}</Text>
+           <Text style={{ fontSize: 16, color: 'orange'}}>  {this.props.description}</Text>
 
           
           {/* http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4 */}

@@ -46,10 +46,10 @@ class Media extends Component {
                         source={{ uri: this.props.imageurl }}
                         resizeMode="contain"
                         />
-                        <Text style={{textAlign: 'center'}} >{this.props.description}</Text>
+                        <Text style={{textAlign: 'center', fontSize: 16, color: 'orange'}} >{this.props.description}</Text>
                         {/*  <S3Image imgKey="209fb104-22bc-4ada-9afd-079b78b4e9dc/cr7.jpg" /> */}
                   </View>
-                       
+              
                  }
 
                  {
