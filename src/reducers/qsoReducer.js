@@ -15,7 +15,7 @@ import {FETCHING_API_REQUEST,
     QSO_QRA_DELETE, SET_URL_RDS_S3, INSERT_FOLLOWINGS, INSERT_FOLLOWERS, 
     FOLLOWERS_ALREADY_CALLED,
     FOLLOWINGS_SELECTED, QRA_SEARCH, UPDATE_QSL_SCAN, REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL,
-    PROFILE_PICTURE_REFRESH } from '../actions/types';
+    PROFILE_PICTURE_REFRESH, SET_LOCATION } from '../actions/types';
 
 const initialState = {
     qra: '',
@@ -67,7 +67,9 @@ const initialState = {
                  "message": {  }
                     }
                  },
-        refreshFollowings: false
+        refreshFollowings: false,
+        latitude: 0,
+        longitude: 0
             
 
 
@@ -701,6 +703,21 @@ const qsoReducer = (state = initialState, action) => {
         ...state.currentQso,
         qraShow: QrasToShow
             
+    };
+    newStore = Object.assign({}, state,
+        {
+            ...state,
+            currentQso: auxcurrentQso
+        });
+    return newStore; 
+
+    case SET_LOCATION:
+    // console.log("desdeREDUCER!! : "+JSON.stringify(action.newqra));
+    
+    auxcurrentQso = {
+        ...state.currentQso,
+        latitude: action.lat,
+        longitude: action.lon           
     };
     newStore = Object.assign({}, state,
         {

@@ -18,7 +18,8 @@ import {FETCHING_API_REQUEST,
         QSO_QRA_DELETE, SET_URL_RDS_S3, INSERT_FOLLOWINGS, INSERT_FOLLOWERS,
         FOLLOWERS_ALREADY_CALLED, FOLLOWINGS_SELECTED, QRA_SEARCH,
         UPDATE_QSL_SCAN, UPDATE_QSL_SCAN_RESULT,
-        REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL, PROFILE_PICTURE_REFRESH  } from './types';
+        REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL, PROFILE_PICTURE_REFRESH,
+        SET_LOCATION  } from './types';
 
 import awsconfig from '../aws-exports';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -267,6 +268,14 @@ export const fetchQraProfileUrl = (qra) => {
     return {
         type: SET_QRA,
         qra: qra
+    };
+}
+
+export const setLocation = (lat,lon) => {
+    return {
+        type: SET_LOCATION,
+        lat: lat,
+        lon: lon
     };
 }
 

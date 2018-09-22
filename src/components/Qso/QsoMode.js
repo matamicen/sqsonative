@@ -42,7 +42,8 @@ class QsoMode extends Component {
               // chequeo si esta OnProgress para poder obtener el SqlRdsID de AWS RDS
             if (ONPROGRESS) {
              data = check_firstTime_OnProgress(this.props.qsotype,this.props.band,this.props.mode,
-                                          this.props.qra,ONPROGRESS,this.props.sqlrdsid);
+                                          this.props.qra,ONPROGRESS,this.props.sqlrdsid, this.props.latitude,
+                                          this.props.longitude);
                   console.log("Data to Send API: "+ JSON.stringify(data)); 
                   
                   this.props.actindicatorPostQsoNewTrue();
@@ -188,7 +189,9 @@ class QsoMode extends Component {
         qsoqras: state.sqso.currentQso.qsoqras,
         sqlrdsid: state.sqso.currentQso.sqlrdsId,
         isfetching: state.sqso.isfetching,
-        qra: state.sqso.qra,   
+        qra: state.sqso.qra, 
+        latitude: state.sqso.currentQso.latitude,
+        longitude: state.sqso.currentQso.longitude,  
      };
 };
 

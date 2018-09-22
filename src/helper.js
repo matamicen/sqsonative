@@ -111,7 +111,7 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras)=>{
 
    }
 
-  export const check_firstTime_OnProgress=(qsotype,band,mode,qraowner,onprogress,sqlrdsid)=>{
+  export const check_firstTime_OnProgress=(qsotype,band,mode,qraowner,onprogress,sqlrdsid,latitude,longitude)=>{
      console.log("DENTRO de CHECK FIRST TIME");
      console.log("OnProgress: "+ onprogress);
     if (onprogress && sqlrdsid===''){
@@ -125,8 +125,8 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras)=>{
         "band" : band,
         "mode" : mode,
         "type" : qsotype,
-        "longitude" : '-58.446850',
-        "latitude": '-34.563976',
+        "longitude" : longitude,
+        "latitude": latitude,
         "datetime": fechaqso,
         "qra_owner": qraowner
       };

@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, Modal, StyleSheet,
-     TouchableHighlight, Platform,TouchableOpacity, KeyboardAvoidingView  } from 'react-native';
+     TouchableHighlight, Platform,TouchableOpacity, KeyboardAvoidingView, PermissionsAndroid  } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchPeople,cambioqsotype, closeModalConfirmPhoto, cameraPermissionTrue,
         cameraPermissionFalse, audiorecordingPermissionFalse, audiorecordingPermissionTrue,
-        newqsoactiveTrue, newqsoactiveFalse, resetQso, openModalRecording } from '../../actions';
+        newqsoactiveTrue, newqsoactiveFalse, resetQso, openModalRecording, setLocation } from '../../actions';
 import QsoHeader from './QsoHeader';
 import MediaFiles from './MediaFiles';
 import RecordAudio2 from './RecordAudio2';
@@ -192,9 +192,50 @@ navigateReset = () => {
 this.props.navigation.dispatch(NavigationActions.init());
 }
 
-newQso = () => {
-  this.props.newqsoactiveTrue();
+newQso = async () => {
+
+  this.requestLocationPermission().then((hasPermission) => {
+    if (!hasPermission) return;
+
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+         const initialPosition = JSON.stringify(position);
+    //     console.log('location:' + initialPosition);
+         
+         console.log('latitude:' + position.coords.latitude + ' longitude:' + position.coords.longitude);
+         this.props.setLocation(position.coords.latitude,position.coords.longitude);
+         
+      },
+      (error) => {
+        alert(error.message);
+        this.props.setLocation(0,0);
+
+          
+        },
+      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
+   );
+
+    this.props.newqsoactiveTrue();
+
+  });
   
+}
+
+requestLocationPermission = () =>  {
+  if (Platform.OS !== 'android') {
+    return Promise.resolve(true);
+  }
+
+  const rationale = {
+    'title': 'Location Permission',
+    'message': 'Location needs access to your Location to calculate the QSO distance.'
+  };
+
+  return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, rationale)
+    .then((result) => {
+      console.log('Permission result:', result);
+      return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);
+    });
 }
 
 
@@ -445,7 +486,8 @@ const mapDispatchToProps = {
     newqsoactiveTrue,
     newqsoactiveFalse,
     resetQso,
-    openModalRecording  
+    openModalRecording,
+    setLocation  
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(QsoScreen);
