@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, Modal, StyleSheet,
-     TouchableHighlight, Platform,TouchableOpacity, KeyboardAvoidingView, PermissionsAndroid  } from 'react-native';
+     TouchableHighlight, Platform,TouchableOpacity, KeyboardAvoidingView, PermissionsAndroid, Alert  } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchPeople,cambioqsotype, closeModalConfirmPhoto, cameraPermissionTrue,
         cameraPermissionFalse, audiorecordingPermissionFalse, audiorecordingPermissionTrue,
@@ -13,6 +13,7 @@ import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 //import {  Permissions } from 'expo';
 import { hasAPIConnection } from '../../helper';
 import NoInternetModal from './NoInternetModal';
+import Permissions from 'react-native-permissions'
 
 
 
@@ -163,8 +164,76 @@ OpenEndQsoModal = () => {
 
   if (await hasAPIConnection())
   {
-         this.props.closeModalConfirmPhoto('image');
-         this.props.navigation.navigate("CameraScreen2");
+    // this.requestCameraPermission().then((hasPermission) => {
+    //   if (!hasPermission) return;
+  
+    Permissions.request('camera').then(response => {
+      // Returns once the user has chosen to 'allow' or to 'not allow' access
+      // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+      console.log('Camera Permiso: '+response);
+    if (response==='authorized')
+      {
+      this.props.closeModalConfirmPhoto('image');
+      this.props.navigation.navigate("CameraScreen2");
+       }
+
+      if (response==='denied' &&  Platform.OS !== 'android')
+      {
+       Alert.alert(
+        'You denied the access to the Camera',
+        'In order to Authorize choose Open Settings',
+        [
+          {
+            text: 'No, thanks',
+            onPress: () => console.log('Permission denied'),
+            style: 'cancel',
+          },
+          { text: 'Open Settings',
+             onPress: Permissions.openSettings },
+          
+        ],
+       )
+      }
+
+      if (response==='restricted' &&  Platform.OS === 'android')
+      {
+       Alert.alert(
+        'You denied the access to the Camera',
+        'In order to Authorize go to settings->Apps->superQso->Permissions',
+        [
+          {
+            text: 'Ok',
+            onPress: () => console.log('ok'),
+            style: 'cancel',
+          },
+          
+        ],
+       )
+      }
+      
+   
+
+    if (response==='restricted' &&  Platform.OS !== 'android')
+    {
+     Alert.alert(
+      'You do not have access to the Camera',
+      'Cause: it is not supported by the device or because it has been blocked by parental controls',
+      [
+        {
+          text: 'Ok',
+          onPress: () => console.log('ok'),
+          style: 'cancel',
+        },
+        
+      ],
+     )
+    }
+    
+ 
+  });
+    
+
+
   }else this.setState({nointernet: true});
       
    }
@@ -216,6 +285,7 @@ newQso = async () => {
    );
 
     this.props.newqsoactiveTrue();
+    this.props.resetQso();
 
   });
   
@@ -232,6 +302,24 @@ requestLocationPermission = () =>  {
   };
 
   return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, rationale)
+    .then((result) => {
+      console.log('Permission result:', result);
+      return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);
+    });
+}
+
+
+requestCameraPermission = () =>  {
+  if (Platform.OS !== 'android') {
+    return Promise.resolve(true);
+  }
+
+  const rationale = {
+    'title': 'Camera Permission',
+    'message': 'superQso needs access to your Camera to take photos in the QSO.'
+  };
+
+  return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, rationale)
     .then((result) => {
       console.log('Permission result:', result);
       return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);

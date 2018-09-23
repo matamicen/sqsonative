@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, TouchableOpacity,  StyleSheet } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, TouchableOpacity,  StyleSheet, Platform, 
+  PermissionsAndroid, Alert  } from 'react-native';
 import { connect } from 'react-redux';
 import Login from './Login';
 import Amplify, { Auth, API, Storage } from 'aws-amplify'
@@ -9,6 +10,7 @@ import QraProfile from './../Qso/QraProfile';
 import { closeModalConfirmPhoto } from '../../actions';
 import { hasAPIConnection } from '../../helper';
 import NoInternetModal from '../Qso/NoInternetModal';
+import Permissions from 'react-native-permissions'
 
 
 Amplify.configure(awsconfig);
@@ -75,12 +77,93 @@ signOut = async () => {
     if (await hasAPIConnection())
     {
 
-           this.props.closeModalConfirmPhoto('profile');
-           this.props.navigation.navigate("CameraScreen2");
+      Permissions.request('camera').then(response => {
+        // Returns once the user has chosen to 'allow' or to 'not allow' access
+        // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+        console.log('Camera Permiso: '+response);
+      if (response==='authorized')
+        {
+        this.props.closeModalConfirmPhoto('profile');
+        this.props.navigation.navigate("CameraScreen2");
+         }
+  
+        if (response==='denied' &&  Platform.OS !== 'android')
+        {
+         Alert.alert(
+          'You denied the access to the Camera',
+          'In order to Authorize choose Open Settings',
+          [
+            {
+              text: 'No, thanks',
+              onPress: () => console.log('Permission denied'),
+              style: 'cancel',
+            },
+            { text: 'Open Settings',
+               onPress: Permissions.openSettings },
+            
+          ],
+         )
+        }
+  
+        if (response==='restricted' &&  Platform.OS === 'android')
+        {
+         Alert.alert(
+          'You denied the access to the Camera',
+          'In order to Authorize go to settings->Apps->superQso->Permissions',
+          [
+            {
+              text: 'Ok',
+              onPress: () => console.log('ok'),
+              style: 'cancel',
+            },
+            
+          ],
+         )
+        }
+        
+     
+  
+      if (response==='restricted' &&  Platform.OS !== 'android')
+      {
+       Alert.alert(
+        'You do not have access to the Camera',
+        'Cause: it is not supported by the device or because it has been blocked by parental controls',
+        [
+          {
+            text: 'Ok',
+            onPress: () => console.log('ok'),
+            style: 'cancel',
+          },
+          
+        ],
+       )
+      }
+      
+   
+    });
+      
           } else
           this.setState({nointernet: true});
         
      }
+
+
+     requestCameraPermission = () =>  {
+      if (Platform.OS !== 'android') {
+        return Promise.resolve(true);
+      }
+    
+      const rationale = {
+        'title': 'Camera Permission',
+        'message': 'superQso needs access to your Camera to take photos in the QSO.'
+      };
+    
+      return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, rationale)
+        .then((result) => {
+          console.log('Permission result:', result);
+          return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);
+        });
+    }
 
    
     render() { console.log("InitialScreen Screen");
