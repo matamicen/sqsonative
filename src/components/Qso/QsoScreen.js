@@ -98,7 +98,77 @@ class QsoScreen extends Component {
 
      checkInternetOpenRecording = async () => {
       if (await hasAPIConnection())
-          this.toggleRecModal();
+      {
+        Permissions.request('microphone').then(response => {
+          // Returns once the user has chosen to 'allow' or to 'not allow' access
+          // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+          console.log('Microphone Permiso: '+response);
+        if (response==='authorized')
+          {
+            this.toggleRecModal();
+           }
+    
+          if (response==='denied' &&  Platform.OS !== 'android')
+          {
+           Alert.alert(
+            'You denied the access to the Microphone',
+            'In order to Authorize choose Open Settings',
+            [
+              {
+                text: 'No, thanks',
+                onPress: () => console.log('Permission denied'),
+                style: 'cancel',
+              },
+              { text: 'Open Settings',
+                 onPress: Permissions.openSettings },
+              
+            ],
+           )
+          }
+    
+          if (response==='restricted' &&  Platform.OS === 'android')
+          {
+           Alert.alert(
+            'You denied the access to the Microphone',
+            'In order to Authorize go to settings->Apps->superQso->Permissions',
+            [
+              {
+                text: 'Ok',
+                onPress: () => console.log('ok'),
+                style: 'cancel',
+              },
+              
+            ],
+           )
+          }
+          
+       
+    
+        if (response==='restricted' &&  Platform.OS !== 'android')
+        {
+         Alert.alert(
+          'You do not have access to the Microphone',
+          'Cause: it is not supported by the device or because it has been blocked by parental controls',
+          [
+            {
+              text: 'Ok',
+              onPress: () => console.log('ok'),
+              style: 'cancel',
+            },
+            
+          ],
+         )
+        }
+        
+     
+      });
+        
+     
+        
+        
+      
+
+      }
         else
           this.setState({nointernet: true});
 
