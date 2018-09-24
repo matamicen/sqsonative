@@ -263,31 +263,143 @@ this.props.navigation.dispatch(NavigationActions.init());
 
 newQso = async () => {
 
-  this.requestLocationPermission().then((hasPermission) => {
-    if (!hasPermission) return;
+  // this.requestLocationPermission().then((hasPermission) => {
+  //   if (!hasPermission) return;
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-         const initialPosition = JSON.stringify(position);
-    //     console.log('location:' + initialPosition);
+  //   navigator.geolocation.getCurrentPosition(
+  //     (position) => {
+  //        const initialPosition = JSON.stringify(position);
+  //   //     console.log('location:' + initialPosition);
          
-         console.log('latitude:' + position.coords.latitude + ' longitude:' + position.coords.longitude);
-         this.props.setLocation(position.coords.latitude,position.coords.longitude);
+  //        console.log('latitude:' + position.coords.latitude + ' longitude:' + position.coords.longitude);
+  //        this.props.setLocation(position.coords.latitude,position.coords.longitude);
          
-      },
-      (error) => {
-        alert(error.message);
-        this.props.setLocation(0,0);
+  //     },
+  //     (error) => {
+  //       alert(error.message);
+  //       this.props.setLocation(0,0);
 
           
+  //       },
+  //     { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
+  //  );
+
+  //   this.props.newqsoactiveTrue();
+  //   this.props.resetQso();
+
+  // });
+
+
+//  Permissions.check('location').then(response => {
+//     // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+//     if (response==='undetermined')
+//     {
+//       console.log('Location undetermined');
+
+//       Alert.alert(
+//         'Help the ham community to calculate the QSO distance.',
+//         'You can do it by accepting the Location permission. Thanks, 73!',
+//         [
+//           {
+//             text: 'Ok, thanks',
+//             onPress: () => console.log('Just ok'),
+//             style: 'cancel',
+//           },
+         
+//         ],
+//        )
+
+//     }
+//   })
+
+  Permissions.request('location', { type: 'always'}).then(response => {
+    // Returns once the user has chosen to 'allow' or to 'not allow' access
+    // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+    console.log('location Permiso: '+response);
+
+  if (response==='authorized')
+    {
+    // this.props.closeModalConfirmPhoto('image');
+    // this.props.navigation.navigate("CameraScreen2");
+
+    navigator.geolocation.getCurrentPosition(
+          (position) => {
+             const initialPosition = JSON.stringify(position);
+        //     console.log('location:' + initialPosition);
+             
+             console.log('latitude:' + position.coords.latitude + ' longitude:' + position.coords.longitude);
+             this.props.setLocation(position.coords.latitude,position.coords.longitude);
+             
+          },
+          (error) => {
+            alert(error.message);
+            this.props.setLocation(0,0);
+    
+              
+            },
+          { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
+       );
+    
+        this.props.newqsoactiveTrue();
+        this.props.resetQso();
+
+     }
+
+    if (response==='denied' &&  Platform.OS !== 'android')
+    {
+     Alert.alert(
+      'You denied the access to the Location',
+      'In order to Authorize choose Open Settings',
+      [
+        {
+          text: 'No, thanks',
+          onPress: () => console.log('Permission denied'),
+          style: 'cancel',
         },
-      { enableHighAccuracy: false, timeout: 20000, maximumAge: 1000 }
-   );
+        { text: 'Open Settings',
+           onPress: Permissions.openSettings },
+        
+      ],
+     )
+    }
 
-    this.props.newqsoactiveTrue();
-    this.props.resetQso();
+    if (response==='restricted' &&  Platform.OS === 'android')
+    {
+     Alert.alert(
+      'You denied the access to the Location',
+      'In order to Authorize go to settings->Apps->superQso->Permissions',
+      [
+        {
+          text: 'Ok',
+          onPress: () => console.log('ok'),
+          style: 'cancel',
+        },
+        
+      ],
+     )
+    }
+    
+ 
 
-  });
+  if (response==='restricted' &&  Platform.OS !== 'android')
+  {
+   Alert.alert(
+    'You do not have access to the Location',
+    'Cause: it is not supported by the device or because it has been blocked by parental controls',
+    [
+      {
+        text: 'Ok',
+        onPress: () => console.log('ok'),
+        style: 'cancel',
+      },
+      
+    ],
+   )
+  }
+  
+
+});
+  
   
 }
 
