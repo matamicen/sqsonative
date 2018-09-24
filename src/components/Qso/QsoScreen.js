@@ -312,6 +312,9 @@ newQso = async () => {
 //     }
 //   })
 
+if (await hasAPIConnection())
+{
+
   Permissions.request('location', { type: 'always'}).then(response => {
     // Returns once the user has chosen to 'allow' or to 'not allow' access
     // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
@@ -399,44 +402,48 @@ newQso = async () => {
   
 
 });
+
+}else this.setState({nointernet: true});
+      
+
   
   
 }
 
-requestLocationPermission = () =>  {
-  if (Platform.OS !== 'android') {
-    return Promise.resolve(true);
-  }
+// requestLocationPermission = () =>  {
+//   if (Platform.OS !== 'android') {
+//     return Promise.resolve(true);
+//   }
 
-  const rationale = {
-    'title': 'Location Permission',
-    'message': 'Location needs access to your Location to calculate the QSO distance.'
-  };
+//   const rationale = {
+//     'title': 'Location Permission',
+//     'message': 'Location needs access to your Location to calculate the QSO distance.'
+//   };
 
-  return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, rationale)
-    .then((result) => {
-      console.log('Permission result:', result);
-      return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);
-    });
-}
+//   return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION, rationale)
+//     .then((result) => {
+//       console.log('Permission result:', result);
+//       return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);
+//     });
+// }
 
 
-requestCameraPermission = () =>  {
-  if (Platform.OS !== 'android') {
-    return Promise.resolve(true);
-  }
+// requestCameraPermission = () =>  {
+//   if (Platform.OS !== 'android') {
+//     return Promise.resolve(true);
+//   }
 
-  const rationale = {
-    'title': 'Camera Permission',
-    'message': 'superQso needs access to your Camera to take photos in the QSO.'
-  };
+//   const rationale = {
+//     'title': 'Camera Permission',
+//     'message': 'superQso needs access to your Camera to take photos in the QSO.'
+//   };
 
-  return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, rationale)
-    .then((result) => {
-      console.log('Permission result:', result);
-      return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);
-    });
-}
+//   return PermissionsAndroid.request(PermissionsAndroid.PERMISSIONS.CAMERA, rationale)
+//     .then((result) => {
+//       console.log('Permission result:', result);
+//       return (result === true || result === PermissionsAndroid.RESULTS.GRANTED);
+//     });
+// }
 
 
 
