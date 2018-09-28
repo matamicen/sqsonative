@@ -130,8 +130,10 @@ close_confirmSignup = () => {
  }
 
 signUp = async () => {
+ 
 
     this.setState({indicator: 1, loginerror: 0});
+   
    
           if (this.state.password!==this.state.passwordConfirm)
           {
@@ -175,15 +177,18 @@ signUp = async () => {
                   this.setState({indicator: 0, confirmSignup: true});})
       .catch (err => {console.log('SignUp error: ', err.message)
                      this.setState({errormessage: 'SignUp error: '+err.message, indicator: 0,  loginerror: 1 });
+                     Keyboard.dismiss();
               })
           
       }
-      else {this.error = false;}
+      else {this.error = false;
+        Keyboard.dismiss();}
 
    
   }
 
   resendCode = async () => {
+    Keyboard.dismiss();
 
     this.setState({ indicator:1,confirmationcodeError:0 });
 
@@ -251,7 +256,9 @@ signUp = async () => {
   }
 
   confirmSignup = async () => {
+     Keyboard.dismiss();
      this.setState({confirmationcodeError: 0, indicator:1});
+     
      
      
      Auth.confirmSignUp(this.state.qra.toUpperCase(),this.state.confirmationcode)
@@ -280,23 +287,27 @@ signUp = async () => {
    
         return (
          //   <KeyboardAvoidingView behavior="padding" style={{ justifyContent: 'space-around'}}>
+       
          <View style={styles.container}>
-         <KeyboardAvoidingView behavior="padding"       >
+        
+         
+         <KeyboardAvoidingView behavior="padding"        >
               {/* <View style={styles.container}> */}
               
-               <View style={{flexDirection: 'row', justifyContent: 'space-around',   padding: 3, marginTop: 25,
+               {/* <View style={{flexDirection: 'row', justifyContent: 'space-around',   padding: 3, marginTop: 5, */}
+                <View style={{   padding: 3, marginTop: 5, height: 20,
                         opacity: this.state.indicator }} >
                   
                     <ActivityIndicator  animating={true} size="large" color='orange' />
-                    {/* justifyContent: 'space-around', */}
+                  
                  </View>
-                 {/* justifyContent: 'space-around' */}
-                 <View style={{   padding: 3,
+                
+                 <View style={{   padding: 3, height: 25,
                         opacity: this.state.loginerror }}>
                         <Text style={{ color: 'red', textAlign: 'center', }}> {this.state.errormessage}
                         </Text>
                    </View>
-                   <Text style={{ color: '#FFFFFF', fontSize: 16  }}>SignUp Form</Text>
+                   <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 5  }}>SignUp Form</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
                   placeholder="qra"
@@ -442,8 +453,13 @@ signUp = async () => {
                           left: 30,
                           right: 30,
                           position: 'absolute',
+                          borderBottomLeftRadius: 22,
+                          borderBottomRightRadius: 22,
+                          borderTopLeftRadius: 22,
+                          borderTopRightRadius: 22,
+
                                                     
-                        //  alignItems: 'center'                      
+                          alignItems: 'center'                      
                           }}>
                           
                   <Text style={{ color: '#FFFFFF', fontSize: 18, padding: 10 }}>We have sent the confirmation code to your email. Please enter the code to activate the account.</Text>
@@ -455,13 +471,13 @@ signUp = async () => {
                   returnKeyType="next"
                   autoCapitalize="none"
                   autoCorrect={false}
-                  style={styles.input}
+                  style={styles.inputConfirmation}
                   value={this.state.confirmationcode}
                   onChangeText={(text) => this.setState({confirmationcode: text})} />
 
                   <View style={{ justifyContent: 'space-around',   padding: 3,
                         opacity: this.state.confirmationcodeError }}>
-                        <Text style={{ color: this.state.color, textAlign: 'center', fontSize: 16 }}> {this.state.errormessage2}
+                        <Text style={{ color: this.state.color, textAlign: 'center', fontSize: 16, width: 290 }}> {this.state.errormessage2}
                         </Text>
                    </View>
 
@@ -494,8 +510,10 @@ signUp = async () => {
 
 
 
-
+             
             </View>
+            
+            
            
            
         );
@@ -506,28 +524,46 @@ signUp = async () => {
 
  const styles = StyleSheet.create({
   container: {
-    padding: 5,
-    flex: 1,
-    backgroundColor: '#3498db'
+     padding: 5,
+     flex: 1,
+    backgroundColor: '#3498db',
+    alignItems: 'center'
+    
       },
   input: {
-    height: 40,    
+    height: 37,    
+    width: 330,
     backgroundColor: 'rgba(255,255,255,0.2)',
     marginBottom: 5,
     color: '#FFF',
     fontSize: 16,
+    borderRadius: 22,
     paddingHorizontal: 10
           },
+          inputConfirmation: {
+            height: 40,    
+            width: 300,
+            backgroundColor: 'rgba(255,255,255,0.2)',
+            marginBottom: 5,
+            color: '#FFF',
+            fontSize: 16,
+            borderRadius: 22,
+            paddingHorizontal: 10
+                  },
   buttonContainer:{
       backgroundColor: '#2980b9',
-      paddingVertical: 15
+      paddingVertical: 15,
+      borderRadius: 22,
+      width: 330,
       },
   birthdateContainer:{
         backgroundColor: 'rgba(255,255,255,0.2)',
         paddingVertical: 10,
-        height: 40,
+        height: 37,
+        width: 330,
         marginBottom: 5,
         paddingHorizontal: 8,
+        borderRadius: 22
                },
    birthdateText:{
     color: '#FFF',
@@ -545,7 +581,8 @@ signUp = async () => {
             //     textAlign: 'center',
                  color: '#FFFFFF',
                  fontSize: 16,
-                 fontWeight: '700'
+                 fontWeight: '700',
+                 marginLeft: 5
                 
                         },  
    activityindicator: {

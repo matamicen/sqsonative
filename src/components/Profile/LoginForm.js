@@ -124,7 +124,7 @@ signIn = async () => {
       this.usernotfound = false;
     })
       .catch(err => {console.log('error:', err.code);
-             this.setState({ loginerror: 1});
+             this.setState({ loginerror: 1, indicator: 0});
              this.usernotfound = true;})
 
 if (!this.usernotfound)
@@ -181,7 +181,7 @@ if (!this.usernotfound)
                <View style={styles.container}>
    
        
-               <View style={{flexDirection: 'row',  justifyContent: 'space-around',   padding: 5,
+               <View style={{flexDirection: 'row',  justifyContent: 'space-around',   padding:5,
                         opacity: this.state.indicator }} >
                   
                     <ActivityIndicator   animating={true} size="large" color='orange' />
@@ -261,14 +261,17 @@ if (!this.usernotfound)
   input: {
     height: 40,    
     backgroundColor: 'rgba(255,255,255,0.2)',
-    marginBottom: 10,
+   // borderWidth: 1, 
+    borderRadius: 22,
+    marginBottom: 15,
     color: '#FFF',
     fontSize: 16,
     paddingHorizontal: 10
           },
   buttonContainer:{
       backgroundColor: '#2980b9',
-      paddingVertical: 15
+      paddingVertical: 15,
+      borderRadius: 22
       },
   buttonText: {
     textAlign: 'center',
