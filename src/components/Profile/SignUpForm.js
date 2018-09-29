@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, TouchableHighlight, Keyboard,
      ActivityIndicator, KeyboardAvoidingView, DatePickerAndroid, DatePickerIOS,
-    Platform, Modal } from 'react-native';
+    Platform, Modal, ScrollView } from 'react-native';
 import { connect } from 'react-redux';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
@@ -32,6 +32,9 @@ constructor(props) {
      birthdate: 'birthdate',
      password: '',
      passwordConfirm: '',
+     country: '',
+     lastname: '',
+     firstname: '',
      indicator: 0,
      loginerror: 0,
      errormessage: '',
@@ -43,7 +46,9 @@ constructor(props) {
      confirmSignup: false,
      confirmationcode: '',
      confirmationcodeError: 0,
-     color: 'red'
+     color: 'red',
+     heightindicator: 0,
+     heighterror: 0
      
     };
   }
@@ -132,13 +137,13 @@ close_confirmSignup = () => {
 signUp = async () => {
  
 
-    this.setState({indicator: 1, loginerror: 0});
+    this.setState({heightindicator: 35, indicator: 1, heighterror: 0, loginerror: 0});
    
    
           if (this.state.password!==this.state.passwordConfirm)
           {
 
-            this.setState({errormessage: 'The Passwords are not identical', indicator: 0, loginerror: 1});
+            this.setState({errormessage: 'The Passwords are not identical',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
             this.passwordRef.focus();
           }
@@ -146,15 +151,15 @@ signUp = async () => {
           if (this.state.password.length<6)
           {
 
-            this.setState({errormessage: 'The Passwords must have 6 characters at least', indicator: 0, loginerror: 1});
-            this.error = true;
+            this.setState({errormessage: 'The Passwords must have 6 characters at least',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.error = true; 
             this.passwordRef.focus();
           }
 
           if (this.state.qra=='')
           {
 
-            this.setState({errormessage: 'The QRA is empty', indicator: 0, loginerror: 1});
+            this.setState({errormessage: 'The QRA is empty',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true;
             this.qraRef.focus();
           }
@@ -174,9 +179,9 @@ signUp = async () => {
           }
         })
       .then(() => {console.log('SignUp ok!: ');
-                  this.setState({indicator: 0, confirmSignup: true});})
+                  this.setState({heightindicator: 0, indicator: 0, confirmSignup: true});})
       .catch (err => {console.log('SignUp error: ', err.message)
-                     this.setState({errormessage: 'SignUp error: '+err.message, indicator: 0,  loginerror: 1 });
+                     this.setState({errormessage: 'SignUp error: '+err.message,heightindicator: 0,  indicator: 0,heighterror: 25,  loginerror: 1 });
                      Keyboard.dismiss();
               })
           
@@ -194,15 +199,15 @@ signUp = async () => {
 
    await Auth.resendSignUp(this.state.qra.toUpperCase())
                   .then(() => { console.log('Resend Ok!')
-                  this.setState({ errormessage2:'Your confirmation code has been sent!',color: 'blue',  indicator: 0, confirmationcodeError:1 });
+                  this.setState({ errormessage2:'Your confirmation code has been sent!',color: 'blue',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
                 })
                   .catch(err => {console.log('Error sending the confirmation code, try again.', err)
-                  this.setState({errormessage2: 'Error sending the confirmation code, try again.',color: 'red',  indicator: 0, confirmationcodeError:1 });
+                  this.setState({errormessage2: 'Error sending the confirmation code, try again.',color: 'red',heightindicator: 0,  indicator: 0, confirmationcodeError:1 });
                 
                 
                 });
 
-    this.setState({ indicator:0 });
+    this.setState({ heightindicator: 0,indicator:0 });
 
   }
 
@@ -289,25 +294,26 @@ signUp = async () => {
          //   <KeyboardAvoidingView behavior="padding" style={{ justifyContent: 'space-around'}}>
        
          <View style={styles.container}>
-        
-         
-         <KeyboardAvoidingView behavior="padding"        >
-              {/* <View style={styles.container}> */}
-              
-               {/* <View style={{flexDirection: 'row', justifyContent: 'space-around',   padding: 3, marginTop: 5, */}
-                <View style={{   padding: 3, marginTop: 5, height: 20,
+          <View style={{   padding: 3, marginTop: 10, height: this.state.heightindicator,
                         opacity: this.state.indicator }} >
                   
                     <ActivityIndicator  animating={true} size="large" color='orange' />
                   
                  </View>
                 
-                 <View style={{   padding: 3, height: 25,
+                 <View style={{   padding: 3, height: this.state.heighterror, width: 340,
                         opacity: this.state.loginerror }}>
                         <Text style={{ color: 'red', textAlign: 'center', }}> {this.state.errormessage}
                         </Text>
                    </View>
-                   <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 5  }}>SignUp Form</Text>
+   <ScrollView contentContainerStyle={styles.contentContainer}>   
+         
+         <KeyboardAvoidingView behavior="padding"        >
+              {/* <View style={styles.container}> */}
+              
+               {/* <View style={{flexDirection: 'row', justifyContent: 'space-around',   padding: 3, marginTop: 5, */}
+               
+                   <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 5, marginBottom: 4  }}>SignUp Form</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
                   placeholder="qra"
@@ -316,10 +322,36 @@ signUp = async () => {
                   returnKeyType="next"
                   autoCapitalize="none"
                   autoCorrect={false}
-                  onSubmitEditing={() => this.emailRef.focus()} 
+                  onSubmitEditing={() => this.firstname.focus()} 
                   style={styles.input}
                   value={this.state.qra}
                     onChangeText={(text) => this.setState({qra: text})} />
+
+                  <TextInput 
+                  ref={firstname => this.firstname  = firstname }
+                  placeholder="first name"
+                  underlineColorAndroid='transparent'
+                  placeholderTextColor="rgba(255,255,255,0.7)"
+                  returnKeyType="next"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onSubmitEditing={() => this.lastname.focus()} 
+                  style={styles.input}
+                  value={this.state.firstname }
+                    onChangeText={(text) => this.setState({firstname : text})} />
+
+                     <TextInput 
+                  ref={lastname => this.lastname = lastname}
+                  placeholder="last Name"
+                  underlineColorAndroid='transparent'
+                  placeholderTextColor="rgba(255,255,255,0.7)"
+                  returnKeyType="next"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onSubmitEditing={() => this.emailRef.focus()} 
+                  style={styles.input}
+                  value={this.state.lastname}
+                    onChangeText={(text) => this.setState({lastname: text})} />
 
                     <TextInput 
                   ref={emailRef => this.emailRef = emailRef}
@@ -355,6 +387,19 @@ signUp = async () => {
                   onChangeText={(text) => this.setState({birthdate: text})} /> */}
                    
                     </TouchableOpacity>
+
+                        <TextInput 
+                  ref={countryRef => this.countryRef  = countryRef }
+                  placeholder="country"
+                  underlineColorAndroid='transparent'
+                  placeholderTextColor="rgba(255,255,255,0.7)"
+                  returnKeyType="next"
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  onSubmitEditing={() => this.passwordRef.focus()} 
+                  style={styles.input}
+                  value={this.state.country}
+                    onChangeText={(text) => this.setState({country: text})} />
                
                <TextInput
                  ref={passwordRef => this.passwordRef = passwordRef}
@@ -498,18 +543,9 @@ signUp = async () => {
 
                
                </Modal>
-             
 
 
-
-
-
-
-
-
-
-
-
+</ScrollView>  
              
             </View>
             
@@ -524,17 +560,23 @@ signUp = async () => {
 
  const styles = StyleSheet.create({
   container: {
-     padding: 5,
+     padding: 0,
      flex: 1,
     backgroundColor: '#3498db',
     alignItems: 'center'
     
       },
+      contentContainer:{
+        width: 340,
+        alignItems: 'center'
+
+
+      },
   input: {
-    height: 37,    
-    width: 330,
+    height: 38,    
+    width: 270,
     backgroundColor: 'rgba(255,255,255,0.2)',
-    marginBottom: 5,
+    marginBottom: 17,
     color: '#FFF',
     fontSize: 16,
     borderRadius: 22,
@@ -554,21 +596,22 @@ signUp = async () => {
       backgroundColor: '#2980b9',
       paddingVertical: 15,
       borderRadius: 22,
-      width: 330,
+      width: 270,
       },
   birthdateContainer:{
         backgroundColor: 'rgba(255,255,255,0.2)',
         paddingVertical: 10,
         height: 37,
-        width: 330,
-        marginBottom: 5,
+        width: 270,
+        marginBottom: 17,
         paddingHorizontal: 8,
         borderRadius: 22
                },
    birthdateText:{
     color: '#FFF',
     fontSize: 16,
-    opacity: 0.7
+    opacity: 0.7,
+    height: 37
          
           },
   buttonText: {
