@@ -8,6 +8,8 @@ import awsconfig from '../../aws-exports';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
 import { setQra, setUrlRdsS3 } from '../../actions';
+import { hasAPIConnection } from '../../helper';
+import NoInternetModal from '../Qso/NoInternetModal';
 
 Amplify.configure(awsconfig);
 
@@ -47,7 +49,8 @@ constructor(props) {
      indicatorNewPassword : 0,
      newPassword: '',
      code: '',
-     passwordChanged: false
+     passwordChanged: false,
+     nointernet: false
      
     };
   }
@@ -108,8 +111,9 @@ constructor(props) {
 
 
   next = async () => {
-
-    Keyboard.dismiss();
+    if (await hasAPIConnection())
+    {
+      Keyboard.dismiss();
 
     this.setState({confirmationcodeError: 0, indicator:1});
     
@@ -125,12 +129,21 @@ constructor(props) {
                 this.setState({errormessage: 'Process failed! Please enter the QRA again',  confirmationcodeError: 1, indicator:0 })
             });
 
+          }
+          else 
+      { 
+        this.setState({indicator: 0}); 
+        this.setState({nointernet: true});
+      }
+
 
  }
 
     sendNewPassword = async () => {
 
          Keyboard.dismiss();
+         if (await hasAPIConnection())
+         {   
 
         this.setState({confirmationcodeError: 0, indicator:1});
 
@@ -162,6 +175,11 @@ constructor(props) {
          
         });
       }
+    } else 
+    { 
+      this.setState({indicator: 0}); 
+      this.setState({nointernet: true});
+    }
 
     }
 
@@ -170,6 +188,10 @@ constructor(props) {
         this.props.navigation.navigate("Root");
 
 
+    }
+
+    closeNoInternetModal = () => {
+      this.setState({nointernet: false}); 
     }
    
     render() { console.log("ForgotPassword Screen");
@@ -201,7 +223,7 @@ constructor(props) {
           <KeyboardAvoidingView behavior="padding"    style={{  justifyContent: 'space-around',   padding: 1,
                           opacity: this.state.indicatorQRA }}   >
                 
-                <Text style={{ color: '#FFFFFF', fontSize: 18  }}>Password Recovery</Text>
+                <Text style={{ color: '#FFFFFF', fontSize: 18, marginBottom: 10  }}>Password Recovery</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
                   placeholder="enter your qra"
@@ -254,6 +276,7 @@ constructor(props) {
                   returnKeyType="next"
                   autoCapitalize="none"
                   autoCorrect={false}
+                  secureTextEntry
                   onSubmitEditing={() => this.code.focus()} 
                   style={styles.input}
                   value={this.state.newPassword}
@@ -296,6 +319,10 @@ constructor(props) {
                           left: 30,
                           right: 30,
                           position: 'absolute',
+                          borderBottomLeftRadius: 22,
+                          borderBottomRightRadius: 22,
+                          borderTopLeftRadius: 22,
+                          borderTopRightRadius: 22,
                                                     
                         //  alignItems: 'center'                      
                           }}>
@@ -315,6 +342,8 @@ constructor(props) {
 
                
                </Modal>
+
+               <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
              
 
 
@@ -339,11 +368,14 @@ constructor(props) {
     marginBottom: 5,
     color: '#FFF',
     fontSize: 16,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    borderRadius: 22
           },
   buttonContainer:{
       backgroundColor: '#2980b9',
-      paddingVertical: 15
+      paddingVertical: 15,
+      marginTop: 10,
+      borderRadius: 22
       },
   birthdateContainer:{
         backgroundColor: 'rgba(255,255,255,0.2)',

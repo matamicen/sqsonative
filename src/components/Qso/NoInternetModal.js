@@ -61,6 +61,10 @@ class NoInternetModal extends Component {
                           left: 30,
                           right: 30,
                           position: 'absolute',
+                          borderBottomLeftRadius: 22,
+                          borderBottomRightRadius: 22,
+                          borderTopLeftRadius: 22,
+                          borderTopRightRadius: 22,
                                                     
                         //  alignItems: 'center'                      
                           }}>

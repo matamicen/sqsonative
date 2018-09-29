@@ -173,6 +173,32 @@ if (!this.usernotfound)
       }
    
   }
+
+  SignUpForm = async () => {
+
+    if (await hasAPIConnection())
+       this.props.navigation.navigate("SignUpScreen");
+
+    else 
+      { this.setState({indicator: 0}); 
+        this.setState({nointernet: true});
+        
+      }
+
+  }
+
+  ForgotPassword = async () => {
+
+    if (await hasAPIConnection())
+       this.props.navigation.navigate("ForgotScreen")
+
+    else 
+      { this.setState({indicator: 0}); 
+        this.setState({nointernet: true});
+        
+      }
+
+  }
    
     render() { console.log("LoginForm Screen");
    
@@ -231,12 +257,12 @@ if (!this.usernotfound)
 
                  <View style={{flex:1, flexDirection: 'row'}}>
                  <View style={{flex:0.4,  height: 45}}>
-                 <TouchableOpacity style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("SignUpScreen")} >
+                 <TouchableOpacity style={{marginTop: 10}} onPress={ () => this.SignUpForm()} >
                     <Text style={styles.buttonText2} >SignUp</Text>
                  </TouchableOpacity>
                  </View>
                  <View style={{flex:0.6, height: 45, alignItems: 'flex-end'}}>
-                 <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("ForgotScreen")} >
+                 <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.ForgotPassword()} >
                     <Text style={styles.buttonText2} >Forgot Password</Text>
                  </TouchableOpacity>
                  </View>

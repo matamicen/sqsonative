@@ -8,6 +8,8 @@ import awsconfig from '../../aws-exports';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
 import { setQra, setUrlRdsS3 } from '../../actions';
+import { hasAPIConnection } from '../../helper';
+import NoInternetModal from '../Qso/NoInternetModal';
 
 Amplify.configure(awsconfig);
 
@@ -24,6 +26,7 @@ constructor(props) {
 
     this.usernotfound = false;
     this.error = false;
+    this.qraAlreadySignUp = '';
     
     this.state = {
    
@@ -48,7 +51,8 @@ constructor(props) {
      confirmationcodeError: 0,
      color: 'red',
      heightindicator: 0,
-     heighterror: 0
+     heighterror: 0,
+     nointernet: false
      
     };
   }
@@ -136,7 +140,8 @@ close_confirmSignup = () => {
 
 signUp = async () => {
  
-
+  if (await hasAPIConnection())
+  {   
     this.setState({heightindicator: 35, indicator: 1, heighterror: 0, loginerror: 0});
    
    
@@ -166,6 +171,12 @@ signUp = async () => {
 
      console.log("variable error:" + this.error);
 
+
+     if (!this.error && this.qraAlreadySignUp===this.state.qra)
+           this.setState({heightindicator: 0, indicator: 0, confirmSignup: true});
+      else
+      {
+
       if (!this.error){
 
         fechanac = this.birthday_convert();
@@ -179,6 +190,7 @@ signUp = async () => {
           }
         })
       .then(() => {console.log('SignUp ok!: ');
+                  this.qraAlreadySignUp = this.state.qra;
                   this.setState({heightindicator: 0, indicator: 0, confirmSignup: true});})
       .catch (err => {console.log('SignUp error: ', err.message)
                      this.setState({errormessage: 'SignUp error: '+err.message,heightindicator: 0,  indicator: 0,heighterror: 25,  loginerror: 1 });
@@ -186,14 +198,26 @@ signUp = async () => {
               })
           
       }
-      else {this.error = false;
-        Keyboard.dismiss();}
+      else {
+        this.error = false;
+        Keyboard.dismiss();
+      }
+    }
 
+      }else 
+      { 
+        this.setState({indicator: 0}); 
+        this.setState({nointernet: true});
+      }
+  
    
   }
 
   resendCode = async () => {
     Keyboard.dismiss();
+    if (await hasAPIConnection())
+    {  
+  
 
     this.setState({ indicator:1,confirmationcodeError:0 });
 
@@ -208,6 +232,11 @@ signUp = async () => {
                 });
 
     this.setState({ heightindicator: 0,indicator:0 });
+  }else 
+  { this.close_confirmSignup();
+    this.setState({indicator: 0}); 
+    this.setState({nointernet: true});
+  }
 
   }
 
@@ -262,7 +291,10 @@ signUp = async () => {
 
   confirmSignup = async () => {
      Keyboard.dismiss();
-     this.setState({confirmationcodeError: 0, indicator:1});
+
+  if (await hasAPIConnection())
+   {  
+     this.setState({confirmationcodeError: 0,heightindicator: 35,  indicator:1});
      
      
      
@@ -279,7 +311,17 @@ signUp = async () => {
     this.setState({errormessage2: 'Confirmation failed! Please enter the code again',color: 'red',  confirmationcodeError: 1, indicator:0 });
                    
   })
+}else 
+{ this.close_confirmSignup();
+  this.setState({indicator: 0, heightindicator: 0}); 
+  this.setState({nointernet: true});
+}
 
+
+  }
+
+  closeNoInternetModal = () => {
+    this.setState({nointernet: false}); 
   }
 
   
@@ -546,6 +588,7 @@ signUp = async () => {
 
 
 </ScrollView>  
+<NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
              
             </View>
             
@@ -584,7 +627,7 @@ signUp = async () => {
           },
           inputConfirmation: {
             height: 40,    
-            width: 300,
+            width: 250,
             backgroundColor: 'rgba(255,255,255,0.2)',
             marginBottom: 5,
             color: '#FFF',
