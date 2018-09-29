@@ -610,7 +610,7 @@ signUp = async () => {
          //   <KeyboardAvoidingView behavior="padding" style={{ justifyContent: 'space-around'}}>
        
          <View style={styles.container}>
-          <View style={{   padding: 3, marginTop: 10, height: this.state.heightindicator,
+          <View style={{   padding: 3, marginTop: 20, height: this.state.heightindicator,
                         opacity: this.state.indicator }} >
                   
                     <ActivityIndicator  animating={true} size="large" color='orange' />
@@ -759,6 +759,10 @@ signUp = async () => {
                           left: 30,
                           right: 30,
                           position: 'absolute',
+                          borderBottomLeftRadius: 22,
+                          borderBottomRightRadius: 22,
+                          borderTopLeftRadius: 22,
+                          borderTopRightRadius: 22,       
                                                     
                         //  alignItems: 'center'                      
                           }}>
@@ -897,6 +901,7 @@ signUp = async () => {
  const styles = StyleSheet.create({
   container: {
      padding: 0,
+    
      flex: 1,
     backgroundColor: '#3498db',
     alignItems: 'center'
@@ -951,7 +956,7 @@ signUp = async () => {
    birthdateText:{
     color: '#FFF',
     fontSize: 16,
-    opacity: 0.7,
+    opacity: 0.8,
     height: 37
          
           },
