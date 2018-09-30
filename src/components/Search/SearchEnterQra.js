@@ -93,7 +93,7 @@ class SearchEnterQra extends Component {
          long = text.length.toString();
          long2 = text.length;
         console.log('escribe:'+long);
-        if (long2===4 && !this.entro) {
+        if (long2===5 && !this.entro) {
           this.setState({actindicatorfecthQras: true})
           console.log("es igual a 4, llama api search");
           this.entro = true;
@@ -102,10 +102,10 @@ class SearchEnterQra extends Component {
           this.setState({actindicatorfecthQras: false})
         }else this.props.searchQrasLocal(text.toUpperCase(),long2);
 
-        if (long2>4) this.props.searchQrasLocal(text.toUpperCase(),long2);
+        if (long2>5) this.props.searchQrasLocal(text.toUpperCase(),long2);
          
 
-        if (long2<4) { 
+        if (long2<5) { 
           this.entro = false;
           this.props.searchQrasLocal('',long2);
 
@@ -131,28 +131,29 @@ class SearchEnterQra extends Component {
         
               return  <View style={{flexDirection: 'row', flex:1}}> 
                <View style={{ flexDirection: 'row', flex: 0.5}}>
-               <TouchableOpacity  onPress={ () => this.addFollowers() }>
-                   <Text style={{height: 40,  fontSize: 16, marginTop: 19, color: 'grey'}}>
-                      Add QRAs to Follow
-                    </Text>
-              </TouchableOpacity> 
+               {(this.props.followingsselected) ?
+                      <TouchableOpacity  style={{ marginTop: 5}} onPress={ () => this.switch()} >
+                                <Text style={styles.otherText} >Switch to Followers</Text>
+                            </TouchableOpacity>     
+
+                    :     
+                      <TouchableOpacity  style={{ marginTop: 5}} onPress={ () => this.switch()} >
+                                <Text style={styles.otherText} >Switch to Followings</Text>
+                            </TouchableOpacity>    
+                        
+             }
+              
                    {/* <TouchableOpacity  onPress={ () => this.addFollowers() }>
                         <Image source={require('../../images/search.png')}  style={{width: 28, height: 28, marginTop: 7 } } 
                         resizeMode="contain" /> 
                         </TouchableOpacity>  */}
                 </View>
               <View style={{flex: 0.5, alignItems: 'flex-end', marginRight: 10}}>
-                {(this.props.followingsselected) ?
-                      <TouchableOpacity  style={{ marginTop: 19}} onPress={ () => this.switch()} >
-                                <Text style={styles.otherText} >Switch to Followers</Text>
-                            </TouchableOpacity>     
-
-                    :     
-                      <TouchableOpacity  style={{ marginTop: 19}} onPress={ () => this.switch()} >
-                                <Text style={styles.otherText} >Switch to Followings</Text>
-                            </TouchableOpacity>    
-                        
-             }
+              <TouchableOpacity  onPress={ () => this.addFollowers() }>
+                   <Text style={{height: 40,  fontSize: 16, marginTop: 5, color: 'grey'}}>
+                      Add QRAs to Follow
+                    </Text>
+              </TouchableOpacity> 
               </View>
         {/* </View> */}
 

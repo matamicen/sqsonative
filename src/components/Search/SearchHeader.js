@@ -50,15 +50,15 @@ closeNoInternetModal = () => {
    
         render() { console.log("RENDER SearchHeader Screen" );
 
-        return   <View style={{flex: 1}}>
+        return   <View style={{flex: 1, flexDirection: 'column'}}>
             
                 
-            <View style={{flex: 0.5}}>
-              {/* <QraProfile qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
+            <View style={{flex: 0.7,flexDirection: 'column'}}>
+              <QraProfile qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />  
               <SearchEnterQra openNointernetModal={this.openNoInternetModal.bind(this)}/>
             </View>
 
-            <View style={{flex: 0.5}}>
+            <View style={{flex: 0.3,flexDirection: 'column'}}>
               <View style={{flexDirection: 'row', marginTop:10, flex:1}}>
                 
                 <View style={{flex: 0.5}}>
