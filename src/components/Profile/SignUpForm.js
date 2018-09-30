@@ -53,7 +53,8 @@ constructor(props) {
      heightindicator: 0,
      heighterror: 0,
      nointernet: false,
-     pickerCountry: false
+     pickerCountry: false,
+     buttonsEnabled: false
      
     };
   }
@@ -317,7 +318,7 @@ signUp = async () => {
 
   if (await hasAPIConnection())
    {  
-     this.setState({confirmationcodeError: 0,heightindicator: 35,  indicator:1});
+     this.setState({confirmationcodeError: 0,heightindicator: 35,  indicator:1, buttonsEnabled: true});
      
      
      
@@ -331,7 +332,8 @@ signUp = async () => {
                   // this.props.navigation.navigate("AppNavigator2");
                                    })
     .catch (err => {console.log('SignUp confirmed error: ', err);
-    this.setState({errormessage2: 'Confirmation failed! Please enter the code again',color: 'red',  confirmationcodeError: 1, indicator:0 });
+    this.setState({errormessage2: 'Confirmation failed! Please enter the code again',color: 'red',
+      confirmationcodeError: 1, indicator:0, buttonsEnabled: false });
                    
   })
 }else 
@@ -872,13 +874,13 @@ signUp = async () => {
 
                     <View style={{flex: 1, flexDirection: 'row'}}>
 
-                    <TouchableOpacity  onPress={() => this.close_confirmSignup()} style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
+                    <TouchableOpacity disabled={this.state.buttonsEnabled} onPress={() => this.close_confirmSignup()} style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
                       <Text style={{ color: '#999', fontSize: 14}}>Cancel</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity onPress={() => this.resendCode() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5, alignItems: 'flex-start'}}>
+                    <TouchableOpacity disabled={this.state.buttonsEnabled} onPress={() => this.resendCode() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5, alignItems: 'flex-start'}}>
                       <Text style={{ color: '#999', fontSize: 14}}>Resend Code</Text>
                     </TouchableOpacity>
-                    <TouchableOpacity  onPress={() => this.confirmSignup() } style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5, alignItems: 'flex-end'}}>
+                    <TouchableOpacity  disabled={this.state.buttonsEnabled} onPress={() => this.confirmSignup() } style={{ paddingTop: 4, paddingBottom: 4, flex: 0.5, alignItems: 'flex-end'}}>
                       <Text style={{ color: 'white', fontSize: 18}}>CONFIRM</Text>
                     </TouchableOpacity>
                     </View>
