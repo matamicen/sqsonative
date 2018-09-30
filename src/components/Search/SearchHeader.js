@@ -8,6 +8,7 @@ import { getFollowingFollowers } from '../../actions';
 import SearchEnterQra from './SearchEnterQra';
 import { hasAPIConnection} from '../../helper';
 import NoInternetModal from '../Qso/NoInternetModal';
+import QraProfile from './../Qso/QraProfile';
 
 
 Amplify.configure(awsconfig);
@@ -53,6 +54,7 @@ closeNoInternetModal = () => {
             
                 
             <View style={{flex: 0.5}}>
+              {/* <QraProfile qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />   */}
               <SearchEnterQra openNointernetModal={this.openNoInternetModal.bind(this)}/>
             </View>
 
@@ -118,7 +120,10 @@ FollowingsText: {
     return {  
              followings: state.sqso.currentQso.followings,
              followers: state.sqso.currentQso.followers,
-             followingsselected: state.sqso.currentQso.followingsSelected   
+             followingsselected: state.sqso.currentQso.followingsSelected,   
+             qra: state.sqso.qra,
+             rdsurl: state.sqso.urlRdsS3,
+             sqsoprofilepicrefresh: state.sqso.profilePicRefresh
     };
 };
 

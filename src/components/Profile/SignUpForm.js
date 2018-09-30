@@ -7,7 +7,7 @@ import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
-import { setQra, setUrlRdsS3 } from '../../actions';
+import { setQra, setUrlRdsS3,resetQso, followersAlreadyCalled } from '../../actions';
 import { hasAPIConnection } from '../../helper';
 import NoInternetModal from '../Qso/NoInternetModal';
 
@@ -283,6 +283,8 @@ signUp = async () => {
       console.log('PASO POR SIGNIN la credencial es:' + identityId);
       var res = identityId.replace(":", "%3A");
       this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
+      this.props.resetQso();
+      this.props.followersAlreadyCalled(false);
       console.log('la credencial RES:' + res);
     }
     catch (e) {
@@ -1044,7 +1046,9 @@ signUp = async () => {
 
 const mapDispatchToProps = {
   setQra,
-  setUrlRdsS3 
+  setUrlRdsS3,
+  resetQso,
+  followersAlreadyCalled, 
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SignUpForm);

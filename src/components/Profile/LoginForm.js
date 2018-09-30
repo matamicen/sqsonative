@@ -4,7 +4,7 @@ import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, Key
 import { connect } from 'react-redux';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
-import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, checkInternet } from '../../actions';
+import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled} from '../../actions';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
 //import {  Permissions } from 'expo';
@@ -340,8 +340,8 @@ const mapDispatchToProps = {
     setQra,
     setUrlRdsS3,
     resetQso,
-    followersAlreadyCalled,
-    checkInternet
+    followersAlreadyCalled
+    
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(LoginForm);
