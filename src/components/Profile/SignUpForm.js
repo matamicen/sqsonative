@@ -85,14 +85,17 @@ constructor(props) {
       }
 
 
-    date_picker = async ()  => {
+    date_picker =  ()  => {
+      console.log('DATE PICKER PRESIONO');
       Keyboard.dismiss();
       if (Platform.OS == 'ios')
       {
+        console.log('DATE PICKER reconocio IOS');
         this.setState({pickerDateIOS: true});
       }
       else
       {
+        console.log('DATE PICKER reconocio ANDROID');
         this.date_picker_android();
       }
       
@@ -160,6 +163,8 @@ signUp = async () => {
             this.setState({errormessage: 'The Passwords must have 6 characters at least',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
             this.error = true; 
             this.passwordRef.focus();
+            // this.flatlist.scrollToIndex(0);
+         //   this.flatlist.scrollToIndex({animated:true , index: 1, viewPosition: 0.5})
           }
 
           if (this.state.qra=='')
@@ -357,7 +362,9 @@ signUp = async () => {
                " birthdate: "+this.state.birthdate +
               " password: " +this.state.password + 
             "passwordConfirm: "+this.state.passwordConfirm);
-
+           
+            const fakedValues = [ 
+              {"name": "Afghanistan", "code": "AF"} ] 
 
             const pickerValues = [ 
               {"name": "Afghanistan", "code": "AF"}, 
@@ -391,7 +398,7 @@ signUp = async () => {
               {"name": "Botswana", "code": "BW"}, 
               {"name": "Bouvet Isl.", "code": "BV"}, 
               {"name": "Brazil", "code": "BR"}, 
-              {"name": "British Indian Ocean Territory", "code": "IO"}, 
+              {"name": "British Indian", "code": "IO"}, 
               {"name": "Brunei Darussalam", "code": "BN"}, 
               {"name": "Bulgaria", "code": "BG"}, 
               {"name": "Burkina Faso", "code": "BF"}, 
@@ -484,7 +491,7 @@ signUp = async () => {
               {"name": "Lebanon", "code": "LB"}, 
               {"name": "Lesotho", "code": "LS"}, 
               {"name": "Liberia", "code": "LR"}, 
-              {"name": "Libyan Arab Jamahiriya", "code": "LY"}, 
+              {"name": "Libyan Arab", "code": "LY"}, 
               {"name": "Liechtenstein", "code": "LI"}, 
               {"name": "Lithuania", "code": "LT"}, 
               {"name": "Luxembourg", "code": "LU"}, 
@@ -542,7 +549,7 @@ signUp = async () => {
               {"name": "Reunion", "code": "RE"}, 
               {"name": "Romania", "code": "RO"}, 
               {"name": "Russian Federation", "code": "RU"}, 
-              {"name": "RWANDA", "code": "RW"}, 
+              {"name": "Rwanda", "code": "RW"}, 
               {"name": "Saint Helena", "code": "SH"}, 
               {"name": "Saint Kitts and Nevis", "code": "KN"}, 
               {"name": "Saint Lucia", "code": "LC"}, 
@@ -610,7 +617,7 @@ signUp = async () => {
          //   <KeyboardAvoidingView behavior="padding" style={{ justifyContent: 'space-around'}}>
        
          <View style={styles.container}>
-          <View style={{   padding: 3, marginTop: 20, height: this.state.heightindicator,
+          <View style={{   padding: 3, marginTop: 25, height: this.state.heightindicator,
                         opacity: this.state.indicator }} >
                   
                     <ActivityIndicator  animating={true} size="large" color='orange' />
@@ -622,13 +629,21 @@ signUp = async () => {
                         <Text style={{ color: 'red', textAlign: 'center', }}> {this.state.errormessage}
                         </Text>
                    </View>
-   <ScrollView contentContainerStyle={styles.contentContainer}>   
+   {/* <ScrollView contentContainerStyle={styles.contentContainer}>    */}
+  
          
-         <KeyboardAvoidingView behavior="padding"        >
+         {/* <KeyboardAvoidingView behavior="padding"        > */}
               {/* <View style={styles.container}> */}
               
                {/* <View style={{flexDirection: 'row', justifyContent: 'space-around',   padding: 3, marginTop: 5, */}
-               
+            <View style={{ height: 570, marginTop: 15  }}>
+               <FlatList contentContainerStyle={styles.contentForm}
+               ref={(ref) => this.flatlist = ref} 
+               showsVerticalScrollIndicator={false} 
+               data={fakedValues}
+           
+           renderItem={({item}) =>     
+             <View>
                    <Text style={{ color: '#FFFFFF', fontSize: 16, marginLeft: 5, marginBottom: 4  }}>SignUp Form</Text>
                <TextInput 
                   ref={qraRef => this.qraRef = qraRef}
@@ -677,7 +692,7 @@ signUp = async () => {
                   returnKeyType="next"
                   autoCapitalize="none"
                   autoCorrect={false}
-                  onSubmitEditing={() => this.birthdatedRef.focus()} 
+                  // onSubmitEditing={() => this.birthdatedRef.focus()} 
                   style={styles.input}
                   value={this.state.email}
                     onChangeText={(text) => this.setState({email: text})} />
@@ -729,8 +744,6 @@ signUp = async () => {
                 
                  />
 
-                
-
                  <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.signUp()} >
                     <Text style={styles.buttonText}> SignUp </Text>
                  </TouchableOpacity>
@@ -739,11 +752,41 @@ signUp = async () => {
                     <Text style={styles.buttonText2} >Login Screen</Text>
                  </TouchableOpacity>
 
-                  </KeyboardAvoidingView> 
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
+                  <Text style={styles.buttonText2} > </Text>
 
-                 {/* <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.date_picker_android()} >
-                    <Text style={styles.buttonText}> DateAndroid </Text>
+
+                 
+                </View>
+                 } />
+
+                </View>
+       {/* </FlatList>         */}
+
+                 {/* <TouchableOpacity style={styles.buttonContainer} onPress={ () => this.signUp()} >
+                    <Text style={styles.buttonText}> SignUp </Text>
+                 </TouchableOpacity>
+
+                 <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.props.navigation.navigate("Root")} >
+                    <Text style={styles.buttonText2} >Login Screen</Text>
                  </TouchableOpacity> */}
+
+                   {/* </KeyboardAvoidingView>  */}
+
+              
 
                  
                      
@@ -884,7 +927,7 @@ signUp = async () => {
                </Modal>
 
 
-</ScrollView>  
+{/* </ScrollView>   */}
 <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
              
             </View>
@@ -918,11 +961,19 @@ signUp = async () => {
 
 
       },
+      
+      contentForm:{
+        // height: 330,
+        width: 340,
+        alignItems: 'center'
+
+
+      },
   input: {
     height: 38,    
     width: 270,
     backgroundColor: 'rgba(255,255,255,0.2)',
-    marginBottom: 17,
+    marginBottom: 12,
     color: '#FFF',
     fontSize: 16,
     borderRadius: 22,
@@ -949,7 +1000,7 @@ signUp = async () => {
         paddingVertical: 10,
         height: 37,
         width: 270,
-        marginBottom: 17,
+        marginBottom: 12,
         paddingHorizontal: 8,
         borderRadius: 22
                },
