@@ -7,7 +7,7 @@ import { getQslScan } from '../../actions';
 import MediaImages from './MediaImages';
 import Likes from './Likes';
 import Comments from './Comments';
-import QRCodeScanner from 'react-native-qrcode-scanner';
+
 
 class QslScanScreen extends Component {
   static navigationOptions = {
@@ -48,66 +48,11 @@ class QslScanScreen extends Component {
     this.props.navigation.dispatch(resetAction)
 }
 
-ScanQSL = async () => {
-    if (this.state.conta===1) {
-      this.setState({actindicatorfecthQslCard: true})
-      await this.props.getQslScan("555d1aa6-81f8-11e8-ae0b-061cacc9b2a0");
-      this.setState({actindicatorfecthQslCard: false})
-  
-  }
-     else this.props.getQslScan("555d1aa6-81f8-11e8-ae0b-061cacc9b2a2");
-                                 
-
-      this.setState({conta: 1})
-
-   }
-
-   scanQR = async function() {
-    this.setState({scanQR: !this.state.scanQR})
-  //  Linking
-  //     .openURL('https://www.cnn.com')
-  //     .catch(err => console.error('An error occured', err));
-
-  }
-
- 
-
-  onSuccess = async function(e) {
- // onSuccess(e) {
- // 
-    // Linking
-    //   .openURL(e.data)
-    //   .catch(err => console.error('An error occured', err));
-    //this.ScanQSL2(e);
-     this.setState({actindicatorfecthQslCard: true})
-    console.log('el codigo Scaneado es: ' +e.data);
-    await this.props.getQslScan(e.data);
-    this.setState({actindicatorfecthQslCard: false})
-     this.setState({scanQR: !this.state.scanQR})
-     
-
-    //   this.setState({scanQR: !this.state.scanQR})
-  }
    
 render() { console.log("RENDER QSL SCAN SCREEN!" );
 
 return   <View style={{flex: 1}}>
-      {this.state.scanQR &&
-      <QRCodeScanner
-               onRead={this.onSuccess.bind(this)}
-             // onRead={() => this.ScanQSL2(this)}
-              topContent={
-                <Text style={styles.centerText}>
-                  Go to <Text style={styles.textBold}>wikipedia.org/wiki/QR_code</Text> on your computer and scan the QR code.
-                </Text>
-              }
-              bottomContent={
-                <TouchableOpacity style={styles.buttonTouchable}>
-                  <Text style={styles.buttonText}>OK. Got it!</Text>
-                </TouchableOpacity>
-              }
-            />
-            }
+   
             
        
       
