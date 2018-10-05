@@ -3,10 +3,12 @@ import { Text, Image, View, StyleSheet, Button, ActivityIndicator, TouchableOpac
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import QsoHeader from './QsoHeader';
+import QsoHeaderLink from './QsoHeaderLink';
 import { getQslScan } from '../../actions';
 import MediaImages from './MediaImages';
 import Likes from './Likes';
 import Comments from './Comments';
+import { getDateQslScan } from '../../helper';
 
 
 class QslScanScreen extends Component {
@@ -50,6 +52,8 @@ class QslScanScreen extends Component {
 
    
 render() { console.log("RENDER QSL SCAN SCREEN!" );
+// console.log('lisandro');
+// console.log(this.props.sqsoqslscan.links);
 
 return   <View style={{flex: 1}}>
    
@@ -102,7 +106,7 @@ return   <View style={{flex: 1}}>
         
 
 
-       <ScrollView>
+       <ScrollView contentContainerStyle={styles.contentContainer}>
        {/* { (this.props.qslalreadyscan==='full') ? */}
         <MediaImages mostrar='image'/> 
        {/* :
@@ -111,6 +115,25 @@ return   <View style={{flex: 1}}>
 
        <Likes />
        <Comments />
+
+           {
+           
+             (this.props.sqsoqslscan.links) &&
+                   this.props.sqsoqslscan.links.map((m, i) =>    
+                    // console.log('loop links: '+m.idqsos +' ' +m.mode)
+                    <View style={{ paddingBottom: 26, width: 400 }}>
+                    {/* <Text>  idqso: {m.idqsos}</Text>
+                    <Text>  mode: {m.mode}</Text>
+                    <Text>  band: {m.band}</Text> */}
+                    <QsoHeaderLink qra={m.qra} mode={m.mode} band={m.band} type={m.type}
+                                   profilepic={m.profilepic} qras={m.qras} datetime={getDateQslScan(m.datetime)} 
+                               />
+                  
+                    
+                  </View> 
+                   )
+              
+             }
 
        </ScrollView>
        
@@ -153,6 +176,11 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     backgroundColor: 'black'
   },
+  contentContainer:{
+   
+   
+
+  },
   preview: {
     flex: 1,
     justifyContent: 'flex-end',
@@ -190,6 +218,7 @@ const styles = StyleSheet.create({
     return {  
        // sqsoqslalreadyscan: state.sqso.qslAlreadyScan,
         sqsoqslscan: state.sqso.currentQso.qslscan.body.message,
+      //  sqsoqslscanbody: state.sqso.currentQso.qslscan.body,
         sqsoqslscanerror: state.sqso.currentQso.qslscan.body.error
         
      };

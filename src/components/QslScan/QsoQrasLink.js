@@ -2,17 +2,19 @@ import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, FlatList  } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchPeople } from '../../actions';
-import Media from './Media';
-import PropTypes from 'prop-types';
+import Qra from './Qra';
+//import PropTypes from 'prop-types';
 
-class MediaImages extends Component {
+class QsoQrasLink extends Component {
 
     constructor(props) {
         super(props);
         
+     
+
          }
 
-  
+
 
    componentDidMount() {
     
@@ -25,18 +27,15 @@ class MediaImages extends Component {
         //this.props.navigation.navigate('CameraScreen');
       }
 
-  _keyExtractor = item => item.url;
-
-
-  
+  _keyExtractor = item => item.qra;
 
   _renderItem = ({ item }) => {
-    const {  url, description , type, datetime } = item;
+    const { qra, profilepic } = item;
 
     return (
       <View>
        <View style={{ paddingRight: 8 }}>
-        <Media  imageurl={url}  description={description} type={type} datetime={datetime} mostrar={this.props.mostrar}  />
+        <Qra qra={qra} imageurl={profilepic}  />
         </View>
        
       </View>
@@ -44,27 +43,21 @@ class MediaImages extends Component {
   };
 
 
-    render() { console.log("RENDER qso Media Iamges Qsl Scan");
-   
+    render() { console.log("RENDER qso QsoQras");
+    // console.log("QsoQRAS:" +  JSON.stringify(this.props.sqsoqslscan.qras));
            
                            
               
         return( <View >
-              {(this.props.sqsoqslscanerror===0) &&
-              <Text style={{color:"grey" }}> Photos taken by <Text style={{color:"blue" }}>{this.props.sqsoqslscan.qra} </Text></Text> 
-            }
-            
-            
-              <FlatList  style={styles.qralist}
                
-                data={this.props.sqsoqslscan.media}
+              <FlatList  style={styles.qralist }
+               
+                data={this.props.qras}
                 keyExtractor={this._keyExtractor}
                 renderItem={this._renderItem}
                 showsVerticalScrollIndicator={false}
                 showsHorizontalScrollIndicator={false}
                 horizontal={true}
-                
-               
                
                 />
 
@@ -81,25 +74,22 @@ class MediaImages extends Component {
  const styles = StyleSheet.create({
     
     qralist: {
-        marginRight: 220,
-        marginLeft: 10,
-       // marginBottom: 70,
-      // maxHeight: 150
-     
+        marginRight: 115 ,
+        marginLeft: 10 
      
     }
   });
 
-  MediaImages.propTypes = {
+  // QsoQras.propTypes = {
     
-  };
+  // };
 
 
 
  const mapStateToProps = state => {
     return {
-        sqsoqslscan: state.sqso.currentQso.qslscan.body.message,
-        sqsoqslscanerror: state.sqso.currentQso.qslscan.body.error
+      sqsoqslscan: state.sqso.currentQso.qslscan.body.message
+        
       };
 };
 
@@ -108,4 +98,4 @@ const mapDispatchToProps = {
    
    }
 
-export default connect(mapStateToProps, mapDispatchToProps)(MediaImages);
+export default connect(mapStateToProps, mapDispatchToProps)(QsoQrasLink);
