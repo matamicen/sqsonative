@@ -78,7 +78,10 @@ class QslScanQR extends Component {
      render() { console.log("RENDER QSL SCAN SCREEN!" );
 
 return   <View style={{flex: 1}}>
-    
+      
+    { (!this.state.actindicatorfecthQslCard) &&
+
+    <View style={{flex: 0.9, justifyContent: 'center'}}>
       <QRCodeScanner
                onRead={this.onSuccess.bind(this)}
              // onRead={() => this.ScanQSL2(this)}
@@ -89,13 +92,34 @@ return   <View style={{flex: 1}}>
 
             </QRCodeScanner>
 
+
+             <View style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
+
+
+              <TouchableOpacity
+                  onPress={() => this.gotoQslScanScreen()}
+                  style = {styles.capture} >
+                  <Text style={{fontSize: 14}}> Go Back </Text>
+              </TouchableOpacity>
+
+              <TouchableOpacity
+                  onPress={() => this.onSuccess_test()}
+                  style = {styles.capture} >
+                  <Text style={{fontSize: 14}}> test </Text>
+              </TouchableOpacity>
+              </View>
+        </View>
+
+    }
+
+
              <Modal visible={this.state.actindicatorfecthQslCard} position= {'top'} transparent={true}  onRequestClose={() => console.log('Close was requested')}>
              {/* <KeyboardAvoidingView behavior="padding"  > */}
               <View style={{ 
                    padding:10, 
                   backgroundColor : 'rgba(0,0,0,0.85)',
                    marginTop: 210,
-                   left: 105,
+                   left: 95,
                    right: 15,
                    width: 185,
                    height: 35,
@@ -114,22 +138,6 @@ return   <View style={{flex: 1}}>
                    
                       </Modal>
 
-
-             <View style={{flex: 0, flexDirection: 'row', justifyContent: 'center'}}>
-
-
-                <TouchableOpacity
-                    onPress={() => this.gotoQslScanScreen()}
-                    style = {styles.capture} >
-                    <Text style={{fontSize: 14}}> Go Back </Text>
-                </TouchableOpacity>
-
-                <TouchableOpacity
-                    onPress={() => this.onSuccess_test()}
-                    style = {styles.capture} >
-                    <Text style={{fontSize: 14}}> test </Text>
-                </TouchableOpacity>
-            </View>
 
 
 
@@ -164,10 +172,10 @@ const styles = StyleSheet.create({
       flex: 0,
       backgroundColor: '#fff',
       borderRadius: 5,
-      padding: 15,
+      padding: 5,
       paddingHorizontal: 20,
       alignSelf: 'center',
-      margin: 20
+      margin: 5
     },
     centerText: {
       flex: 1,
