@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, TouchableHighlight, Keyboard,
      ActivityIndicator, KeyboardAvoidingView, DatePickerAndroid, DatePickerIOS,
-    Platform, Modal, ScrollView, FlatList } from 'react-native';
+    Platform, Modal, ScrollView, FlatList, AsyncStorage } from 'react-native';
 import { connect } from 'react-redux';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
