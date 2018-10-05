@@ -176,6 +176,21 @@ signUp = async () => {
             this.qraRef.focus();
           }
 
+          if (this.state.firstname=='')
+          {
+
+            this.setState({errormessage: 'You must enter your First Name',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.error = true;
+            this.firstnameRef.focus();
+          }
+          if (this.state.lastname=='')
+          {
+
+            this.setState({errormessage: 'You must enter your Last Name',heightindicator: 0, indicator: 0, heighterror: 25, loginerror: 1});
+            this.error = true;
+            this.lastnameRef.focus();
+          }
+
           if (this.state.country=='country')
           {
 
@@ -209,7 +224,10 @@ signUp = async () => {
           password: this.state.password,
           attributes: {
           email: this.state.email,
-          birthdate: fechanac
+          birthdate: fechanac,
+          'custom:firstName': this.state.firstname ,
+          'custom:lastName': this.state.lastname,
+          'custom:country': this.state.country
         
           }
         })
