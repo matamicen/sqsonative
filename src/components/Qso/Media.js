@@ -134,8 +134,8 @@ const styles = StyleSheet.create({
        },
        mediaStyle:
        {
-        width: 55,
-        height: 55,
+        width: 58,
+        height: 58,
         borderRadius: 30
          },
     name:{
