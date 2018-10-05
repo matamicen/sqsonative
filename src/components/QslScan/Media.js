@@ -79,7 +79,9 @@ const styles = StyleSheet.create({
         //    height: 350,
         //    width: 750
         height: 216,
-        width: 384
+        width: 384,
+        borderRadius: 7
+        
        
        
     //   borderRadius: 30
