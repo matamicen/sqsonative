@@ -33,7 +33,8 @@ constructor(props) {
      password: '',
      indicator: 0,
      loginerror: 0,
-     nointernet: false
+     nointernet: false,
+     showloginForm: false
      
     };
   }
@@ -83,6 +84,7 @@ constructor(props) {
     }
     catch (e) {
       console.log('No tiene credenciales LoginForm', e);
+      this.setState({showloginForm: true});
       // Handle exceptions
     }
 
@@ -203,6 +205,8 @@ if (!this.usernotfound)
     render() { console.log("LoginForm Screen");
    
         return (
+          <View>
+            {(this.state.showloginForm) ?
             
                <View style={styles.container}>
    
@@ -272,7 +276,18 @@ if (!this.usernotfound)
 
 
              </View> 
+             :
+             <View style={styles.container}>
+                  <Text style={{ color: '#273c75', textAlign: 'center', fontSize: 18, marginTop: 30,  fontFamily: 'Cochin' }}> Loading ...
+                        </Text>
+                        {/* <Image source={require('../../images/loading.jpg')}  style={{width: 250, height: 160, marginTop: 100  } }  /> */}
+                
+             </View>
+
+
+            }
            
+           </View>
            
         );
        

@@ -16,6 +16,7 @@ class SearchEnterQra extends Component {
         super(props);
         countLenght = 0;
         entro = false;
+        apretoSearch = false;
         
         this.state = {
        //   pickerSelection: 'Choose Band',
@@ -92,8 +93,9 @@ class SearchEnterQra extends Component {
        // this.countLenght = this.countLenght + 1;
          long = text.length.toString();
          long2 = text.length;
+         if (long2===0)  this.apretoSearch = false;
         console.log('escribe:'+long);
-        if (long2===5 && !this.entro) {
+        if (long2===4 && !this.entro) {
           this.setState({actindicatorfecthQras: true})
           console.log("es igual a 4, llama api search");
           this.entro = true;
@@ -102,25 +104,32 @@ class SearchEnterQra extends Component {
           this.setState({actindicatorfecthQras: false})
         }else this.props.searchQrasLocal(text.toUpperCase(),long2);
 
-        if (long2>5) this.props.searchQrasLocal(text.toUpperCase(),long2);
+        if (long2>4) this.props.searchQrasLocal(text.toUpperCase(),long2);
          
 
-        if (long2<5) { 
+        if (long2<4) { 
           this.entro = false;
-          this.props.searchQrasLocal('',long2);
+          // this.props.searchQrasLocal('',long2);
 
         }
       }else 
       {
         this.setState({addfollowersModal: false});
         this.props.openNointernetModal();
+        
       }
            
       
       }
 
-      searchQras = () => {
+      searchQras = async () => {
         Keyboard.dismiss();
+        // this.setState({actindicatorfecthQras: true})
+        // this.entro = true;
+        // await this.props.getQrasFromSearch(this.state.qra.toUpperCase());
+        // this.setState({actindicatorfecthQras: false});
+        // this.apretoSearch = true;
+
       }
      
 
