@@ -59,7 +59,7 @@ closeNoInternetModal = () => {
             </View>
 
             <View style={{flex: 0.3,flexDirection: 'column'}}>
-              <View style={{flexDirection: 'row', marginTop:10, flex:1}}>
+              <View style={{flexDirection: 'row', flex:1}}>
                 
                 <View style={{flex: 0.5}}>
                     {(this.props.followingsselected) ?

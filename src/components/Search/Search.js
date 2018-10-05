@@ -45,12 +45,12 @@ render() { console.log("RENDER qso Screen" );
 return   <View style={{flex: 1}}>
        
          
-       <View style={{flex: 0.3, marginTop: 30, marginLeft: 10}}>
+       <View style={{flex: 0.35, marginTop: 30, marginLeft: 10}}>
           <SearchHeader /> 
 
 
        </View>        
-       <View style={{flex: 0.7, width:450, marginBottom: 10}}>
+       <View style={{flex: 0.65, width:450, marginBottom: 10}}>
        
        <FollowerList /> 
       

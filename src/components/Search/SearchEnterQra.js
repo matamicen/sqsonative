@@ -214,7 +214,7 @@ class SearchEnterQra extends Component {
                    </View>
 
            {/* <View style={{  flex: 0.7, marginLeft: 25}}> */}
-           <View style={{ marginLeft: 25, height: 400, marginBottom: 10}}>
+           <View style={{ marginLeft: 25, height: 400, width: 300, marginBottom: 10}}>
 
                       <FlatList  style={styles.qralist }
                

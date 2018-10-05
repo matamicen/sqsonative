@@ -46,13 +46,13 @@ class Media extends Component {
                <View style={{flexDirection: 'row', marginTop: 6}}>
 
                       { (this.props.type==='image' || this.props.type==='profile') ? <Image
-                    style={styles.faceImageStyle}
+                    style={styles.mediaStyle}
                     source={{ uri: this.props.imageurl }}
                       />
                       
                       
                       : <Image
-                      style={styles.faceImageStyle}
+                      style={styles.mediaStyle}
                       source={require('../../images/audio.png')}
                           /> }
                     
@@ -65,7 +65,7 @@ class Media extends Component {
                     <View  style={{marginLeft: 25 }}>
 
                       <Progress.Bar
-                          style={{marginTop: 27, height: 6, width: 230 }}
+                          style={{marginTop: 23, height: 6, width: 230 }}
                           width={230}
                           unfilledColor="lightgrey"
                           borderRadius={0}
@@ -132,6 +132,12 @@ const styles = StyleSheet.create({
       height: 65,
       borderRadius: 30
        },
+       mediaStyle:
+       {
+        width: 55,
+        height: 55,
+        borderRadius: 30
+         },
     name:{
         fontSize: 12,
         marginLeft: 5,
@@ -140,7 +146,7 @@ const styles = StyleSheet.create({
         color: 'orange'        
     },
     status:{
-      fontSize: 16,
+      fontSize: 14,
       marginTop: 2,
       textAlign: 'right',
      // padding: 2,
