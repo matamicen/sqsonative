@@ -6,8 +6,10 @@ import QsoHeader from './QsoHeader';
 import QsoHeaderLink from './QsoHeaderLink';
 import { getQslScan } from '../../actions';
 import MediaImages from './MediaImages';
+import MediaImagesLink from './MediaImagesLink';
 import Likes from './Likes';
 import Comments from './Comments';
+import CommentsLink from './CommentsLink';
 import { getDateQslScan } from '../../helper';
 
 
@@ -128,6 +130,13 @@ return   <View style={{flex: 1}}>
                     <QsoHeaderLink qra={m.qra} mode={m.mode} band={m.band} type={m.type}
                                    profilepic={m.profilepic} qras={m.qras} datetime={getDateQslScan(m.datetime)} 
                                />
+
+                    <MediaImagesLink media={m.media} qra={m.qra} mostrar='image'/> 
+
+                    <MediaImagesLink media={m.media} qra={m.qra} mostrar='audio'/> 
+
+
+                    <CommentsLink comments={m.comments} />
                   
                     
                   </View> 

@@ -67,7 +67,7 @@ class QslScanQR extends Component {
         //  console.log('el codigo Scaneado es: ' +e.data);
         
         //  await this.props.getQslScan('2734ee49-bdc0-11e8-ae0b-061cacc9b2a2');
-        await this.props.getQslScan('d3b64737-c8af-11e8-ae0b-061cacc9b2a2');
+        await this.props.getQslScan('0e5866a5-c97d-11e8-ae0b-061cacc9b2a2');
          this.setState({actindicatorfecthQslCard: false})
          this.gotoQslScanScreen();
        //   this.setState({scanQR: !this.state.scanQR})
