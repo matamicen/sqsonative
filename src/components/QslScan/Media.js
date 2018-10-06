@@ -40,12 +40,14 @@ class Media extends Component {
                    (this.props.mostrar==='image') &&  
                         (this.props.type===this.props.mostrar) && 
                     // <View style={{flexDirection: 'row'}}> 
-                    <View>
+                    <View >
+                     
                         <Image  
                         style={styles.faceImageStyle}
                         source={{ uri: this.props.imageurl }}
                         resizeMode="contain"
                         />
+                       
                         <Text style={{textAlign: 'center', fontSize: 16, color: 'orange'}} >{this.props.description}</Text>
                         {/*  <S3Image imgKey="209fb104-22bc-4ada-9afd-079b78b4e9dc/cr7.jpg" /> */}
                   </View>
@@ -80,7 +82,8 @@ const styles = StyleSheet.create({
         //    width: 750
         height: 216,
         width: 384,
-        borderRadius: 7
+        borderRadius: 15
+        
         
        
        

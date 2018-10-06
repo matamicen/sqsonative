@@ -70,7 +70,7 @@ return   <View style={{flex: 1}}>
   
         </View>
 
-       <View style={{ flex: 0.64, width: 600, marginLeft: 3, marginRight: 3, marginTop: 30}}>
+       <View style={{ flex: 0.64, width: 400, marginLeft: 3, marginRight: 3, marginTop: 30}}>
 
        <View style={{marginLeft: 30}}>
       

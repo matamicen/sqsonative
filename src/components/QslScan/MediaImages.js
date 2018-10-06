@@ -81,7 +81,7 @@ class MediaImages extends Component {
  const styles = StyleSheet.create({
     
     qralist: {
-        marginRight: 220,
+        marginRight: 10,
         marginLeft: 10,
        // marginBottom: 70,
       // maxHeight: 150
