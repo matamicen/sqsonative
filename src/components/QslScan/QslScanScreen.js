@@ -62,15 +62,20 @@ return   <View style={{flex: 1}}>
             
        
       
-       <View style={{flex: 0.26}}>
+       <View style={{flex: 0.32, width: 400, marginLeft: 3, marginRight: 3}}>
       
-        <QsoHeader />
+        {/* <QsoHeader /> */}
+        {(this.props.sqsoqslscan.datetime) &&
+         <QsoHeaderLink qra={this.props.sqsoqslscan.qra} mode={this.props.sqsoqslscan.mode} band={this.props.sqsoqslscan.band} type={this.props.sqsoqslscan.type}
+                                   profilepic={this.props.sqsoqslscan.profilepic} qras={this.props.sqsoqslscan.qras} datetime={this.props.sqsoqslscan.datetime} 
+                               />
+        }
 
 
   
         </View>
 
-       <View style={{ flex: 0.64, width: 400, marginLeft: 3, marginRight: 3, marginTop: 30}}>
+       <View style={{ flex: 0.58, width: 400, marginLeft: 3, marginRight: 3, marginTop: 6}}>
 
        <View style={{marginLeft: 30}}>
       
