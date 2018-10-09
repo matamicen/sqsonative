@@ -128,7 +128,7 @@ return   <View style={{flex: 1}}>
              (this.props.sqsoqslscan.links) &&
                    this.props.sqsoqslscan.links.map((m, i) =>    
                     // console.log('loop links: '+m.idqsos +' ' +m.mode)
-                    <View style={{ paddingBottom: 26, width: 400 }}>
+                    <View   key={i} style={{ paddingBottom: 7, felx:1, backgroundColor: 'white', borderRadius: 12, marginTop: 10 }}>
                     {/* <Text>  idqso: {m.idqsos}</Text>
                     <Text>  mode: {m.mode}</Text>
                     <Text>  band: {m.band}</Text> */}

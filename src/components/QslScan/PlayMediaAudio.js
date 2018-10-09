@@ -44,7 +44,8 @@ import Video from 'react-native-video';
         // restar: 0,
         secondsText: '00',
         minutesDuration: 0,
-        secondsDuration: 0
+        secondsDuration: 0,
+        aparece: false
       };
         
       }
@@ -96,26 +97,33 @@ import Video from 'react-native-video';
 
   PlayAudio = () => {
    
-    this.setState({pausedAudio: false, playingAudio: true});
+   this.setState({aparece: true});
+   this.setState({pausedAudio: false, playingAudio: true});
    
   }
 
   onEnd = async () => {
-  
+    
     console.log('termino el audio! lo pauso y lo vuelvo al inicio');
     this.setState({pausedAudio: true, playingAudio: false,  minutes: 0, secondsText: '00' });
     this.restar = 0;
     this.secondsAux = 0;
     this.multiplo60anterior = 0;
   
-    setTimeout(() => {
-      console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
-     //  this.props.actindicatorImageDisabled();
-     this.player.seek(0);
+  //   setTimeout(() => {
+  //     console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+    
+  //    this.player.seek(0);
+     
+     
        
-   }, 200);
+  //  }, 200);
+
+    this.setState({aparece: false});
+
    
-  }
+   
+   }
 
   onVideoLoad(e) {
     this.setState({currentTimePlay: e.currentTime, duration: e.duration});
@@ -145,6 +153,7 @@ import Video from 'react-native-video';
 
    // console.log('duracion Float: '+ Math.floor(e.duration));
     //parseFloat
+    
 }
 
   onProgress(data) {
@@ -189,6 +198,9 @@ import Video from 'react-native-video';
 
   render() {
 
+    console.log('AUDIOM DESC: '+this.props.description);
+    console.log('AUDIOM URL: '+this.props.url);
+
     return (
     //   <View style={styles.container}>
     <View style={{ alignItems: 'center', width:200}}>
@@ -219,6 +231,9 @@ import Video from 'react-native-video';
                resizeMode="contain" />    
                
            </TouchableOpacity> 
+
+     
+
           
        </View>
        <View  style={{ alignItems: 'center', width:200}}>
@@ -229,6 +244,8 @@ import Video from 'react-native-video';
 
           
           {/* http://clips.vorwaerts-gmbh.de/big_buck_bunny.mp4 */}
+
+        {(this.state.aparece)&&  
           <Video source={{uri: this.props.url}}   // Can be a URL or a local file.
        ref={(ref) => {
          this.player = ref
@@ -238,11 +255,14 @@ import Video from 'react-native-video';
        onEnd={this.onEnd}                      // Callback when playback finishes
        onError={this.videoError}               // Callback when video cannot be loaded
     //    style={styles.backgroundVideo} 
-       audioOnly={true}
+      //  audioOnly={true}
        onProgress={this.onProgress.bind(this)}
        
        paused={this.state.pausedAudio} />
 
+      }
+
+   
       </View>
        
          

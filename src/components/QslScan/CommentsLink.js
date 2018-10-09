@@ -24,7 +24,9 @@ class CommentsLink extends Component {
        }
 
 
-  _keyExtractor = item => item.qra;
+  _keyExtractor = item => item.datetime;
+//   _keyExtractor = (item, index) => index;
+
 
   _renderItem = ({ item }) => {
     const { qra, datetime, comment } = item;
