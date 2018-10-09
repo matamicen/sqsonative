@@ -45,7 +45,9 @@ import Video from 'react-native-video';
         secondsText: '00',
         minutesDuration: 0,
         secondsDuration: 0,
-        aparece: false
+        aparece: false,
+        showBuffering: false,
+        showDuration: false
       };
         
       }
@@ -97,7 +99,7 @@ import Video from 'react-native-video';
 
   PlayAudio = () => {
    
-   this.setState({aparece: true});
+   this.setState({aparece: true, showBuffering: true});
    this.setState({pausedAudio: false, playingAudio: true});
    
   }
@@ -119,14 +121,15 @@ import Video from 'react-native-video';
        
   //  }, 200);
 
-    this.setState({aparece: false});
+    this.setState({aparece: false, showDuration: false});
+    
 
    
    
    }
 
   onVideoLoad(e) {
-    this.setState({currentTimePlay: e.currentTime, duration: e.duration});
+    this.setState({currentTimePlay: e.currentTime, duration: e.duration, showBuffering: false, showDuration: true});
     console.log('duracion: '+  Math.floor(e.duration));
     this.duracionminutos = parseInt(Math.floor(e.duration)/60);
     console.log('duracionminutos:'+ this.duracionminutos );
@@ -237,8 +240,15 @@ import Video from 'react-native-video';
           
        </View>
        <View  style={{ alignItems: 'center', width:200}}>
+        {(this.state.showBuffering) &&
+         
+         <Text style={{ fontSize: 14, color: 'grey'}}>  Buffering ...</Text>
 
-           <Text> {this.state.minutes}:{this.state.secondsText} / {this.state.minutesDuration}:{this.state.secondsDuration}</Text>
+        }
+        {(this.state.showDuration) &&
+          <Text> {this.state.minutes}:{this.state.secondsText} / {this.state.minutesDuration}:{this.state.secondsDuration}</Text>
+        }
+
            <Text> QTR: {this.props.datetime.substr(11, 8)}</Text>
            <Text style={{ fontSize: 16, color: 'orange'}}>  {this.props.description}</Text>
 

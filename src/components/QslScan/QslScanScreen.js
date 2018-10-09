@@ -10,6 +10,7 @@ import MediaImagesLink from './MediaImagesLink';
 import Likes from './Likes';
 import Comments from './Comments';
 import CommentsLink from './CommentsLink';
+import LikesLink from './LikesLink';
 import { getDateQslScan } from '../../helper';
 
 
@@ -141,6 +142,8 @@ return   <View style={{flex: 1}}>
                     <MediaImagesLink media={m.media} qra={m.qra} mostrar='audio'/> 
 
 
+
+                    <LikesLink likes={m.likes} type={m.type}/>
                     <CommentsLink comments={m.comments} />
                   
                     
