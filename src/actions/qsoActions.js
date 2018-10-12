@@ -19,7 +19,7 @@ import {FETCHING_API_REQUEST,
         FOLLOWERS_ALREADY_CALLED, FOLLOWINGS_SELECTED, QRA_SEARCH,
         UPDATE_QSL_SCAN, UPDATE_QSL_SCAN_RESULT,
         REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL, PROFILE_PICTURE_REFRESH,
-        SET_LOCATION  } from './types';
+        SET_LOCATION, SET_STOPALLAUDIOS  } from './types';
 
 import awsconfig from '../aws-exports';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -29,6 +29,14 @@ import { Buffer } from 'buffer';
 import RNFetchBlob from 'rn-fetch-blob';
 
 Amplify.configure(awsconfig)
+
+export const setStopAllAudios = (status) => {
+    return {
+        type: SET_STOPALLAUDIOS,
+        payload: status
+    };
+}
+
 
 export const fetchingApiRequest = () => {
     return {

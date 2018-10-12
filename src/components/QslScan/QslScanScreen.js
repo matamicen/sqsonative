@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, View, StyleSheet, Button, ActivityIndicator, TouchableOpacity, ScrollView, Modal } from 'react-native';
+import { Text, Image, View, StyleSheet, Button, ActivityIndicator, TouchableOpacity, ScrollView, Modal, Platform, Alert } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 // import QsoHeader from './QsoHeader';
@@ -12,6 +12,9 @@ import MediaImagesLink from './MediaImagesLink';
 import CommentsLink from './CommentsLink';
 import LikesLink from './LikesLink';
 import { getDateQslScan } from '../../helper';
+import { hasAPIConnection } from '../../helper';
+import NoInternetModal from '../Qso/NoInternetModal';
+import Permissions from 'react-native-permissions'
 
 
 class QslScanScreen extends Component {
@@ -27,11 +30,15 @@ class QslScanScreen extends Component {
 
   constructor(props) {
     super(props);
-    
+    this.micPermission = false;
+    this.camPermission = false;
+
     this.state = {
       conta: 0,
       actindicatorfecthQslCard: false,
-      scanQR: false
+      scanQR: false,
+      nointernet: false,
+     
       
     };
   }
@@ -53,6 +60,167 @@ class QslScanScreen extends Component {
     this.props.navigation.dispatch(resetAction)
 }
 
+closeNoInternetModal = () => {
+  this.setState({nointernet: false}); 
+}
+
+checkInternetScanQR = async () => {
+  console.log('entro a PEDIR PERMISOS');
+  if (await hasAPIConnection())
+  {
+    Permissions.request('microphone').then(response => {
+      // Returns once the user has chosen to 'allow' or to 'not allow' access
+      // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+      console.log('Microphone Permiso: '+response);
+    if (response==='authorized')
+      {
+        console.log('entro a PEDIR PERMISOS esta AUTORIZADO!!!');
+        this.micPermission = true;
+        // this.props.navigation.navigate("QslScanQR");
+       }
+
+      if (response==='denied' &&  Platform.OS !== 'android')
+      {
+       Alert.alert(
+        'You denied the access to the Microphone',
+        'In order to Authorize choose Open Settings',
+        [
+          {
+            text: 'No, thanks',
+            onPress: () => console.log('Permission denied'),
+            style: 'cancel',
+          },
+          { text: 'Open Settings',
+             onPress: Permissions.openSettings },
+          
+        ],
+       )
+      }
+
+      if (response==='restricted' &&  Platform.OS === 'android')
+      {
+       Alert.alert(
+        'You denied the access to the Microphone',
+        'In order to Authorize go to settings->Apps->superQso->Permissions',
+        [
+          {
+            text: 'Ok',
+            onPress: () => console.log('ok'),
+            style: 'cancel',
+          },
+          
+        ],
+       )
+      }
+      
+   
+
+    if (response==='restricted' &&  Platform.OS !== 'android')
+    {
+     Alert.alert(
+      'You do not have access to the Microphone',
+      'Cause: it is not supported by the device or because it has been blocked by parental controls',
+      [
+        {
+          text: 'Ok',
+          onPress: () => console.log('ok'),
+          style: 'cancel',
+        },
+        
+      ],
+     )
+    }
+
+
+    Permissions.request('camera').then(response => {
+      // Returns once the user has chosen to 'allow' or to 'not allow' access
+      // Response is one of: 'authorized', 'denied', 'restricted', or 'undetermined'
+      console.log('Camera Permiso: '+response);
+    if (response==='authorized')
+      {
+      // this.props.closeModalConfirmPhoto('image');
+      // this.props.navigation.navigate("CameraScreen2");
+      this.camPermission = true;  
+      
+       }
+
+      if (response==='denied' &&  Platform.OS !== 'android')
+      {
+       Alert.alert(
+        'You denied the access to the Camera',
+        'In order to Authorize choose Open Settings',
+        [
+          {
+            text: 'No, thanks',
+            onPress: () => console.log('Permission denied'),
+            style: 'cancel',
+          },
+          { text: 'Open Settings',
+             onPress: Permissions.openSettings },
+          
+        ],
+       )
+      }
+
+      if (response==='restricted' &&  Platform.OS === 'android')
+      {
+       Alert.alert(
+        'You denied the access to the Camera',
+        'In order to Authorize go to settings->Apps->superQso->Permissions',
+        [
+          {
+            text: 'Ok',
+            onPress: () => console.log('ok'),
+            style: 'cancel',
+          },
+          
+        ],
+       )
+      }
+      
+   
+
+    if (response==='restricted' &&  Platform.OS !== 'android')
+    {
+     Alert.alert(
+      'You do not have access to the Camera',
+      'Cause: it is not supported by the device or because it has been blocked by parental controls',
+      [
+        {
+          text: 'Ok',
+          onPress: () => console.log('ok'),
+          style: 'cancel',
+        },
+        
+      ],
+     )
+    }
+
+
+  if (this.micPermission && this.camPermission)
+  this.props.navigation.navigate("QslScanQR");
+    
+ 
+  });
+
+    
+
+
+ 
+  });
+
+  
+ 
+
+    
+    
+  
+
+  }
+    else
+      this.setState({nointernet: true});
+
+ }
    
 render() { console.log("RENDER QSL SCAN SCREEN!" );
 // console.log('lisandro');
@@ -64,6 +232,8 @@ return   <View style={{flex: 1}}>
        
       
        <View style={{flex: 0.32, width: 400, marginLeft: 3, marginRight: 3}}>
+
+        <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
       
         {/* <QsoHeader /> */}
         {(this.props.sqsoqslscan.datetime) &&
@@ -171,7 +341,7 @@ return   <View style={{flex: 1}}>
        
       
        {/* this.scanQR() */}
-       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () =>  this.props.navigation.navigate("QslScanQR") }>
+       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR()  }>
           
             <Image source={require('../../images/qrcodescan.png')}  style={{width: 33, height: 33, marginLeft: 9 } } 
          resizeMode="contain" />    

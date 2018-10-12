@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
+import { setStopAllAudios } from '../../actions';
 
 import {
   AppRegistry,
@@ -26,6 +27,7 @@ import Video from 'react-native-video';
         this.multiplo60anterior = 0;
         this.duracionminutos = 0;
         this.duracionsegundos = 0;
+        this.llameDeEsteComponente = false;
 
        // this.followstatus = '';
        this.state = {
@@ -47,7 +49,8 @@ import Video from 'react-native-video';
         secondsDuration: 0,
         aparece: false,
         showBuffering: false,
-        showDuration: false
+        showDuration: false, 
+       
       };
         
       }
@@ -73,6 +76,78 @@ import Video from 'react-native-video';
     // });
   }
 
+ 
+    componentWillReceiveProps(nextProps) {
+ 
+ 
+   
+    if (nextProps.stopallaudios && this.llameDeEsteComponente)
+       {
+         
+         console.log('nextprops playAudio llameDeEsteComponente = false');
+         this.llameDeEsteComponente = false;
+        
+       }
+
+       else if (nextProps.stopallaudios && !this.llameDeEsteComponente)
+    {
+       console.log('nextprops playAudio baja el VIDEO');
+        
+  
+     this.setState({aparece: false, showDuration: false, pausedAudio: false, playingAudio: false,  minutes: 0, secondsText: '00'});  
+     
+   
+      }
+
+
+
+
+
+
+
+
+
+    //    else if (!nextProps.stopallaudios && this.llameDeEsteComponente)
+    // {
+      
+    //   console.log('nextprops playAudio llameDeEsteComponente = false');
+    //   this.llameDeEsteComponente = false;
+     
+    // }
+
+         
+    // if (!nextProps.stopallaudios && this.llameDeEsteComponente)
+    // {
+      
+    //   console.log('nextprops playAudio llameDeEsteComponente = false');
+    //   this.llameDeEsteComponente = false;
+     
+    // }
+
+
+    // if (nextProps.stopallaudios && !this.llameDeEsteComponente)
+    // {
+    //   console.log('nextprops playAudio baja el VIDEO');
+    //    this.setState({aparece: false, showDuration: false});
+    // }
+
+
+
+
+
+
+
+
+      //  else {
+      //   console.log('nextprops playAudio baja el VIDEO');
+      //   this.setState({aparece: false, showDuration: false});
+
+        
+      //  }
+        
+}
+
+
   _checkPermission() {
     if (Platform.OS !== 'android') {
       return Promise.resolve(true);
@@ -94,15 +169,28 @@ import Video from 'react-native-video';
   PauseAudio = () => {
    
     this.setState({pausedAudio: true, playingAudio: false});
+    this.llameDeEsteComponente = false;
+    this.props.setStopAllAudios(false);
+    
    
   }
 
   PlayAudio = () => {
-  if (!this.state.pausedAudio)
-     this.setState({ showBuffering: true});
+
+    this.setState({aparece: true});
+    this.setState({pausedAudio: false, playingAudio: true});
+
+  // si es la primera vez que pone PLAY o sea que no viene de un PAUSE
+    if (!this.state.pausedAudio)
+    {
+      //  {  this.llameDeEsteComponente = true;
+      //   console.log('EJECUTO llameDeEsteComponente = true' );
+      //     this.props.setStopAllAudios(true);
+          this.setState({ showBuffering: true});
+       }
+   
         
-   this.setState({aparece: true});
-   this.setState({pausedAudio: false, playingAudio: true});
+ 
 
  
    
@@ -126,6 +214,8 @@ import Video from 'react-native-video';
   //  }, 200);
 
     this.setState({aparece: false, showDuration: false});
+     this.llameDeEsteComponente = false;
+     this.props.setStopAllAudios(false);
     
 
    
@@ -160,6 +250,10 @@ import Video from 'react-native-video';
 
    // console.log('duracion Float: '+ Math.floor(e.duration));
     //parseFloat
+
+    this.llameDeEsteComponente = true;
+        console.log('EJECUTO llameDeEsteComponente = true' );
+          this.props.setStopAllAudios(true);
     
 }
 
@@ -269,8 +363,9 @@ import Video from 'react-native-video';
        onEnd={this.onEnd}                      // Callback when playback finishes
        onError={this.videoError}               // Callback when video cannot be loaded
     //    style={styles.backgroundVideo} 
-      //  audioOnly={true}
+        // audioOnly={true}
        onProgress={this.onProgress.bind(this)}
+       ignoreSilentSwitch={"ignore"}
        
        paused={this.state.pausedAudio} />
 
@@ -329,13 +424,14 @@ var styles = StyleSheet.create({
 
 const mapStateToProps = state => {
     return { 
+      stopallaudios: state.sqso.stopAllAudios
     }
           
 };
 
 
 const mapDispatchToProps = {
- 
+     setStopAllAudios
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(PlayMediaAudio);

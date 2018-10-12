@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, Image, View, StyleSheet, Button, ActivityIndicator, TouchableOpacity, ScrollView, Modal } from 'react-native';
+import { Text, Image, View, StyleSheet, Button, ActivityIndicator, TouchableOpacity, ScrollView, Modal, PermissionsAndroid
+,Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 // import QsoHeader from './QsoHeader';
@@ -25,10 +26,14 @@ class QslScanQR extends Component {
     this.state = {
       conta: 0,
       actindicatorfecthQslCard: false,
-      scanQR: false
+      scanQR: false,
+      hasPermission: undefined
       
     };
   }
+
+
+
 
   gotoQslScanScreen = async () => {
 
