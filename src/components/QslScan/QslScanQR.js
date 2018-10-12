@@ -2,11 +2,11 @@ import React, { Component } from 'react';
 import { Text, Image, View, StyleSheet, Button, ActivityIndicator, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import QsoHeader from './QsoHeader';
+// import QsoHeader from './QsoHeader';
 import { getQslScan } from '../../actions';
-import MediaImages from './MediaImages';
-import Likes from './Likes';
-import Comments from './Comments';
+// import MediaImages from './MediaImages';
+// import Likes from './Likes';
+// import Comments from './Comments';
 import QRCodeScanner from 'react-native-qrcode-scanner';
 
 class QslScanQR extends Component {

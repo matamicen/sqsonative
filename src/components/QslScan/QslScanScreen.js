@@ -2,13 +2,13 @@ import React, { Component } from 'react';
 import { Text, Image, View, StyleSheet, Button, ActivityIndicator, TouchableOpacity, ScrollView, Modal } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
-import QsoHeader from './QsoHeader';
+// import QsoHeader from './QsoHeader';
 import QsoHeaderLink from './QsoHeaderLink';
 import { getQslScan } from '../../actions';
-import MediaImages from './MediaImages';
+// import MediaImages from './MediaImages';
 import MediaImagesLink from './MediaImagesLink';
-import Likes from './Likes';
-import Comments from './Comments';
+// import Likes from './Likes';
+// import Comments from './Comments';
 import CommentsLink from './CommentsLink';
 import LikesLink from './LikesLink';
 import { getDateQslScan } from '../../helper';
@@ -116,13 +116,19 @@ return   <View style={{flex: 1}}>
 
        <ScrollView contentContainerStyle={styles.contentContainer}>
        {/* { (this.props.qslalreadyscan==='full') ? */}
-        <MediaImages mostrar='image'/> 
+        {/*  <MediaImages mostrar='image'/> */}
+        <MediaImagesLink media={this.props.sqsoqslscan.media} qra={this.props.sqsoqslscan.qra} mostrar='image'/> 
+
        {/* :
         null } */}
-       <MediaImages mostrar='audio'/> 
+       {/* <MediaImages mostrar='audio'/> */}
+       <MediaImagesLink media={this.props.sqsoqslscan.media} qra={this.props.sqsoqslscan.qra} mostrar='audio'/> 
 
-       <Likes />
-       <Comments />
+       <LikesLink likes={this.props.sqsoqslscan.likes} type={this.props.sqsoqslscan.type}/>
+       <CommentsLink comments={this.props.sqsoqslscan.comments} />
+
+       {/*  <Likes />
+       <Comments />*/}
 
            {
            
