@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, FlatList  } from 'react-native';
 import { connect } from 'react-redux';
-import Qra from './Qra';
+// import Qra from './Qra';
 import Comment from './Comment';
 import { getDateQslScan } from '../../helper';
 //import PropTypes from 'prop-types';
