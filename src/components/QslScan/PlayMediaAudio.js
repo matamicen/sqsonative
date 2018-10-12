@@ -36,7 +36,7 @@ import Video from 'react-native-video';
         finished: false,
        // audioPath: AudioUtils.DocumentDirectoryPath + '/test.mp4',
         hasPermission: undefined,
-        pausedAudio: true,
+        pausedAudio: false,
         currentTimePlay: 0.0,
         playingAudio: false,
         minutes: 0,
@@ -98,16 +98,20 @@ import Video from 'react-native-video';
   }
 
   PlayAudio = () => {
-   
-   this.setState({aparece: true, showBuffering: true});
+  if (!this.state.pausedAudio)
+     this.setState({ showBuffering: true});
+        
+   this.setState({aparece: true});
    this.setState({pausedAudio: false, playingAudio: true});
+
+ 
    
   }
 
   onEnd = async () => {
     
     console.log('termino el audio! lo pauso y lo vuelvo al inicio');
-    this.setState({pausedAudio: true, playingAudio: false,  minutes: 0, secondsText: '00' });
+    this.setState({pausedAudio: false, playingAudio: false,  minutes: 0, secondsText: '00' });
     this.restar = 0;
     this.secondsAux = 0;
     this.multiplo60anterior = 0;
