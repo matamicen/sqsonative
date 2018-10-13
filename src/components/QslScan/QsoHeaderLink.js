@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TextInput  } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TextInput, Platform  } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchPeople } from '../../actions';
 import QraLink from './QraLink';
@@ -96,7 +96,7 @@ class QsoHeaderLink extends Component {
  const styles = StyleSheet.create({
    content: {
       
-    marginTop: 35,
+    marginTop: Platform.OS === 'ios' ? 30 : 13,
     marginLeft: 3,
     marginRight: 8,
     flex: 4

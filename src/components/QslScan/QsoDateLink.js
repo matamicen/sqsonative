@@ -28,8 +28,8 @@ class QsoDateLink extends Component {
         return <View >        
 
                  {(this.props.sqsoqslscanerror===0) &&
-               <Text style={{ fontSize: 18, color: '#999'}}>Date:
-               <Text style={{ fontSize: 18, color: 'orange'}}>  {this.props.datetime.substr(0,12)} </Text>
+               <Text style={{ fontSize: 16, color: '#999'}}>Date:
+               <Text style={{ fontSize: 16, color: 'orange'}}>  {this.props.datetime.substr(0,12)} </Text>
                
                </Text>
        }

@@ -237,7 +237,7 @@ return   <View style={{flex: 1}}>
             
        
       
-       <View style={{flex: 0.29, width: this.width-12, marginLeft: 3, marginRight: 3}}>
+       <View style={{flex: 0.25, width: this.width-12, marginLeft: 3, marginRight: 3}}>
 
         <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
       
@@ -252,7 +252,7 @@ return   <View style={{flex: 1}}>
   
         </View>
 
-       <View style={{ flex: 0.61, width: this.width-12, marginLeft: 3, marginRight: 3, marginTop: 6}}>
+       <View style={{ flex: 0.67, width: this.width-12, marginLeft: 3, marginRight: 3, marginTop: 6}}>
 
        <View style={{marginLeft: 30}}>
       
@@ -347,13 +347,13 @@ return   <View style={{flex: 1}}>
        
      
 
-       <View style={{ flexDirection: 'row', flex:0.1, marginTop:9, justifyContent: 'center'}}> 
+       <View style={{ flexDirection: 'row', flex:0.08, marginTop:7, justifyContent: 'center'}}> 
        
       
        {/* this.scanQR() */}
        <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR()  }>
           
-            <Image source={require('../../images/qrcodescan.png')}  style={{width: 33, height: 33, marginLeft: 9 } } 
+            <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
          resizeMode="contain" />    
          <Text style={{ fontSize: 12, color: '#999'}}>Scan Qsl</Text>          
         </TouchableOpacity> 

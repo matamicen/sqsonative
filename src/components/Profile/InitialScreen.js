@@ -169,7 +169,7 @@ signOut = async () => {
     render() { console.log("InitialScreen Screen");
     console.log("InitialScreen Screen profile.jpg"+this.props.rdsurl+'/profile/profile.jpg');
    
-        return <View style={{ marginTop: 50, marginLeft: 10}}>
+        return <View style={{ marginTop: Platform.OS === 'ios' ? 20 : 13, marginLeft: 10}}>
           
                
              {/* <Text style={{fontSize: 30}}>

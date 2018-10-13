@@ -32,8 +32,8 @@ class QsoBandLink extends Component {
         return <View>               
                                  
             {(this.props.sqsoqslscanerror===0) &&
-               <Text style={{ fontSize: 18, color: '#999', marginLeft: 5}}  >Band:
-                 <Text style={{ fontSize: 18, color: 'orange'}}> {this.props.band} </Text>
+               <Text style={{ fontSize: 16, color: '#999', marginLeft: 5}}  >Band:
+                 <Text style={{ fontSize: 16, color: 'orange'}}> {this.props.band} </Text>
               </Text>
             } 
              

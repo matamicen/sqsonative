@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, TouchableOpacity } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, TouchableOpacity, Platform } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -45,7 +45,7 @@ render() { console.log("RENDER qso Screen" );
 return   <View style={{flex: 1}}>
        
          
-       <View style={{flex: 0.35, marginTop: 30, marginLeft: 10}}>
+       <View style={{flex: 0.35, marginTop: Platform.OS === 'ios' ? 30 : 13, marginLeft: 10}}>
           <SearchHeader /> 
 
 
