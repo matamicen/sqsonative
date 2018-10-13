@@ -616,8 +616,9 @@ closeNoInternetModal = () => {
                   backgroundColor : 'rgba(0,0,0,0.85)',
                    marginTop: 50,
                    left: 15,
-                   right: 15,
-                   width: 320,
+                   right: 35,
+                   width: this.width-35,
+                   
                    height: this.props.heightPhotoConfirm,
                    paddingVertical: 5,
                  //   position: 'absolute',
@@ -682,10 +683,12 @@ closeNoInternetModal = () => {
             
 
                
-               <View style={{flexDirection: 'row', flex:0.1, marginTop:9}}> 
+               <View style={{flexDirection: 'row', flex:0.1, marginTop:6}}> 
+
+                <View style={{flex:0.5, marginTop:5, marginLeft: 5}}> 
                
                { this.props.sqsonewqsoactive ?
-               <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.OpenEndQsoModal() }>
+               <TouchableOpacity   onPress={ () => this.OpenEndQsoModal() }>
                   
                     <Image source={require('../../images/removecircle.png')}  style={{width: 29, height: 29 } } 
                  resizeMode="contain" />    
@@ -693,7 +696,7 @@ closeNoInternetModal = () => {
                <Text style={{ fontSize: 12, color: 'black'}}>EndQso</Text>    
                 </TouchableOpacity> 
                 : 
-                <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.newQso() }>
+                <TouchableOpacity   onPress={ () => this.newQso() }>
                   
                 <Image source={require('../../images/iaddcircle.png')}  style={{width: 29, height: 29 } } 
              resizeMode="contain" />    
@@ -701,30 +704,35 @@ closeNoInternetModal = () => {
              <Text style={{ fontSize: 12, color: 'black'}}>NewQso</Text>         
               </TouchableOpacity> }
 
+              </View>
+
 
 
 
 
                 { (this.props.sqsosqlrdsid !== '') ?
+                 <View style={{flex:0.25, alignItems: 'flex-end', marginTop:5}}> 
 
-               <TouchableOpacity style={{marginLeft:180}}  onPress={ () => this.checkInternetOpenRecording() }>
-                    <Image source={require('../../images/mic.png')}  style={{width: 33, height: 33 } } 
+               <TouchableOpacity   onPress={ () => this.checkInternetOpenRecording() }>
+                    <Image source={require('../../images/mic.png')}  style={{width: 29, height: 29 } } 
                  resizeMode="contain" />    
-                 <Text style={{ fontSize: 12, color: '#999'}}>Record</Text>          
+                 <Text style={{ fontSize: 12, color: 'black'}}>Record</Text>          
                 </TouchableOpacity>
+                </View>
                 : null }
 
-
+               
                {/* <Button onPress={() => this.props.navigation.navigate("QslScanScreen")} title="QslScan" /> */}
                {/* <Button onPress={() => this.gotoCameraScreen()} title="Camera" /> */}
                
                { (this.props.sqsosqlrdsid !== '') ?
-
-               <TouchableOpacity style={{marginLeft:40}} onPress={ () => this.gotoCameraScreen() }>
-                    <Image source={require('../../images/camera.png')}  style={{width: 33, height: 33  } } 
+                <View style={{flex:0.25, alignItems: 'center', marginTop:5}}> 
+               <TouchableOpacity  onPress={ () => this.gotoCameraScreen() }>
+                    <Image source={require('../../images/camera.png')}  style={{width: 29, height: 29  } } 
                  resizeMode="contain" /> 
-                  <Text  style={{ fontSize: 12, color: '#999'}}>Photo</Text>             
+                  <Text  style={{ fontSize: 12, color: 'black'}}>Photo</Text>             
                 </TouchableOpacity>
+                </View>
                 : null }
 
                

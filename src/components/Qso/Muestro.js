@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { addMedia, updateMedia, closeModalConfirmPhoto, postAddMedia, uploadMediaToS3, sendActualMedia } from '../../actions';
 import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, TextInput,
-  TouchableHighlight, KeyboardAvoidingView, Platform   } from 'react-native';
+  TouchableHighlight, KeyboardAvoidingView, Platform, Dimensions   } from 'react-native';
 import { getDate} from '../../helper';
 import Amplify, { Auth, API, Storage } from 'aws-amplify'
 import awsconfig from '../../aws-exports'
@@ -23,6 +23,9 @@ class Muestro extends Component {
         this.compressRotation = 86;
         this.compressImageURL = '';
         this.var12 = 'pepe';
+
+    this.widthScreen = Dimensions.get('window').width; //full width
+    this.heightScreen = Dimensions.get('window').height; //full height
         
         this.state = {
           people: [],
@@ -387,12 +390,12 @@ class Muestro extends Component {
             }
 
           </View>
-
+        
             <View style={{ flexDirection: 'row'}}>
-
+{/* width: this.widthScreen-80 */}
             { (this.props.sqsomedia.type!=='profile') &&
-
-             <View style={{   width: 230, height: 70}}>
+  
+             <View style={{ height: 70}}>
 
               
                   <TextInput 
@@ -492,7 +495,7 @@ const styles = StyleSheet.create({
       color: '#FFF',
       fontSize: 16,
       paddingHorizontal: 5,
-      flex:0.7
+      width: 200
             }
   });
 
