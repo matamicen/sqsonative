@@ -222,8 +222,8 @@ class QraLink extends Component {
  
 const styles = StyleSheet.create({
        faceImageStyle: {
-      width: 65,
-      height: 65,
+      width: 60,
+      height: 60,
       borderRadius: 30
        },
     name:{

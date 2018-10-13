@@ -49,7 +49,7 @@ class MediaImagesLink extends Component {
            
                            
               
-        return( <View >
+        return( <View style={{ marginTop: 10}} >
               {(this.props.sqsoqslscanerror===0 && this.props.mostrar==='image') &&
               <Text style={{color:"grey" }}> Photos taken by <Text style={{color:"blue" }}>{this.props.qra} </Text></Text> 
             }

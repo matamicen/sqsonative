@@ -44,16 +44,16 @@ class QsoHeaderLink extends Component {
               
         return(  <View style={styles.content} >
        
-             <View style={{ flex:2.6, width: 400}}>
+             <View style={{ flex:2.6}}>
                
                 <View style={{flexDirection: 'row', flex:1}}>
                     <View style={{flex:0.18}}>
                         <QraLink qra={this.props.qra} imageurl={this.props.profilepic} />  
                       </View>
-                      <View style={{flex:0.15}}>
+                      <View style={{flex:0.13}}>
                         <QsoTypeLink type={this.props.type}/> 
                         </View>
-                      <View style={{flex:0.67}}>  
+                      <View style={{flex:0.69}}>  
                         {  this.props.type!=='POST' ?
                         <QsoQrasLink qras={this.props.qras}/> : null} 
                       </View> 
@@ -64,13 +64,13 @@ class QsoHeaderLink extends Component {
             <View style={{flex:1.40, marginTop: 0}}>
                   
                   <View style={{flex:1, flexDirection: 'row', marginTop: 0}}>
-                    <View style={{flex:0.5, height: 25}} >
+                    <View style={{flex:0.4, height: 25}} >
                     
                       <QsoBandLink  band={this.props.band}/>
                       {/* <QsoDateLink datetime={this.props.datetime} /> */}
                     </View>
                     {/* <View style={{flex:0.5, alignItems: 'flex-end',height: 25}} > */}
-                    <View style={{flex:0.5, alignItems: 'flex-start'}} >
+                    <View style={{flex:0.6, alignItems: 'flex-end'}} >
                       <QsoDateLink datetime={this.props.datetime} />
                     </View>  
                   </View> 
@@ -80,7 +80,7 @@ class QsoHeaderLink extends Component {
                             <QsoModeLink mode={this.props.mode} />
                             {/* <QsoQtrLink datetime={this.props.datetime} /> */}
                         </View>    
-                        <View style={{flex:0.5, alignItems: 'flex-start', height: 25}} >            
+                        <View style={{flex:0.5, alignItems: 'flex-end', height: 25}} >            
                             <QsoQtrLink datetime={this.props.datetime} />
                         </View >
                   </View>  
@@ -98,7 +98,7 @@ class QsoHeaderLink extends Component {
       
     marginTop: 35,
     marginLeft: 3,
-    marginRight: 3,
+    marginRight: 8,
     flex: 4
     
     //flexDirection: 'row'

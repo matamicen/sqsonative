@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Text, Image, View, StyleSheet, Button, ActivityIndicator, TouchableOpacity, ScrollView, Modal, Platform, Alert } from 'react-native';
+import { Text, Image, View, StyleSheet, Button, ActivityIndicator, TouchableOpacity, ScrollView, Modal,
+   Platform, Alert, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 // import QsoHeader from './QsoHeader';
@@ -32,6 +33,10 @@ class QslScanScreen extends Component {
     super(props);
     this.micPermission = false;
     this.camPermission = false;
+
+
+    this.width = Dimensions.get('window').width; //full width
+    this.height = Dimensions.get('window').height; //full height
 
     this.state = {
       conta: 0,
@@ -223,6 +228,7 @@ checkInternetScanQR = async () => {
  }
    
 render() { console.log("RENDER QSL SCAN SCREEN!" );
+console.log('Dimensions Width:'+this.width);
 // console.log('lisandro');
 // console.log(this.props.sqsoqslscan.links);
 
@@ -231,7 +237,7 @@ return   <View style={{flex: 1}}>
             
        
       
-       <View style={{flex: 0.32, width: 400, marginLeft: 3, marginRight: 3}}>
+       <View style={{flex: 0.29, width: this.width-12, marginLeft: 3, marginRight: 3}}>
 
         <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
       
@@ -246,7 +252,7 @@ return   <View style={{flex: 1}}>
   
         </View>
 
-       <View style={{ flex: 0.58, width: 400, marginLeft: 3, marginRight: 3, marginTop: 6}}>
+       <View style={{ flex: 0.61, width: this.width-12, marginLeft: 3, marginRight: 3, marginTop: 6}}>
 
        <View style={{marginLeft: 30}}>
       
@@ -299,13 +305,17 @@ return   <View style={{flex: 1}}>
 
        {/*  <Likes />
        <Comments />*/}
-
+       { (this.props.sqsoqslscan.links) && (this.props.sqsoqslscan.links.length>0) &&   
+               <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18, marginTop: 15}}>The followings QSOs are linked:</Text>}
+       
            {
            
-             (this.props.sqsoqslscan.links) &&
-                   this.props.sqsoqslscan.links.map((m, i) =>    
+             (this.props.sqsoqslscan.links) && 
+            
+            
+                  this.props.sqsoqslscan.links.map((m, i) =>    
                     // console.log('loop links: '+m.idqsos +' ' +m.mode)
-                    <View   key={i} style={{ paddingBottom: 7, felx:1, backgroundColor: 'white', borderRadius: 12, marginTop: 10 }}>
+                    <View   key={i} style={{ paddingBottom: 7, felx:1, backgroundColor: 'white', borderRadius: 12, marginTop: 18, marginLeft: 6 }}>
                     {/* <Text>  idqso: {m.idqsos}</Text>
                     <Text>  mode: {m.mode}</Text>
                     <Text>  band: {m.band}</Text> */}
@@ -313,7 +323,7 @@ return   <View style={{flex: 1}}>
                                    profilepic={m.profilepic} qras={m.qras} datetime={getDateQslScan(m.datetime)} 
                                />
 
-                    <MediaImagesLink media={m.media} qra={m.qra} mostrar='image'/> 
+                    <MediaImagesLink   media={m.media} qra={m.qra} mostrar='image'/> 
 
                     <MediaImagesLink media={m.media} qra={m.qra} mostrar='audio'/> 
 
@@ -371,7 +381,7 @@ const styles = StyleSheet.create({
   },
   contentContainer:{
    
-   
+  
 
   },
   preview: {

@@ -8,6 +8,11 @@ class Login extends Component {
 //       tabBarLabel: 'Profile'
 //behavior="padding"
 //   }
+
+
+
+
+
 Login = () => {
   
     this.props.navigation.navigate("Root");
@@ -45,11 +50,13 @@ Login = () => {
  const styles = StyleSheet.create({
   container: {
    flex: 1,
+
     backgroundColor: '#3498db'
       },
   logoContainer: {
-    alignItems: 'center',   
+    alignItems: 'center',  
     
+  
     
     flex: 0.4,
     justifyContent: 'center'
