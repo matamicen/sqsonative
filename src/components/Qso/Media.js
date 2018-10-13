@@ -102,6 +102,10 @@ class Media extends Component {
                          <Text style={styles.status} > FAILED </Text>
                         }
 
+                          { (this.props.status==='inappropriate content') && 
+                         <Text style={styles.inapropiate} > inappropriate content </Text>
+                        }
+
                         {/* { (this.props.sent) ? 
                         // <TouchableHighlight onPress={() => this.onPressItem(this.props.name,this.props.description,this.props.imageurl,
                         //      this.props.sqlrdsid, this.props.size, this.props.type)} underlayColor="white">
@@ -165,7 +169,15 @@ const styles = StyleSheet.create({
      // padding: 2,
      // fontWeight: 'bold',        
       color: 'grey'        
-  }
+  },
+  inapropiate:{
+    fontSize: 14,
+    marginTop: 2,
+    textAlign: 'right',
+   // padding: 2,
+   // fontWeight: 'bold',        
+    color: 'red'        
+}
   });
 
   Media.propTypes = {

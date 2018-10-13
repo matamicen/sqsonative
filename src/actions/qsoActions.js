@@ -558,7 +558,7 @@ export const postSetProfilePic = (url, filename2) => {
       dispatch(fetchingApiSuccess(respuesta));
       console.log("devuelve SetProfilePic: "+JSON.stringify(respuesta));
      
-      if (respuesta.error==='0')
+      if (respuesta.body.error===0)
       {
        // dispatch(updateSqlRdsId(respuesta.message));
         console.log("error es 0 y sqlrdsid: "+respuesta.message);
@@ -572,7 +572,11 @@ export const postSetProfilePic = (url, filename2) => {
 
       }else
       {
-        update = {status: 'failed'}
+        if (respuesta.body.error===1 && respuesta.body.message==='NSFW') 
+          update = {status: 'inappropriate content'}
+        else
+           update = {status: 'failed'}
+       
         dispatch(updateMedia(filename2, update ));
       }
      
@@ -609,7 +613,7 @@ export const postAddMedia = (mediaToadd, filename2) => {
           
         }
 
-
+        console.log("URL media es: "+mediaToadd.url);
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api MediaAdd!");
     
@@ -630,6 +634,9 @@ export const postAddMedia = (mediaToadd, filename2) => {
 
       }else
       {
+        if (respuesta.body.error===1 && respuesta.body.message==='NSFW') 
+        update = {status: 'inappropriate content'}
+        else
         update = {status: 'failed'}
         dispatch(updateMedia(filename2, update ));
       }

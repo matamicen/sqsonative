@@ -267,75 +267,7 @@ class Muestro extends Component {
 
       }
 
-       subos3 = async () => {
-      //  this.props.fetchPeople();
-        //this.props.navigation.navigate('CameraScreen');
-        this.props.closeModalConfirmPhoto();
-
-        console.log("subo a s3 con BLOB");
-        // const response = await fetch(this.props.imageurl);
-        // const blob = await response.blob();
-      fileaux =  this.props.sqsomedia.url;
-      console.log("fileaux uri:"+ fileaux);
-
-        fileName2 = fileaux.replace(/^.*[\\\/]/, '');
-
-        // agrego a array de media del store
-          envio = {name: fileName2, url: fileaux, type: 'image', sent: false , status: 'inprogress', progress: 0.3, size: this.props.sqsomedia.size } 
-                
-              this.props.addMedia(envio);
-
-        // Fin de agrego a array de media del store
-       
-       
-      //     const response = await fetch(fileaux);
-      //     const blobi = await response.blob();
-
-      //   try{
-
-      // const stored = Storage.vault.put(fileName2, blobi, {
-      //   level: 'protected'})
-      //     .then (result => {
-      //       console.log(result);
-      //       // actualizo SENT como TRUE en mediafile para ese file.
-      //       update = {"sent": true, "progress": 0.8}
-      //       this.props.updateMedia(fileName2,update);
-
-      //       // procedo a llamar API de addmedia al RDS
-      //       mediaToRds = {
-      //         "qso":  this.props.sqlrdsid,
-      //         "type": "image" ,
-      //         "datasize": this.props.sqsomedia.size,
-      //         "datetime": "2017-06-21 15:30:49",      
-      //         "url":  "pepe URL" ,
-      //         "description": this.state.description 
-      //     }
-
-      //     this.props.postAddMedia(mediaToRds, fileName2);
-      //     console.log("LLLLLLLLLLL LLamo recien a media: "+ fileName2);
-
-
-          
-      //     })
-      //     .catch(err => {
-      //       console.log(JSON.stringify(err));
-      //       console.log("fallo el UPLOAD UPLOAD UPLOADS3");
-      //       console.log("nombre filename:" + fileName2);
-          
-      //       update = {"status": 'failed'}
-      //       this.props.updateMedia(fileName2,update);
-          
-          
-          
-      //     });
-          
-          
-      //     }
-      //     catch (e) {
-      //         console.log('S3 UPLOADS3 error:', JSON.stringify(e));
-      //          // Handle exceptions
-      //        }
-      }
+     
 
       signOut = () => {
         Auth.signOut()
