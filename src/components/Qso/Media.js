@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity  } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, Dimensions  } from 'react-native';
 import { connect } from 'react-redux';
 import { uploadMediaToS3 } from '../../actions';
 import PropTypes from 'prop-types';
@@ -9,6 +9,9 @@ class Media extends Component {
 
     constructor(props) {
         super(props);
+
+        this.width = Dimensions.get('window').width; //full width
+        this.height = Dimensions.get('window').height; //full height
         
         this.state = {
           people: [],
@@ -38,12 +41,14 @@ class Media extends Component {
 
     render() { console.log("RENDER MEDIA");
     console.log("imagen type:" + this.props.url + this.props.type)
+    console.log("screen WIDTH:" + this.width)
+           
            
                            
               
-        return( <View >
+        return( <View style={{ flex: 1 }}>
                
-               <View style={{flexDirection: 'row', marginTop: 6}}>
+               <View style={{flex: 1, flexDirection: 'row', marginTop: 6 }}>
 
                       { (this.props.type==='image' || this.props.type==='profile') ? <Image
                     style={styles.mediaStyle}
@@ -62,11 +67,19 @@ class Media extends Component {
                   />
                   */}
 
+
+
+ {/* <Progress.Bar
+                          style={{marginTop: 23, height: 6, width: 230 }}
+                          width={230}
+                          unfilledColor="lightgrey"
+                          borderRadius={0} */}
+
                     <View  style={{marginLeft: 25 }}>
 
                       <Progress.Bar
-                          style={{marginTop: 23, height: 6, width: 230 }}
-                          width={230}
+                          style={{marginTop: 23, height: 6, width: this.width-120}}
+                          width={this.width-120}
                           unfilledColor="lightgrey"
                           borderRadius={0}
                       //   height={15}

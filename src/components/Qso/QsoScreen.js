@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, Modal, StyleSheet,
-     TouchableHighlight, Platform,TouchableOpacity, KeyboardAvoidingView, PermissionsAndroid, Alert  } from 'react-native';
+     TouchableHighlight, Platform,TouchableOpacity, KeyboardAvoidingView, PermissionsAndroid, Alert,
+    Dimensions  } from 'react-native';
 import { connect } from 'react-redux';
 import { fetchPeople,cambioqsotype, closeModalConfirmPhoto, cameraPermissionTrue,
         cameraPermissionFalse, audiorecordingPermissionFalse, audiorecordingPermissionTrue,
@@ -22,6 +23,9 @@ class QsoScreen extends Component {
 
     constructor(props) {
         super(props);
+
+    this.width = Dimensions.get('window').width; //full width
+    this.height = Dimensions.get('window').height; //full height
         
         this.state = {
           people: [],
@@ -536,7 +540,7 @@ closeNoInternetModal = () => {
         return   <View style={{flex: 1}}>
                
                  
-               <View style={{flex: 3}}>
+               <View style={{flex: 0.3}}>
               <QsoHeader />
 
 
@@ -665,19 +669,20 @@ closeNoInternetModal = () => {
 
                
                </Modal>
-
+               {/* width:this.width-10 */}
+               </View>
                       
-               <View style={{flex: 2, width:820}}>
+               <View style={{flex: 0.6 }}>
                {/* { this.props.sqsonewqsoactive ? */}
                <MediaFiles /> 
                {/* :
                 null } */}
                </View>
               
-               </View>
+            
 
                
-               <View style={{flexDirection: 'row', flex:0.3, marginTop:9}}> 
+               <View style={{flexDirection: 'row', flex:0.1, marginTop:9}}> 
                
                { this.props.sqsonewqsoactive ?
                <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.OpenEndQsoModal() }>
