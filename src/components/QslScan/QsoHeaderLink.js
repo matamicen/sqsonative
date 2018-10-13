@@ -96,7 +96,7 @@ class QsoHeaderLink extends Component {
  const styles = StyleSheet.create({
    content: {
       
-    marginTop: Platform.OS === 'ios' ? 30 : 13,
+    marginTop: Platform.OS === 'ios' ? 13 : 13,
     marginLeft: 1,
     marginRight: 1,
     flex: 4

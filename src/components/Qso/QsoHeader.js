@@ -76,7 +76,7 @@ class QsoHeader extends Component {
  const styles = StyleSheet.create({
    content: {
       
-    marginTop: Platform.OS === 'ios' ? 30 : 13,
+    marginTop: Platform.OS === 'ios' ? 13 : 13,
     marginLeft: 3,
     marginRight: 3
     

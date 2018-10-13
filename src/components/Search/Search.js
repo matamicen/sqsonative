@@ -45,7 +45,7 @@ render() { console.log("RENDER qso Screen" );
 return   <View style={{flex: 1}}>
        
          
-       <View style={{flex: 0.35, marginTop: Platform.OS === 'ios' ? 30 : 13, marginLeft: 10}}>
+       <View style={{flex: 0.35, marginTop: Platform.OS === 'ios' ? 13 : 13, marginLeft: 10}}>
           <SearchHeader /> 
 
 
