@@ -47,13 +47,13 @@ class QsoHeaderLink extends Component {
              <View style={{ flex:2.6}}>
                
                 <View style={{flexDirection: 'row', flex:1}}>
-                    <View style={{flex:0.18}}>
+                    <View style={{flex:0.20}}>
                         <QraLink qra={this.props.qra} imageurl={this.props.profilepic} />  
                       </View>
-                      <View style={{flex:0.13}}>
+                      <View style={{flex:0.15}}>
                         <QsoTypeLink type={this.props.type}/> 
                         </View>
-                      <View style={{flex:0.69}}>  
+                      <View style={{flex:0.64}}>  
                         {  this.props.type!=='POST' ?
                         <QsoQrasLink qras={this.props.qras}/> : null} 
                       </View> 
@@ -97,8 +97,8 @@ class QsoHeaderLink extends Component {
    content: {
       
     marginTop: Platform.OS === 'ios' ? 30 : 13,
-    marginLeft: 3,
-    marginRight: 8,
+    marginLeft: 1,
+    marginRight: 1,
     flex: 4
     
     //flexDirection: 'row'
