@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, StyleSheet, TouchableOpacity, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -17,6 +17,9 @@ class SearchHeader extends Component {
 
     constructor(props) {
         super(props);
+
+  
+
         this.state = {
          
           nointernet: false
