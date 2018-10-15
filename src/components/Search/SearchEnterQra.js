@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, ActivityIndicator, Modal, StyleSheet, TextInput,
-     TouchableOpacity, FlatList } from 'react-native';
+     TouchableOpacity, FlatList, Dimensions } from 'react-native';
      import {Keyboard} from 'react-native'
      import { connect } from 'react-redux';
      import User from './User';
@@ -17,6 +17,8 @@ class SearchEnterQra extends Component {
         countLenght = 0;
         entro = false;
         apretoSearch = false;
+        this.width = Dimensions.get('window').width; //full width
+        this.height = Dimensions.get('window').height; //full height
         
         this.state = {
        //   pickerSelection: 'Choose Band',
@@ -205,7 +207,7 @@ class SearchEnterQra extends Component {
                         </TouchableOpacity> 
 
                             {/* <View style={{   marginLeft: 15, marginTop: 5}}> */}
-                    <TouchableOpacity   onPress={() => this.closeAddFollowers()} style={{ marginTop: 16, marginLeft: 100}}>
+                    <TouchableOpacity   onPress={() => this.closeAddFollowers()} style={{ marginTop: 16, marginLeft: this.width-260}}>
                       <Text style={{ color: 'orange', fontWeight: 'bold', fontSize: 14}}>Close</Text>
                     </TouchableOpacity >
                  {/* </View> */}
@@ -320,4 +322,3 @@ const mapDispatchToProps = {
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(SearchEnterQra);
-

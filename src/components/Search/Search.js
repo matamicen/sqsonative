@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Text, Image, View, Button, ActivityIndicator, TouchableOpacity, Platform } from 'react-native';
+import { Text, Image, View, Button, ActivityIndicator, TouchableOpacity, Platform, Dimensions } from 'react-native';
 import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -24,6 +24,16 @@ class Search extends Component {
 
 
   }
+
+  constructor(props) {
+    super(props);
+
+      this.width = Dimensions.get('window').width; //full width
+      this.height = Dimensions.get('window').height; //full height
+          
+   
+  }
+
 
 
 
@@ -50,7 +60,7 @@ return   <View style={{flex: 1}}>
 
 
        </View>        
-       <View style={{flex: 0.65, width:450, marginBottom: 10}}>
+       <View style={{flex: 0.65, width:this.width-15, marginBottom: 10}}>
        
        <FollowerList /> 
       

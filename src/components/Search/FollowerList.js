@@ -89,7 +89,7 @@ class FollowerList extends Component {
  const styles = StyleSheet.create({
     
     qralist: {
-        marginRight: 115 
+        marginRight: 15 
         
       //  marginBottom: 70,
       // maxHeight: 150
