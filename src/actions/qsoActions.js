@@ -608,7 +608,7 @@ export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fil
                      let fileauxFinal = fileauxProfileAvatar;
                      if (Platform.OS == 'ios')
                      {
-                       fileauxFinal =  fileaux.replace("file:///", '');
+                       fileauxFinal =  fileauxProfileAvatar.replace("file:///", '');
                      }
                      console.log('contenido fileauxFinal: '+fileauxFinal);
          

@@ -214,6 +214,7 @@ class Muestro extends Component {
           await ImageResizer.createResizedImage(auxoriginalphoto, nuevoWidthAvatar , nuevoHeightAvatar, 'JPEG',86).then((response) => {
           
             this.compressImageURLProfileAvatar = response.uri;
+                
            // this.size = response.size;
             this.widthAvatar = nuevoWidthAvatar;
             this.heightAvatar = nuevoHeightAvatar;
