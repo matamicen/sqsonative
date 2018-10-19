@@ -19,9 +19,13 @@ class Muestro extends Component {
 
         this.width = 0;
         this.height = 0;
+        this.widthAvatar = 0;
+        this.heightAvatar = 0;
+
         this.size = 0;
         this.compressRotation = 86;
         this.compressImageURL = '';
+        this.compressImageURLProfileAvatar = '';
         this.var12 = 'pepe';
 
     this.widthScreen = Dimensions.get('window').width; //full width
@@ -75,14 +79,18 @@ class Muestro extends Component {
           console.log(' entro 1era vez Compress Rotation: '+this.width + ' ' + this.height);
         nuevoWidth = this.width / 5.2;
         nuevoHeight = this.height / 5.2;
+        nuevoWidthAvatar = this.widthAvatar / 30.0;
+        nuevoHeightAvatar = this.heightAvatar / 30.0;
 
         }else{
           nuevoWidth = this.width; 
           nuevoHeight = this.height; 
+          nuevoWidthAvatar = this.widthAvatar;
+          nuevoHeightAvatar = this.heightAvatar;
           console.log(' entro 2da vez Compress Rotation: '+this.width + ' ' + this.height);
         }
     
-
+        auxoriginalphoto=this.props.sqsomedia.url;
         await ImageResizer.createResizedImage(this.props.sqsomedia.url, nuevoWidth , nuevoHeight, 'JPEG',this.compressRotation , 90).then((response) => {
           // response.uri is the URI of the new image that can now be displayed, uploaded...
           // response.path is the path of the new image
@@ -90,12 +98,16 @@ class Muestro extends Component {
           // response.size is the size of the new image
        //   data.uri = response.uri;
        console.log('Compress Rotation: '+this.compressRotation); 
+       console.log('TERMINO PRIMER ROTATE '+this.compressRotation); 
        this.compressRotation = 100;
           this.compressImageURL = response.uri;
           this.size = response.size;
           this.width = nuevoWidth;
           this.height = nuevoHeight;
           console.log(' Compress Rotation Rotate resize ImageResizer: ' + JSON.stringify(response));
+
+
+  
 
 
         envio = {name: 'fileName2', url: this.compressImageURL, type: this.props.sqsomedia.type, sent: 'false', size: this.size , width: this.width, height: this.height } 
@@ -108,6 +120,29 @@ class Muestro extends Component {
         });
 
 
+        if (this.props.sqsomedia.type==='profile')
+        {
+          console.log('TERMINO ENTRA avatar '+this.compressRotation); 
+          // genero el avatar del profile
+          await ImageResizer.createResizedImage(auxoriginalphoto, nuevoWidthAvatar , nuevoHeightAvatar, 'JPEG',86 , 90).then((response) => {
+          
+            this.compressImageURLProfileAvatar = response.uri;
+           // this.size = response.size;
+            this.widthAvatar = nuevoWidthAvatar;
+            this.heightAvatar = nuevoHeightAvatar;
+            console.log(' Compress Rotation Rotate resize AVATAR: ' + JSON.stringify(response));
+
+  
+          }).catch((err) => {
+            // Oops, something went wrong. Check that the filename is correct and
+            // inspect err to get more details.
+          });
+  
+        }
+
+        
+
+
       }
 
 
@@ -116,7 +151,10 @@ class Muestro extends Component {
         Image.getSize(laUrl, (width, height) => {
          //   console.log('SIZE 4: ancho: '+width + ' alto:'+height);
             this.width = width;
+            this.widthAvatar = width;
             this.height = height;
+            this.heightAvatar = height;
+            
                   resolve(1234)
              });
      
@@ -136,7 +174,10 @@ class Muestro extends Component {
 
         nuevoWidth = this.width / 5.2;
         nuevoHeight = this.height / 5.2;
+        nuevoWidthAvatar = this.widthAvatar / 30.0;
+        nuevoHeightAvatar = this.heightAvatar / 30.0;
     
+        auxoriginalphoto=this.props.sqsomedia.url;
         inicial = new Date();
         await ImageResizer.createResizedImage(this.props.sqsomedia.url, nuevoWidth , nuevoHeight, 'JPEG', 86).then((response) => {
           // response.uri is the URI of the new image that can now be displayed, uploaded...
@@ -164,6 +205,28 @@ class Muestro extends Component {
         total = final - inicial;
         console.log('tardoMuestro en total en achicar la imagen: '+ total)
 
+
+
+        if (this.props.sqsomedia.type==='profile')
+        {
+          console.log('TERMINO ENTRA avatar '+this.compressRotation); 
+          // genero el avatar del profile
+          await ImageResizer.createResizedImage(auxoriginalphoto, nuevoWidthAvatar , nuevoHeightAvatar, 'JPEG',86).then((response) => {
+          
+            this.compressImageURLProfileAvatar = response.uri;
+           // this.size = response.size;
+            this.widthAvatar = nuevoWidthAvatar;
+            this.heightAvatar = nuevoHeightAvatar;
+            console.log(' Compress Rotation Rotate resize AVATAR: ' + JSON.stringify(response));
+
+  
+          }).catch((err) => {
+            // Oops, something went wrong. Check that the filename is correct and
+            // inspect err to get more details.
+          });
+  
+        }
+
        
 
       }
@@ -190,6 +253,7 @@ class Muestro extends Component {
              }
             // fileaux =  this.props.sqsomedia.url;
             fileaux = this.compressImageURL;
+            fileauxProfileAvatar =  this.compressImageURLProfileAvatar;
 
         } else
           {
@@ -228,6 +292,8 @@ class Muestro extends Component {
           
        
         rdsUrl = this.props.rdsurls3+folder;
+        urlNSFW = this.props.rdsurls3+'profile/tmp/profile.jpg';
+        urlAvatar = this.props.rdsurls3+'profile/profile_avatar.jpg';
 
 
 
@@ -260,7 +326,7 @@ class Muestro extends Component {
           // const blobi = await response.blob();
           
           // this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.props.sqsomedia.size, this.props.sqsomedia.type, rdsUrl, fecha, this.props.sqsomedia.width, this.props.sqsomedia.height);
-          this.props.uploadMediaToS3(fileName2, fileaux, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl, fecha, this.width, this.height);
+          this.props.uploadMediaToS3(fileName2, fileaux, fileauxProfileAvatar, this.props.sqlrdsid, this.state.description,this.size, this.props.sqsomedia.type, rdsUrl,urlNSFW, urlAvatar, fecha, this.width, this.height);
 
           //this.props.navigation.navigate("Root");
         
@@ -456,5 +522,3 @@ const mapDispatchToProps = {
    }
 
 export default connect(mapStateToProps, mapDispatchToProps)(Muestro);
-
-

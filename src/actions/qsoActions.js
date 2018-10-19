@@ -530,7 +530,192 @@ export const deleteQsoQra = (qra) => {
 }
 
 
-export const postSetProfilePic = (url, filename2) => {
+
+export const postSetProfilePicNSFW = (rdslurl, urlNSFW, urlAvatar, filename2,fileaux ,fileauxProfileAvatar) => {
+    return async dispatch => {
+      dispatch(fetchingApiRequest());
+    //   console.log("ejecuta llamada API SetProfilePic");  
+    try {
+        session = await Auth.currentSession();
+        console.log("Su token es: " + session.idToken.jwtToken);
+        let apiName = 'superqso';
+        let path = '/qra-set-profile-pic';
+        let myInit = { // OPTIONAL
+          headers: {
+            'Authorization': session.idToken.jwtToken,
+            'Content-Type': 'application/json'
+          }, // OPTIONAL
+          body: {
+            "url":  urlNSFW,
+            "url_avatar": '',
+            "mode": 'NSFW' 
+               }
+          
+        }
+
+
+      respuesta = await API.post(apiName, path, myInit);
+    //   console.log("llamo api SetProfilePic!");
+    
+      
+      dispatch(fetchingApiSuccess(respuesta));
+      console.log("devuelve SetProfilePic: "+JSON.stringify(respuesta));
+     
+      if (respuesta.body.error===0)
+      {
+       // dispatch(updateSqlRdsId(respuesta.message));
+       console.log('PROFILE NO ES PORNO');
+        console.log("error es 0 y sqlrdsid: "+respuesta.message);
+
+
+
+               // subo foto bajo nombre profile.jpg y el avatar tambien ya que no es porno el TMP que envie
+
+       let fileauxFinal = fileaux;
+        if (Platform.OS == 'ios')
+        {
+          fileauxFinal =  fileaux.replace("file:///", '');
+        }
+        console.log('contenido fileauxFinal: '+fileauxFinal);
+
+     // Envio el profile.jpg     
+
+           folder = 'profile/profile.jpg';
+
+               enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => new Buffer(data, 'base64'));
+               //   return this.readFile(fileauxFinal)
+                  enBlob
+                  .then(buffer => Storage.vault.put(folder, buffer, { level: 'protected' }))
+                  .then (result => {
+                           console.log('resultado:'+result.key);
+         
+         
+                         // actualizo SENT como TRUE en mediafile para ese file.
+                         console.log("actualizo a 0.9");
+                         update = {"sent": true, "progress": 0.8}
+                         dispatch(updateMedia(fileName2,update));
+
+                         console.log("subio1 profile.jpg");
+                   
+             
+                  
+                    //  console.log("llama a postSetProfilePic");
+                    //  dispatch(postSetProfilePic(rdslurl, urlAvatar, fileName2));
+                    
+                     
+
+// ahora envio el AVATAR
+                     let fileauxFinal = fileauxProfileAvatar;
+                     if (Platform.OS == 'ios')
+                     {
+                       fileauxFinal =  fileaux.replace("file:///", '');
+                     }
+                     console.log('contenido fileauxFinal: '+fileauxFinal);
+         
+                     folder = 'profile/profile_avatar.jpg';
+
+                     enBlob = RNFetchBlob.fs.readFile(fileauxFinal, 'base64').then(data => new Buffer(data, 'base64'));
+                     //   return this.readFile(fileauxFinal)
+                        enBlob
+                        .then(buffer => Storage.vault.put(folder, buffer, { level: 'protected' }))
+                        .then (result => {
+                                 console.log('resultado:'+result.key);
+               
+               
+                               // actualizo SENT como TRUE en mediafile para ese file.
+                               console.log("actualizo a 0.9");
+                               update = {"sent": true, "progress": 0.95}
+                               dispatch(updateMedia(fileName2,update));
+      
+                               console.log("subio1 AVATAR");
+                   
+                        
+                           console.log("llama a postSetProfilePic");
+                           dispatch(postSetProfilePic(rdslurl, urlAvatar, fileName2));
+                          
+                           
+               
+                      
+               
+                   
+                   
+                             
+                   
+                               
+                               })
+                               .catch(err => {
+                                 console.log(JSON.stringify(err));
+                                 console.log("fallo el UPLOAD profile_avatar.jpg");
+                                
+                             
+                                 update = {"status": 'failed'}
+                                 dispatch(updateMedia(fileName2,update));
+                                       
+                               });
+
+
+
+
+
+
+
+
+
+
+
+         
+             
+             
+                       
+             
+                         
+                         })
+                         .catch(err => {
+                           console.log(JSON.stringify(err));
+                           console.log("fallo el UPLOAD profile.jpg");
+                          
+                       
+                           update = {"status": 'failed'}
+                           dispatch(updateMedia(fileName2,update));
+                                 
+                         });
+         
+
+
+
+
+
+
+   
+    //   update = {"status": 'sent', "progress": 1}
+    //     dispatch(updateMedia(filename2, update));
+    //     dispatch(profilePictureRefresh());
+     
+
+      }else
+      {
+        if (respuesta.body.error===1 && respuesta.body.message==='NSFW') 
+          update = {status: 'inappropriate content'}
+        else
+           update = {status: 'failed'}
+       
+        dispatch(updateMedia(filename2, update ));
+      }
+     
+    }
+    catch (error) {
+      console.log('Api catch error:', error);
+      update = {status: 'failed'}
+      dispatch(updateMedia(filename2, update ));
+      dispatch(fetchingApiFailure(error));
+      // Handle exceptions
+    }
+         
+      
+    };
+  };
+
+export const postSetProfilePic = (url,urlNSFWavatar, filename2) => {
     return async dispatch => {
       dispatch(fetchingApiRequest());
       console.log("ejecuta llamada API SetProfilePic");  
@@ -545,7 +730,9 @@ export const postSetProfilePic = (url, filename2) => {
             'Content-Type': 'application/json'
           }, // OPTIONAL
           body: {
-            "url":  url
+            "url":  url,
+            "url_avatar": urlNSFWavatar,
+            "mode": 'PERSIST' 
                }
           
         }
@@ -561,6 +748,7 @@ export const postSetProfilePic = (url, filename2) => {
       if (respuesta.body.error===0)
       {
        // dispatch(updateSqlRdsId(respuesta.message));
+       console.log('PROFILE PERSISTIO');
         console.log("error es 0 y sqlrdsid: "+respuesta.message);
 
       //  update = {"status": "sent", "progress": 1}
@@ -592,6 +780,8 @@ export const postSetProfilePic = (url, filename2) => {
       
     };
   };
+
+
 
 
 
@@ -654,9 +844,9 @@ export const postAddMedia = (mediaToadd, filename2) => {
     };
   };
 
+ // fileauxProfileAvatar
 
-
-export const uploadMediaToS3 = (fileName2, fileaux, sqlrdsid, description, size, type, rdsUrlS3, date, width, height) => {
+export const uploadMediaToS3 = (fileName2, fileaux,fileauxProfileAvatar, sqlrdsid, description, size, type, rdsUrlS3, urlNSFW, urlAvatar,  date, width, height) => {
     return async dispatch => {
     //  dispatch(fetchingApiRequest());
       console.log("ejecuta UPLOAD a S3 desde ACTION");  
@@ -677,7 +867,7 @@ export const uploadMediaToS3 = (fileName2, fileaux, sqlrdsid, description, size,
           else folder = 'audios/'+fileName2;
           
 
-          if (type==='profile') folder = 'profile/profile.jpg';
+          if (type==='profile') folder = 'profile/tmp/profile.jpg';
       
         console.log('folder:'+ folder);
    
@@ -692,7 +882,7 @@ export const uploadMediaToS3 = (fileName2, fileaux, sqlrdsid, description, size,
 
 
                 // actualizo SENT como TRUE en mediafile para ese file.
-                update = {"sent": true, "progress": 0.8}
+                update = {"sent": true, "progress": 0.7}
                 dispatch(updateMedia(fileName2,update));
     
                 // procedo a llamar API de addmedia al RDS
@@ -712,13 +902,18 @@ export const uploadMediaToS3 = (fileName2, fileaux, sqlrdsid, description, size,
               console.log("LLLLLLLLLLL LLamo recien a media: "+ fileName2);
            }else
            {
-            dispatch(postSetProfilePic(rdsUrlS3, fileName2));
-            console.log("LLLLLLLLLLL LLamo recien a postSetProfilePic: "+ fileName2);
+            // modifico la URL debido a que es PROFILE y el primer llamado lo sube a la carpeta
+            // TMP para verificar si es NSFW
+            // let cant = rdsUrlS3.lenght - 4;
+            // console.log('texto menos 4 caracteres: '+rdsUrlS3.substr(0,cant) + ' verdadero '+ rdsUrlS3);
+            console.log("LLama postSetProfilePicNSFW: ");
             
+            dispatch(postSetProfilePicNSFW(rdsUrlS3, urlNSFW, urlAvatar,  fileName2, fileaux, fileauxProfileAvatar));
+           
+
            }
 
-    
-    
+         
               
     
                 
