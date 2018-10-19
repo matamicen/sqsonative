@@ -539,7 +539,7 @@ closeNoInternetModal = () => {
 
         return   <View style={{flex: 1}}>
                
-                 
+             
                <View style={{flex: 0.3}}>
               <QsoHeader />
 
@@ -672,13 +672,16 @@ closeNoInternetModal = () => {
                </Modal>
                {/* width:this.width-10 */}
                </View>
-                      
-               <View style={{flex: 0.6 }}>
+                
+               <View style={{flex: 0.6 }} >
                {/* { this.props.sqsonewqsoactive ? */}
+            
                <MediaFiles /> 
                {/* :
                 null } */}
-               </View>
+                  
+               </View  >
+             
               
             
 
@@ -738,7 +741,7 @@ closeNoInternetModal = () => {
                
                </View>
              
-          
+             
 
             </View>
        
