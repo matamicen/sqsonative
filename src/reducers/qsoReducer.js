@@ -588,6 +588,7 @@ const qsoReducer = (state = initialState, action) => {
              {
                  ...state,
                  currentQso: auxcurrentQso
+                
              });
          return newStore; 
 

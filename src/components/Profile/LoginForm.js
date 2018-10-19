@@ -4,7 +4,7 @@ import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, Key
 import { connect } from 'react-redux';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
-import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled} from '../../actions';
+import { setQra, setUrlRdsS3, resetQso, followersAlreadyCalled, newqsoactiveFalse} from '../../actions';
 //import { NavigationActions, addNavigationHelpers } from 'react-navigation';
 import { NavigationActions } from 'react-navigation';
 //import {  Permissions } from 'expo';
@@ -136,6 +136,8 @@ if (!this.usernotfound)
       var res = identityId.replace(":", "%3A");
       this.props.setUrlRdsS3('https://s3.amazonaws.com/sqso/protected/'+res+'/');
       this.props.resetQso();
+      this.props.newqsoactiveFalse();
+      
       this.props.followersAlreadyCalled(false);
    //   this.props.getFollowingFollowers();
       console.log('la credencial RES:' + res);
@@ -355,7 +357,8 @@ const mapDispatchToProps = {
     setQra,
     setUrlRdsS3,
     resetQso,
-    followersAlreadyCalled
+    followersAlreadyCalled,
+    newqsoactiveFalse
     
    }
 
