@@ -31,13 +31,13 @@ class MediaFiles extends Component {
   
 
   _renderItem = ({ item }) => {
-    const { name, url, sqlrdsid, description , type, size, status, progress, sent, rdsUrlS3, date } = item;
+    const { name, url,fileauxProfileAvatar, sqlrdsid, description , type, size, status, progress, sent, rdsUrlS3, urlNSFW, urlAvatar, date, width, height } = item;
 
     return (
       <View>
        <View style={{ paddingRight: 8 }}>
-        <Media name={name} imageurl={url} sqlrdsid= {sqlrdsid} description={description} type={type} size={size}
-         status={status} progress={progress} sent={sent} rdsUrlS3={rdsUrlS3} date={date} />
+        <Media name={name} imageurl={url} fileauxProfileAvatar={fileauxProfileAvatar} sqlrdsid= {sqlrdsid} description={description} type={type} size={size}
+         status={status} progress={progress} sent={sent} rdsUrlS3={rdsUrlS3} urlNSFW={urlNSFW} urlAvatar={urlAvatar} date={date} width={width} height={height} />
         </View>
        
       </View>

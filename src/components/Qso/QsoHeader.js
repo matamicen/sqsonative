@@ -77,7 +77,7 @@ class QsoHeader extends Component {
    content: {
       
     marginTop: Platform.OS === 'ios' ? 13 : 13,
-    marginLeft: 3,
+    marginLeft: 6,
     marginRight: 3
     
     //flexDirection: 'row'
