@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Text, Image, View, Button, StyleSheet, TextInput, TouchableOpacity, Keyboard,
-     ActivityIndicator, KeyboardAvoidingView , AsyncStorage, Modal} from 'react-native';
+     ActivityIndicator, KeyboardAvoidingView , AsyncStorage, Modal, ScrollView, Dimensions} from 'react-native';
 import { connect } from 'react-redux';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
 import awsconfig from '../../aws-exports';
@@ -26,6 +26,10 @@ constructor(props) {
 
     this.usernotfound = false;
     this.internet = false;
+
+
+    this.width = Dimensions.get('window').width; //full width
+    this.height = Dimensions.get('window').height; //full height
     
     this.state = {
    
@@ -225,6 +229,9 @@ if (!this.usernotfound)
                         </Text>
                    </View>
 
+                   <ScrollView >
+                   {/* <ScrollView style={{width: this.width}}> */}
+                   <View style={{flex:1, alignItems: 'center'}} >
                
                <TextInput 
                   placeholder="qra"
@@ -262,17 +269,32 @@ if (!this.usernotfound)
                  </TouchableOpacity>
 
                  <View style={{flex:1, flexDirection: 'row'}}>
-                 <View style={{flex:0.4,  height: 45}}>
+                 <View style={{flex:0.4,  height: 45, alignItems: 'center'}}>
                  <TouchableOpacity style={{marginTop: 10}} onPress={ () => this.SignUpForm()} >
                     <Text style={styles.buttonText2} >SignUp</Text>
                  </TouchableOpacity>
                  </View>
-                 <View style={{flex:0.6, height: 45, alignItems: 'flex-end'}}>
+                 <View style={{flex:0.6, height: 45, alignItems: 'center'}}>
                  <TouchableOpacity  style={{marginTop: 10}} onPress={ () => this.ForgotPassword()} >
                     <Text style={styles.buttonText2} >Forgot Password</Text>
                  </TouchableOpacity>
                  </View>
+
+                 
                </View>
+
+ <Text style={styles.buttonText2} >  </Text>
+ <Text style={styles.buttonText2} >  </Text>
+ <Text style={styles.buttonText2} >  </Text>
+ <Text style={styles.buttonText2} >  </Text>
+ <Text style={styles.buttonText2} >  </Text>
+ <Text style={styles.buttonText2} >  </Text>
+ <Text style={styles.buttonText2} >  </Text>
+ <Text style={styles.buttonText2} >  </Text>
+ <Text style={styles.buttonText2} >  </Text>
+ <Text style={styles.buttonText2} >  </Text>
+   </View>
+               </ScrollView>
 
                <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
 
@@ -299,22 +321,28 @@ if (!this.usernotfound)
 
  const styles = StyleSheet.create({
   container: {
-    padding: 20
+    padding: 20,
+    
+    
       },
   input: {
     height: 40,    
     backgroundColor: 'rgba(255,255,255,0.2)',
    // borderWidth: 1, 
     borderRadius: 22,
-    marginBottom: 15,
+    marginBottom: 18,
+    width: 280,
     color: '#FFF',
     fontSize: 16,
-    paddingHorizontal: 10
+    paddingHorizontal: 10,
+    textAlign: 'center'
+    
           },
   buttonContainer:{
       backgroundColor: '#2980b9',
       paddingVertical: 15,
-      borderRadius: 22
+      borderRadius: 22,
+      width: 280
       },
   buttonText: {
     textAlign: 'center',
