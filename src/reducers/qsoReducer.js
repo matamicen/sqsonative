@@ -15,7 +15,7 @@ import {FETCHING_API_REQUEST,
     QSO_QRA_DELETE, SET_URL_RDS_S3, INSERT_FOLLOWINGS, INSERT_FOLLOWERS, 
     FOLLOWERS_ALREADY_CALLED,
     FOLLOWINGS_SELECTED, QRA_SEARCH, UPDATE_QSL_SCAN, REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL,
-    PROFILE_PICTURE_REFRESH, SET_LOCATION, SET_STOPALLAUDIOS } from '../actions/types';
+    PROFILE_PICTURE_REFRESH, SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO } from '../actions/types';
 
 const initialState = {
     qra: '',
@@ -68,6 +68,9 @@ const initialState = {
                  "message": {  }
                     }
                  },
+         qsolink: {
+               
+                         },
         refreshFollowings: false,
         latitude: 0,
         longitude: 0
@@ -723,6 +726,56 @@ const qsoReducer = (state = initialState, action) => {
             currentQso: auxcurrentQso
         });
     return newStore; 
+
+
+    case UPDATE_LINK_QSO:
+
+  
+
+    console.log('REDUCER ACTION ScantType: '+action.scanType)
+
+    if (action.scanType==='mainQsoLink')
+                auxcurrentQso = {
+                    ...state.currentQso,
+                    qsolink: action.json
+                        
+                };
+
+     if (action.scanType==='addQsoLink')
+      {
+
+
+      }
+   
+   
+//                 arrsearched = state.currentQso.qraSearched;
+//     if (action.count<4) arrsearched = [];
+
+  
+//     console.log("REDUCER QRAs searched LOCAL: "+ JSON.stringify(arrsearched));
+//     QrasToShow =  filterQras(arrsearched, action.qratosearch);
+//    // string.includes(substring);
+
+//        function filterQras(arr, qratosearch){
+//            return arr.filter (arr => {
+//                return arr.qra.includes(qratosearch)
+//            })
+//        }
+
+      // console.log("REDUCER QRA searched DESPUES de filtrar LOCAL: "+ JSON.stringify(QrasToShow));
+
+//     auxcurrentQso = {
+//        ...state.currentQso,
+//        qsolink: QrasToShow
+           
+//    };
+   newStore = Object.assign({}, state,
+       {
+           ...state,
+           currentQso: auxcurrentQso
+       });
+   return newStore; 
+
 
     case SET_LOCATION:
     // console.log("desdeREDUCER!! : "+JSON.stringify(action.newqra));

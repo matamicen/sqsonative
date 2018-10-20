@@ -16,16 +16,17 @@ import { getDateQslScan } from '../../helper';
 import { hasAPIConnection } from '../../helper';
 import NoInternetModal from '../Qso/NoInternetModal';
 import Permissions from 'react-native-permissions'
+import { ConsoleLogger } from '@aws-amplify/core';
 
 
-class QslScanScreen extends Component {
+class QsoLink extends Component {
   static navigationOptions = {
-      tabBarLabel: 'Qsl Scan',
+      tabBarLabel: 'Qso Link',
 
-      tabBarIcon: ({ tintColor }) => {
-        return (<Image
-            style={{ width: 28, height: 28  }}
-            source={require('../../images/qrcodescan.png')}/>);}
+    //   tabBarIcon: ({ tintColor }) => {
+    //     return (<Image
+    //         style={{ width: 28, height: 28  }}
+    //         source={require('../../images/qrcodescan.png')}/>);}
 
   }
 
@@ -67,6 +68,12 @@ class QslScanScreen extends Component {
 
 closeNoInternetModal = () => {
   this.setState({nointernet: false}); 
+}
+
+gotoQslScanScreen = async () => {
+
+    this.props.navigation.navigate("QslScanScreen");
+
 }
 
 checkInternetScanQR = async (param) => {
@@ -202,15 +209,15 @@ checkInternetScanQR = async (param) => {
     }
 
 
-  if (this.micPermission && this.camPermission && param==='qslscan')
-      // this.props.navigation.navigate("QslScanQR");
+  if (this.micPermission && this.camPermission && param==='qsoscan')
+
+
 
      this.props.navigation.navigate('QslScanQR', {
-      scantype: 'qslScan'
-      
-    });
-    else
-     this.props.navigation.navigate("QsoLink");
+        scantype: 'mainQsoLink'
+        
+      });
+   
 
  
   });
@@ -236,6 +243,8 @@ checkInternetScanQR = async (param) => {
    
 render() { console.log("RENDER QSL SCAN SCREEN!" );
 console.log('Dimensions Width:'+this.width);
+console.log("sqsoqsolink" );
+console.log(this.props.sqsoqsolink);
 // console.log('lisandro');
 // console.log(this.props.sqsoqslscan.links);
 
@@ -249,11 +258,10 @@ return   <View style={{flex: 1}}>
         <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
       
         {/* <QsoHeader /> */}
-      
-        {/* {(this.props.sqsoqslscan.datetime) && */}
-        {(this.props.sqsoqslscanerror===0) && 
-         <QsoHeaderLink qra={this.props.sqsoqslscan.qra} mode={this.props.sqsoqslscan.mode} band={this.props.sqsoqslscan.band} type={this.props.sqsoqslscan.type}
-                                   profilepic={this.props.sqsoqslscan.profilepic} qras={this.props.sqsoqslscan.qras} datetime={this.props.sqsoqslscan.datetime} 
+        {/* {(this.props.sqsoqsolink.datetime) && */}
+        {(this.props.sqsoqsolinkscanerror===0) &&
+         <QsoHeaderLink qra={this.props.sqsoqsolink.qra} mode={this.props.sqsoqsolink.mode} band={this.props.sqsoqsolink.band} type={this.props.sqsoqsolink.type}
+                                   profilepic={this.props.sqsoqsolink.profilepic} avatarpic={this.props.sqsoqsolink.avatarpic} qras={this.props.sqsoqsolink.qras} datetime={this.props.sqsoqsolink.datetime} 
                                />
         }
 
@@ -265,8 +273,8 @@ return   <View style={{flex: 1}}>
 
        <View style={{marginLeft: 30}}>
       
-        {(this.props.sqsoqslscanerror===1) &&  
-            <Text style={{color:"grey"}}> Sorry, the scanned Qsl Card doesn't exist.</Text> 
+        {(this.props.sqsoqsolinkscanerror===1) &&  
+            <Text style={{color:"grey"}}> Sorry, the scanned Qso doesn't exist.</Text> 
              }
 
         </View>
@@ -360,18 +368,18 @@ return   <View style={{flex: 1}}>
        
       
        {/* this.scanQR() */}
-       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qsolink')  }>
+       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qsoscan')  }>
           
           <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
        resizeMode="contain" />    
-       <Text style={{ fontSize: 12, color: '#999'}}>Link Qso</Text>          
+       <Text style={{ fontSize: 12, color: '#999'}}>Esto es QSO Link</Text>          
       </TouchableOpacity> 
-       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qslscan')  }>
-          
-            <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
-         resizeMode="contain" />    
-         <Text style={{ fontSize: 12, color: '#999'}}>Scan Qsl</Text>          
-        </TouchableOpacity> 
+      <TouchableOpacity
+                  onPress={() => this.gotoQslScanScreen()}
+                  style = {styles.capture} >
+                  <Text style={{fontSize: 14}}> Go Back </Text>
+              </TouchableOpacity>
+      
 
 
 
@@ -436,8 +444,10 @@ const styles = StyleSheet.create({
     return {  
        // sqsoqslalreadyscan: state.sqso.qslAlreadyScan,
         sqsoqslscan: state.sqso.currentQso.qslscan.body.message,
+        sqsoqsolink: state.sqso.currentQso.qsolink,
       //  sqsoqslscanbody: state.sqso.currentQso.qslscan.body,
-        sqsoqslscanerror: state.sqso.currentQso.qslscan.body.error
+      
+        sqsoqsolinkscanerror: state.sqso.currentQso.qsolink.error
         
      };
 };
@@ -448,4 +458,4 @@ const mapDispatchToProps = {
     
    }
 
-export default connect(mapStateToProps, mapDispatchToProps)(QslScanScreen);
+export default connect(mapStateToProps, mapDispatchToProps)(QsoLink);

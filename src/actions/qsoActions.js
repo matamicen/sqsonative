@@ -19,7 +19,7 @@ import {FETCHING_API_REQUEST,
         FOLLOWERS_ALREADY_CALLED, FOLLOWINGS_SELECTED, QRA_SEARCH,
         UPDATE_QSL_SCAN, UPDATE_QSL_SCAN_RESULT,
         REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL, PROFILE_PICTURE_REFRESH,
-        SET_LOCATION, SET_STOPALLAUDIOS  } from './types';
+        SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO  } from './types';
 
 import awsconfig from '../aws-exports';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -1252,6 +1252,14 @@ export const insertQraSearched = (qras) => {
     };
 }
 
+export const updateLinkQso = (json, scanType) => {
+  return {
+      type: UPDATE_LINK_QSO,
+      json: json,
+      scanType: scanType
+  };
+}
+
 
 
 export const getQrasFromSearch = (qraTosearch) => {
@@ -1315,7 +1323,7 @@ export const getQrasFromSearch = (qraTosearch) => {
       };          
     };
 
-    export const getQslScan = (QsoTosearch) => {
+    export const getQslScan = (QsoTosearch,ScanType) => {
         return async dispatch => {
           dispatch(fetchingApiRequest());
           console.log("ejecuta llamada API getQSL SCAN");  
@@ -1342,35 +1350,53 @@ export const getQrasFromSearch = (qraTosearch) => {
             // {
                 console.log("respuesta API getQSL SCAN:" + JSON.stringify(respuesta));
                 if (respuesta.body.error===0)
+                  { 
                     respuesta.body.message.datetime = getDateQslScan(respuesta.body.message.datetime);
             
                     console.log("respuesta DESPUES DE MODIF FECHA:" + JSON.stringify(respuesta));
                
-                     
-                dispatch(updateQslScan(respuesta));
+                     if (ScanType==='qslScan')
+                         dispatch(updateQslScan(respuesta));
+                       else
+                       {
+                        // Esta Scaneando algo relacionado con QsoLink (o Main o agreggadno un QSO al Link del Main)
+                          let qsolink = {"qra": respuesta.body.message.qra, "mode": respuesta.body.message.mode, "band": respuesta.body.message.band, "type": respuesta.body.message.type,
+                          "profilepic": respuesta.body.message.profilepic,  "avatarpic": respuesta.body.message.avatarpic,  "qras": respuesta.body.message.qras, 
+                           "datetime": respuesta.body.message.datetime, "error": 0 }
+
+                           if (ScanType==='mainQsoLink')
+                             dispatch(updateLinkQso(qsolink,'mainQsoLink'));
+                            else
+                             dispatch(updateLinkQso(qsolink,'addQsoLink'));
+
+                        
+
+                          
+
+                       }  
+
+
+                  }
+                else
+                 { // body.error <> 0
+                  //respuesta.body.error = 1;
+                  if (ScanType==='qslScan') 
+                    dispatch(updateQslScan(respuesta));
+                  else
+                  {
+                    let qsolink = {"qra": respuesta.body.message.qra, "mode": respuesta.body.message.mode, "band": respuesta.body.message.band, "type": respuesta.body.message.type,
+                    "profilepic": respuesta.body.message.profilepic,  "avatarpic": respuesta.body.message.avatarpic,  "qras": respuesta.body.message.qras, 
+                     "datetime": respuesta.body.message.datetime, "error": 1 }
+
+                    dispatch(updateLinkQso(qsolink,'mainQsoLink'));
+                  }
+
+
+                 }
+
             
 
-            //  }
-            //  else {
-            //     dispatch(updateQslScan(respuesta));
-            //  }
-            //     console.log("respuesta API getQSL NO ENCONTRO:" + JSON.stringify(respuesta));
-            //     respuesta = {
-            //         statusCode: 200,
-            //         headers: {
-                       
-            //         },
-            //         body: {   
-            //              error: 1,
-            //              message: {  }
-            //                 }
-            //              }
-            //              dispatch(updateQslScan(respuesta));
-                 
-
-
-
-            // }
+       
           
     
           dispatch(fetchingApiSuccess(respuesta));

@@ -25,12 +25,12 @@ class QsoModeLink extends Component {
 
         return <View >               
                                  
-         {(this.props.sqsoqslscanerror===0) &&
+         {/* {(this.props.sqsoqslscanerror===0) && */}
                <Text style={{ fontSize: 16, color: '#999'}}> Mode:
                <Text style={{ fontSize: 16, color: 'orange'}}> {this.props.mode} </Text>
                
                </Text>
-         }
+         {/* } */}
              
              
           

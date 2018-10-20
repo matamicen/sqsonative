@@ -13,6 +13,7 @@ import Login from './Profile/Login';
 import SignUpScreen from './Profile/SignUpForm';
 import ForgotScreen from './Profile/ForgotPassword';
 import QslScanQR from './QslScan/QslScanQR';
+import QsoLink from './QslScan/QsoLink';
 
 
 
@@ -165,6 +166,15 @@ export const AppNavigator = StackNavigator({
         },
           
         },
+
+        QsoLink: {
+          screen: QsoLink,
+          navigationOptions: {
+            header: null
+    
+          },
+            
+          },
 
 
        SignUpScreen: {

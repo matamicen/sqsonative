@@ -23,6 +23,8 @@ class QslScanQR extends Component {
   constructor(props) {
     super(props);
     
+    this.scantype = '';
+
     this.state = {
       conta: 0,
       actindicatorfecthQslCard: false,
@@ -35,11 +37,13 @@ class QslScanQR extends Component {
 
 
 
-  gotoQslScanScreen = async () => {
+  gotoQslScanScreen = async (param) => {
+    console.log('llamo Screen '+ param);
 
-
+       if (param==='qslScan')
            this.props.navigation.navigate("QslScanScreen");
-        
+        else
+           this.props.navigation.navigate("QsoLink");
      }
 
   onSuccess = async function(e) {
@@ -51,9 +55,12 @@ class QslScanQR extends Component {
        //this.ScanQSL2(e);
         this.setState({actindicatorfecthQslCard: true})
        console.log('el codigo Scaneado es: ' +e.data);
-       await this.props.getQslScan(e.data);
+       await this.props.getQslScan(e.data,this.scantype);
        this.setState({actindicatorfecthQslCard: false})
-       this.gotoQslScanScreen();
+      if (this.scantype==='mainQsoLink')
+         this.gotoQslScanScreen('mainQsoLink');
+       else
+         this.gotoQslScanScreen('qslScan');
      //   this.setState({scanQR: !this.state.scanQR})
 
         
@@ -68,11 +75,12 @@ class QslScanQR extends Component {
          //   .openURL(e.data)
          //   .catch(err => console.error('An error occured', err));
          //this.ScanQSL2(e);
+         console.log('ESCANEO TEST y el PARAMETRO es:'+this.scantype);
           this.setState({actindicatorfecthQslCard: true})
         //  console.log('el codigo Scaneado es: ' +e.data);
         
         //  await this.props.getQslScan('2734ee49-bdc0-11e8-ae0b-061cacc9b2a2');
-        await this.props.getQslScan('0e5866a5-c97d-11e8-ae0b-061cacc9b2a2');
+        await this.props.getQslScan('0e5866a5-c97d-11e8-ae0b-061cacc9b2a2',this.scantype);
          this.setState({actindicatorfecthQslCard: false})
          this.gotoQslScanScreen();
        //   this.setState({scanQR: !this.state.scanQR})
@@ -83,6 +91,12 @@ class QslScanQR extends Component {
        }
 
      render() { console.log("RENDER QSL SCAN SCREEN!" );
+     const { params } = this.props.navigation.state;
+     this.scantype = params ? params.scantype : null;
+    
+    console.log("QSL SCAN parametros: "+JSON.stringify(this.scantype) );
+  
+
 
 return   <View style={{flex: 1}}>
       
