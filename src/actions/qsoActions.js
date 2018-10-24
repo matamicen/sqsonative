@@ -1359,15 +1359,23 @@ export const getQrasFromSearch = (qraTosearch) => {
                          dispatch(updateQslScan(respuesta));
                        else
                        {
+                        if (ScanType==='mainQsoLink'){
                         // Esta Scaneando algo relacionado con QsoLink (o Main o agreggadno un QSO al Link del Main)
                           let qsolink = {"qra": respuesta.body.message.qra, "mode": respuesta.body.message.mode, "band": respuesta.body.message.band, "type": respuesta.body.message.type,
                           "profilepic": respuesta.body.message.profilepic,  "avatarpic": respuesta.body.message.avatarpic,  "qras": respuesta.body.message.qras, 
-                           "datetime": respuesta.body.message.datetime, "error": 0 }
+                           "datetime": respuesta.body.message.datetime, "error": 0, links: [] }
 
-                           if (ScanType==='mainQsoLink')
+                           
                              dispatch(updateLinkQso(qsolink,'mainQsoLink'));
+                        }
                             else
-                             dispatch(updateLinkQso(qsolink,'addQsoLink'));
+                            { // es un Qsolink para agregar al mainQso
+                              let qsolink = {"qra": respuesta.body.message.qra, "mode": respuesta.body.message.mode, "band": respuesta.body.message.band, "type": respuesta.body.message.type,
+                          "profilepic": respuesta.body.message.profilepic,  "avatarpic": respuesta.body.message.avatarpic,  "qras": respuesta.body.message.qras, 
+                           "datetime": respuesta.body.message.datetime }
+
+                             dispatch(updateLinkQso(qsolink,'linkQso'));
+                            }
 
                         
 

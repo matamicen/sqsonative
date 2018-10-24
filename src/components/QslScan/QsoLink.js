@@ -209,15 +209,21 @@ checkInternetScanQR = async (param) => {
     }
 
 
-  if (this.micPermission && this.camPermission && param==='qsoscan')
+        if (this.micPermission && this.camPermission && param==='mainqsoscan')
 
+          this.props.navigation.navigate('QslScanQR', {
+              scantype: 'mainQsoLink'
+              
+            });
 
+            if (this.micPermission && this.camPermission && param==='linkqsoscan')
 
-     this.props.navigation.navigate('QslScanQR', {
-        scantype: 'mainQsoLink'
+            this.props.navigation.navigate('QslScanQR', {
+                scantype: 'linkQso'
+                
+              });
         
-      });
-   
+            
 
  
   });
@@ -310,37 +316,38 @@ return   <View style={{flex: 1}}>
        <ScrollView contentContainerStyle={styles.contentContainer}>
        {/* { (this.props.qslalreadyscan==='full') ? */}
         {/*  <MediaImages mostrar='image'/> */}
-        <MediaImagesLink media={this.props.sqsoqslscan.media} qra={this.props.sqsoqslscan.qra} mostrar='image'/> 
+        {/* <MediaImagesLink media={this.props.sqsoqslscan.media} qra={this.props.sqsoqslscan.qra} mostrar='image'/>  */}
 
        {/* :
         null } */}
        {/* <MediaImages mostrar='audio'/> */}
-       <MediaImagesLink media={this.props.sqsoqslscan.media} qra={this.props.sqsoqslscan.qra} mostrar='audio'/> 
+       {/* <MediaImagesLink media={this.props.sqsoqslscan.media} qra={this.props.sqsoqslscan.qra} mostrar='audio'/> 
 
        <LikesLink likes={this.props.sqsoqslscan.likes} type={this.props.sqsoqslscan.type}/>
-       <CommentsLink comments={this.props.sqsoqslscan.comments} />
+       <CommentsLink comments={this.props.sqsoqslscan.comments} /> */}
 
        {/*  <Likes />
        <Comments />*/}
-       { (this.props.sqsoqslscan.links) && (this.props.sqsoqslscan.links.length>0) &&   
-               <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18, marginTop: 15}}>The followings QSOs are linked:</Text>}
+       {/* { (this.props.sqsoqslscan.links) && (this.props.sqsoqslscan.links.length>0) &&   
+               <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18, marginTop: 15}}>The followings QSOs are linked:</Text>} */}
        
            {
            
-             (this.props.sqsoqslscan.links) && 
+             (this.props.sqsoqsolink.links) && 
             
             
-                  this.props.sqsoqslscan.links.map((m, i) =>    
+                  this.props.sqsoqsolink.links.map((m, i) =>    
                     // console.log('loop links: '+m.idqsos +' ' +m.mode)
                     <View   key={i} style={{ paddingBottom: 7, felx:1, backgroundColor: 'white', borderRadius: 12, marginTop: 18, marginLeft: 2 }}>
                     {/* <Text>  idqso: {m.idqsos}</Text>
                     <Text>  mode: {m.mode}</Text>
                     <Text>  band: {m.band}</Text> */}
                     <QsoHeaderLink qra={m.qra} mode={m.mode} band={m.band} type={m.type}
-                                   profilepic={m.profilepic} qras={m.qras} datetime={getDateQslScan(m.datetime)} 
+                                   profilepic={m.profilepic} qras={m.qras} datetime={m.datetime} 
                                />
-
-                    <MediaImagesLink   media={m.media} qra={m.qra} mostrar='image'/> 
+                               
+                  
+                    {/* <MediaImagesLink   media={m.media} qra={m.qra} mostrar='image'/> 
 
                     <MediaImagesLink media={m.media} qra={m.qra} mostrar='audio'/> 
 
@@ -348,10 +355,10 @@ return   <View style={{flex: 1}}>
 
                     <LikesLink likes={m.likes} type={m.type}/>
                     <CommentsLink comments={m.comments} />
-                  
+                  */ }
                     
                   </View> 
-                   )
+           ) //este parentesis es del map del loop de arriba
               
              }
 
@@ -368,11 +375,18 @@ return   <View style={{flex: 1}}>
        
       
        {/* this.scanQR() */}
-       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qsoscan')  }>
+       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('mainqsoscan')  }>
           
           <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
        resizeMode="contain" />    
-       <Text style={{ fontSize: 12, color: '#999'}}>Esto es QSO Link</Text>          
+       <Text style={{ fontSize: 12, color: '#999'}}>Main QSO Link</Text>          
+      </TouchableOpacity> 
+
+           <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('linkqsoscan')  }>
+          
+          <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
+       resizeMode="contain" />    
+       <Text style={{ fontSize: 12, color: '#999'}}>Link a Qso</Text>          
       </TouchableOpacity> 
       <TouchableOpacity
                   onPress={() => this.gotoQslScanScreen()}

@@ -143,24 +143,29 @@ export const updateOnProgress=(qsotype,band,mode,qsoqras)=>{
     month = fecha.substr(5,2);
     day = fecha.substr(8,2);
     time = fecha.substr(11, 5);
+    let monthString = 'pep';
+
+    console.log('FECHAAA: '+fecha + 'mes:'+month + ' '+ monthString );
 
     switch(month) {
-        case '01': monthString = 'Jan';
-        case '02': monthString = 'Feb';
-        case '03': monthString = 'Mar';
-        case '04': monthString = 'Apr';
-        case '05': monthString = 'May';
-        case '06': monthString = 'Jun';
-        case '07': monthString = 'Jul';
-        case '08': monthString = 'Ago';
-        case '09': monthString = 'Sep';
-        case '10': monthString = 'Oct';
-        case '11': monthString = 'Nov';
-        case '12': monthString = 'Dec';
+        case '01': monthString = 'Jan';break;
+        case '02': monthString = 'Feb';break;
+        case '03': monthString = 'Mar';break;
+        case '04': monthString = 'Apr';break;
+        case '05': monthString = 'May';break;
+        case '06': monthString = 'Jun';break;
+        case '07': monthString = 'Jul';break;
+        case '08': monthString = 'Ago';break;
+        case '09': monthString = 'Sep';break;
+        case '10': monthString = 'Oct';break;
+        case '11': monthString = 'Nov';break;
+        case '12': monthString = 'Dec';break;
+        
 
 
     }
 
+    console.log('FECHAAA: '+fecha + 'monthString:'+monthString );
 
 
    return monthString + ' '+ day + ','+ ' '+year+' '+time;

@@ -57,11 +57,15 @@ class QslScanQR extends Component {
        console.log('el codigo Scaneado es: ' +e.data);
        await this.props.getQslScan(e.data,this.scantype);
        this.setState({actindicatorfecthQslCard: false})
-      if (this.scantype==='mainQsoLink')
-         this.gotoQslScanScreen('mainQsoLink');
+      if (this.scantype==='mainQsoLink' || this.scantype==='linkQso')
+      
+      
+         this.gotoQslScanScreen(this.scantype);
        else
          this.gotoQslScanScreen('qslScan');
-     //   this.setState({scanQR: !this.state.scanQR})
+  
+  
+         //   this.setState({scanQR: !this.state.scanQR})
 
         
    
@@ -82,7 +86,7 @@ class QslScanQR extends Component {
         //  await this.props.getQslScan('2734ee49-bdc0-11e8-ae0b-061cacc9b2a2');
         await this.props.getQslScan('0e5866a5-c97d-11e8-ae0b-061cacc9b2a2',this.scantype);
          this.setState({actindicatorfecthQslCard: false})
-         this.gotoQslScanScreen();
+         this.gotoQslScanScreen(this.scantype);
        //   this.setState({scanQR: !this.state.scanQR})
   
           
@@ -118,7 +122,7 @@ return   <View style={{flex: 1}}>
 
 
               <TouchableOpacity
-                  onPress={() => this.gotoQslScanScreen()}
+                  onPress={() => this.gotoQslScanScreen(this.scantype)}
                   style = {styles.capture} >
                   <Text style={{fontSize: 14}}> Go Back </Text>
               </TouchableOpacity>

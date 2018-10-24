@@ -741,9 +741,17 @@ const qsoReducer = (state = initialState, action) => {
                         
                 };
 
-     if (action.scanType==='addQsoLink')
+     if (action.scanType==='linkQso')
       {
 
+       // linkQsoAux = state.currentQso.qsolink.links;
+        linkQsoAdded = [...state.currentQso.qsolink.links,action.json]
+        linkaux = state.currentQso.qsolink;
+        linkaux.links = linkQsoAdded;
+        auxcurrentQso = {
+            ...state.currentQso,
+            qsolink: linkaux         
+        };
 
       }
    
