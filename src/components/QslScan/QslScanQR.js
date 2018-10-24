@@ -41,7 +41,10 @@ class QslScanQR extends Component {
     console.log('llamo Screen '+ param);
 
        if (param==='qslScan')
-           this.props.navigation.navigate("QslScanScreen");
+       {   console.log('llamo QslScanResult '+ param);
+
+           this.props.navigation.navigate("QslScanResult");
+       }
         else
            this.props.navigation.navigate("QsoLink");
      }
