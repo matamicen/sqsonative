@@ -102,6 +102,7 @@ constructor(props) {
 
        closeNoInternetModal = () => {
         this.setState({nointernet: false}); 
+        this.componentDidMount();
       }
 
 signIn = async () => {
@@ -306,6 +307,7 @@ if (!this.usernotfound)
                         </Text>
                         {/* <Image source={require('../../images/loading.jpg')}  style={{width: 250, height: 160, marginTop: 100  } }  /> */}
                 
+                        <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
              </View>
 
 
