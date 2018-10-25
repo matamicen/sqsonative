@@ -250,119 +250,24 @@ return   <View style={{flex: 1}}>
       
         {/* <QsoHeader /> */}
       
-        {/* {(this.props.sqsoqslscan.datetime) && */}
-        {(this.props.sqsoqslscanerror===0) && 
-         <QsoHeaderLink qra={this.props.sqsoqslscan.qra} mode={this.props.sqsoqslscan.mode} band={this.props.sqsoqslscan.band} type={this.props.sqsoqslscan.type}
-                                   profilepic={this.props.sqsoqslscan.profilepic} qras={this.props.sqsoqslscan.qras} datetime={this.props.sqsoqslscan.datetime} 
-                               />
-        }
-
+      
 
   
         </View>
 
-       <View style={{ flex: 0.61, width: this.width-10, marginLeft: 3, marginRight: 3, marginTop: 6}}>
-
-       <View style={{marginLeft: 30}}>
-      
-        {(this.props.sqsoqslscanerror===1) &&  
-            <Text style={{color:"grey"}}> Sorry, the scanned Qsl Card doesn't exist.</Text> 
-             }
-
-        </View>
-
-       <Modal visible={this.state.actindicatorfecthQslCard} position= {'top'} transparent={true}  onRequestClose={() => console.log('Close was requested')}>
-             {/* <KeyboardAvoidingView behavior="padding"  > */}
-              <View style={{ 
-                   padding:10, 
-                  backgroundColor : 'rgba(0,0,0,0.85)',
-                   marginTop: 210,
-                   left: 105,
-                   right: 15,
-                   width: 185,
-                   height: 35,
-                   paddingVertical: 5,
-                 //   position: 'absolute',
-                   
-                 //  alignItems: 'center',
-                   borderRadius: 12                       
-                    }}>
-                   <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15}}>Fetching QSL Card ...</Text>
-                   
-                  
-
-                    </View>
-                {/* </KeyboardAvoidingView > */}
-                   
-                      </Modal>
-
-        
-
-
-       <ScrollView contentContainerStyle={styles.contentContainer}>
-       {/* { (this.props.qslalreadyscan==='full') ? */}
-        {/*  <MediaImages mostrar='image'/> */}
-        <MediaImagesLink media={this.props.sqsoqslscan.media} qra={this.props.sqsoqslscan.qra} mostrar='image'/> 
-
-       {/* :
-        null } */}
-       {/* <MediaImages mostrar='audio'/> */}
-       <MediaImagesLink media={this.props.sqsoqslscan.media} qra={this.props.sqsoqslscan.qra} mostrar='audio'/> 
-
-       <LikesLink likes={this.props.sqsoqslscan.likes} type={this.props.sqsoqslscan.type}/>
-       <CommentsLink comments={this.props.sqsoqslscan.comments} />
-
-       {/*  <Likes />
-       <Comments />*/}
-       { (this.props.sqsoqslscan.links) && (this.props.sqsoqslscan.links.length>0) &&   
-               <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18, marginTop: 15}}>The followings QSOs are linked:</Text>}
-       
-           {
-           
-             (this.props.sqsoqslscan.links) && 
-            
-            
-                  this.props.sqsoqslscan.links.map((m, i) =>    
-                    // console.log('loop links: '+m.idqsos +' ' +m.mode)
-                    <View   key={i} style={{ paddingBottom: 7, felx:1, backgroundColor: 'white', borderRadius: 12, marginTop: 18, marginLeft: 2 }}>
-                    {/* <Text>  idqso: {m.idqsos}</Text>
-                    <Text>  mode: {m.mode}</Text>
-                    <Text>  band: {m.band}</Text> */}
-                    <QsoHeaderLink qra={m.qra} mode={m.mode} band={m.band} type={m.type}
-                                   profilepic={m.profilepic} qras={m.qras} datetime={getDateQslScan(m.datetime)} 
-                               />
-
-                    <MediaImagesLink   media={m.media} qra={m.qra} mostrar='image'/> 
-
-                    <MediaImagesLink media={m.media} qra={m.qra} mostrar='audio'/> 
-
-
-
-                    <LikesLink likes={m.likes} type={m.type}/>
-                    <CommentsLink comments={m.comments} />
-                  
-                    
-                  </View> 
-                   )
-              
-             }
-
-       </ScrollView>
-       
-       </View>
-      
+   
        
 
        
      
 
-       <View style={{ flexDirection: 'row', flex:0.08, marginTop:7, justifyContent: 'center'}}> 
+       <View style={{ flexDirection: 'row', flex:0.71, marginTop:7, justifyContent: 'center'}}> 
        
       
        {/* this.scanQR() */}
        <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qsolink')  }>
           
-          <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
+          <Image source={require('../../images/link2.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
        resizeMode="contain" />    
        <Text style={{ fontSize: 12, color: '#999'}}>Link Qso</Text>          
       </TouchableOpacity> 

@@ -44,6 +44,7 @@ class QsoLink extends Component {
       actindicatorfecthQslCard: false,
       scanQR: false,
       nointernet: false,
+      qsoToLink: false
      
       
     };
@@ -259,23 +260,25 @@ return   <View style={{flex: 1}}>
             
        
       
-       <View style={{flex: 0.29, width: this.width-10, marginLeft: 3, marginRight: 3}}>
+       <View style={{flex: 0.29, width: this.width-10, marginLeft: 3, marginRight: 3, marginTop: 10}}>
+         
+            <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
+       
 
-        <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
-      
-        {/* <QsoHeader /> */}
-        {/* {(this.props.sqsoqsolink.datetime) && */}
-        {(this.props.sqsoqsolinkscanerror===0) &&
-         <QsoHeaderLink qra={this.props.sqsoqsolink.qra} mode={this.props.sqsoqsolink.mode} band={this.props.sqsoqsolink.band} type={this.props.sqsoqsolink.type}
-                                   profilepic={this.props.sqsoqsolink.profilepic} avatarpic={this.props.sqsoqsolink.avatarpic} qras={this.props.sqsoqsolink.qras} datetime={this.props.sqsoqsolink.datetime} 
-                               />
-        }
+           
+                {(this.props.sqsoqsolinkscanerror===0) &&
+                <QsoHeaderLink qra={this.props.sqsoqsolink.qra} mode={this.props.sqsoqsolink.mode} band={this.props.sqsoqsolink.band} type={this.props.sqsoqsolink.type}
+                                          profilepic={this.props.sqsoqsolink.profilepic} avatarpic={this.props.sqsoqsolink.avatarpic} qras={this.props.sqsoqsolink.qras} datetime={this.props.sqsoqsolink.datetime} 
+                                      />
+                }
 
+             
 
-  
+       
+          
         </View>
 
-       <View style={{ flex: 0.61, width: this.width-10, marginLeft: 3, marginRight: 3, marginTop: 6}}>
+       <View style={{ flex: 0.60, width: this.width-10, marginLeft: 3, marginRight: 3, marginTop: 6}}>
 
        <View style={{marginLeft: 30}}>
       
@@ -314,22 +317,7 @@ return   <View style={{flex: 1}}>
 
 
        <ScrollView contentContainerStyle={styles.contentContainer}>
-       {/* { (this.props.qslalreadyscan==='full') ? */}
-        {/*  <MediaImages mostrar='image'/> */}
-        {/* <MediaImagesLink media={this.props.sqsoqslscan.media} qra={this.props.sqsoqslscan.qra} mostrar='image'/>  */}
-
-       {/* :
-        null } */}
-       {/* <MediaImages mostrar='audio'/> */}
-       {/* <MediaImagesLink media={this.props.sqsoqslscan.media} qra={this.props.sqsoqslscan.qra} mostrar='audio'/> 
-
-       <LikesLink likes={this.props.sqsoqslscan.likes} type={this.props.sqsoqslscan.type}/>
-       <CommentsLink comments={this.props.sqsoqslscan.comments} /> */}
-
-       {/*  <Likes />
-       <Comments />*/}
-       {/* { (this.props.sqsoqslscan.links) && (this.props.sqsoqslscan.links.length>0) &&   
-               <Text style={{ color: 'black', fontWeight: 'bold', fontSize: 18, marginTop: 15}}>The followings QSOs are linked:</Text>} */}
+  
        
            {
            
@@ -346,16 +334,7 @@ return   <View style={{flex: 1}}>
                                    profilepic={m.profilepic} qras={m.qras} datetime={m.datetime} 
                                />
                                
-                  
-                    {/* <MediaImagesLink   media={m.media} qra={m.qra} mostrar='image'/> 
-
-                    <MediaImagesLink media={m.media} qra={m.qra} mostrar='audio'/> 
-
-
-
-                    <LikesLink likes={m.likes} type={m.type}/>
-                    <CommentsLink comments={m.comments} />
-                  */ }
+                 
                     
                   </View> 
            ) //este parentesis es del map del loop de arriba
@@ -371,31 +350,70 @@ return   <View style={{flex: 1}}>
        
      
 
-       <View style={{ flexDirection: 'row', flex:0.08, marginTop:7, justifyContent: 'center'}}> 
+       <View style={{ flexDirection: 'row', flex:0.06, marginTop:7, marginLeft: 15}}> 
        
       
        {/* this.scanQR() */}
-       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('mainqsoscan')  }>
-          
-          <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
-       resizeMode="contain" />    
-       <Text style={{ fontSize: 12, color: '#999'}}>Main QSO Link</Text>          
-      </TouchableOpacity> 
+    <View style={{flex: 1, flexDirection: 'row' }}>
 
-           <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('linkqsoscan')  }>
-          
-          <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
+
+       <View style={{flex: 0.27 }}>
+                <TouchableOpacity  style={{}}  onPress={ () => this.checkInternetScanQR('mainqsoscan')  }>
+                <Text style={{ fontSize: 12, color: 'orange', marginLeft: 25}}>Step 1</Text> 
+                  <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 29 } } 
+              resizeMode="contain" />    
+                      <Text style={{ fontSize: 12, color: '#999'}}>Scan your QSO</Text>  
+              </TouchableOpacity> 
+          </View>
+      
+          {/* <View style={{flex: 0.12, alignItems: 'flex-start' }}>
+       { (this.props.sqsoqsolink.qra) &&
+        
+          <Image source={require('../../images/arrowGreen.png')}  style={{width: 50, height: 50, marginTop: 6 } } 
        resizeMode="contain" />    
-       <Text style={{ fontSize: 12, color: '#999'}}>Link a Qso</Text>          
-      </TouchableOpacity> 
+       
+          } 
+      </View>  */}
+       <View style={{flex: 0.30, alignItems: 'flex-start' }}>
+       { (this.props.sqsoqsolink.qra) &&
+           <TouchableOpacity  style={{}}  onPress={ () => this.checkInternetScanQR('linkqsoscan')  }>
+           <Text style={{ fontSize: 12, color: 'orange', marginLeft: 24}}>Step 2</Text> 
+          <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 25 } } 
+       resizeMode="contain" />    
+       <Text style={{ fontSize: 12, color: '#999'}}>Add a Qso to Link</Text>   
+          
+         </TouchableOpacity> 
+          } 
+      </View>  
+
+       <View style={{flex: 0.22, alignItems: 'center' }}>
+       {  (this.props.sqsoqsolink.links) &&
+         (this.props.sqsoqsolink.links.length>0) &&
+           <TouchableOpacity  style={{}}  onPress={ () => this.checkInternetScanQR('linkqsoscan')  }>
+           <Text style={{ fontSize: 12, color: 'orange', marginLeft: 0}}>Ready</Text> 
+          <Image source={require('../../images/link2.png')}  style={{width: 24, height: 24 } } 
+       resizeMode="contain" />    
+       <Text style={{ fontSize: 12, color: '#999'}}>Link</Text>   
+          
+         </TouchableOpacity> 
+          }
+         
+      </View>  
+       
+     <View style={{flex: 0.15, alignItems: 'flex-end', marginRight: 5}}>
       <TouchableOpacity
                   onPress={() => this.gotoQslScanScreen()}
-                  style = {styles.capture} >
-                  <Text style={{fontSize: 14}}> Go Back </Text>
+                  style = {{ marginTop: 12}} >
+                  <Image source={require('../../images/arrow_back_grey.png')}  style={{width: 27, height: 27 } } 
+                  resizeMode="contain" />    
+                  <Text style={{fontSize: 12}}> Back </Text>
               </TouchableOpacity>
+
+      </View>
       
 
 
+      </View>
 
        </View>
        
