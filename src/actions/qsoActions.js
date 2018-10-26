@@ -19,7 +19,7 @@ import {FETCHING_API_REQUEST,
         FOLLOWERS_ALREADY_CALLED, FOLLOWINGS_SELECTED, QRA_SEARCH,
         UPDATE_QSL_SCAN, UPDATE_QSL_SCAN_RESULT,
         REFRESH_FOLLOWINGS, QRA_SEARCH_LOCAL, PROFILE_PICTURE_REFRESH,
-        SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO  } from './types';
+        SET_LOCATION, SET_STOPALLAUDIOS, UPDATE_LINK_QSO, LINK_QSOS  } from './types';
 
 import awsconfig from '../aws-exports';
 import Amplify, { Auth, API, Storage } from 'aws-amplify';
@@ -1262,6 +1262,9 @@ export const updateLinkQso = (json, scanType) => {
 
 
 
+
+
+
 export const getQrasFromSearch = (qraTosearch) => {
     return async dispatch => {
       dispatch(fetchingApiRequest());
@@ -1361,7 +1364,7 @@ export const getQrasFromSearch = (qraTosearch) => {
                        {
                         if (ScanType==='mainQsoLink'){
                         // Esta Scaneando algo relacionado con QsoLink (o Main o agreggadno un QSO al Link del Main)
-                          let qsolink = {"qra": respuesta.body.message.qra, "mode": respuesta.body.message.mode, "band": respuesta.body.message.band, "type": respuesta.body.message.type,
+                          let qsolink = {"idqsos": respuesta.body.message.idqsos, "qra": respuesta.body.message.qra, "mode": respuesta.body.message.mode, "band": respuesta.body.message.band, "type": respuesta.body.message.type,
                           "profilepic": respuesta.body.message.profilepic,  "avatarpic": respuesta.body.message.avatarpic,  "qras": respuesta.body.message.qras, 
                            "datetime": respuesta.body.message.datetime, "error": 0, links: [] }
 
@@ -1370,7 +1373,7 @@ export const getQrasFromSearch = (qraTosearch) => {
                         }
                             else
                             { // es un Qsolink para agregar al mainQso
-                              let qsolink = {"qra": respuesta.body.message.qra, "mode": respuesta.body.message.mode, "band": respuesta.body.message.band, "type": respuesta.body.message.type,
+                              let qsolink = {"idqsos": respuesta.body.message.idqsos, "qra": respuesta.body.message.qra, "mode": respuesta.body.message.mode, "band": respuesta.body.message.band, "type": respuesta.body.message.type,
                           "profilepic": respuesta.body.message.profilepic,  "avatarpic": respuesta.body.message.avatarpic,  "qras": respuesta.body.message.qras, 
                            "datetime": respuesta.body.message.datetime }
 
@@ -1392,11 +1395,13 @@ export const getQrasFromSearch = (qraTosearch) => {
                     dispatch(updateQslScan(respuesta));
                   else
                   {
-                    let qsolink = {"qra": respuesta.body.message.qra, "mode": respuesta.body.message.mode, "band": respuesta.body.message.band, "type": respuesta.body.message.type,
-                    "profilepic": respuesta.body.message.profilepic,  "avatarpic": respuesta.body.message.avatarpic,  "qras": respuesta.body.message.qras, 
-                     "datetime": respuesta.body.message.datetime, "error": 1 }
+                    // let qsolink = {"qra": respuesta.body.message.qra, "mode": respuesta.body.message.mode, "band": respuesta.body.message.band, "type": respuesta.body.message.type,
+                    // "profilepic": respuesta.body.message.profilepic,  "avatarpic": respuesta.body.message.avatarpic,  "qras": respuesta.body.message.qras, 
+                    //  "datetime": respuesta.body.message.datetime, "error": 1, message: "Sorry, the scanned Qso doesn't exist." }
 
-                    dispatch(updateLinkQso(qsolink,'mainQsoLink'));
+                    // dispatch(updateLinkQso(qsolink,'mainQsoLink'));
+                    jsonError = {code: 1, message: "Sorry, the scanned Qso doesn't exist."}
+                    dispatch(updateLinkQso(jsonError,'linkQsoError'));
                   }
 
 
@@ -1417,6 +1422,85 @@ export const getQrasFromSearch = (qraTosearch) => {
         }    
         };
       };
+
+
+
+
+export const linkQsos = (json) => {
+  return async dispatch => {
+    dispatch(fetchingApiRequest());
+    console.log("ejecuta llamada API qso-link");  
+  try {
+      session = await Auth.currentSession();
+      console.log("Su token es: " + session.idToken.jwtToken);
+      let apiName = 'superqso';
+      let path = '/qso-link';
+
+
+      // armo el array de los qso a Linkear
+      arraux = [];
+        json.links.map((m, i) => {
+
+         addItem = {"qso": m.idqsos}  
+         arraux = [...arraux,addItem];
+
+
+        })
+
+        console.log('imprimo el arraux:' );
+        console.log(json.idqsos);
+        console.log(arraux);
+
+
+
+      let myInit = { // OPTIONAL
+        headers: {
+          'Authorization': session.idToken.jwtToken,
+          'Content-Type': 'application/json'
+        },
+        body: {
+          "qso": json.idqsos,
+          "qsos_rel": arraux
+          
+        }
+      }
+
+    
+     
+    respuesta = await API.post(apiName, path, myInit);
+    if (respuesta.body.error===0)
+    {
+          console.log("respuesta API qso-link:" + JSON.stringify(respuesta));
+          let qsolink = { "error": 0 }
+
+           
+             dispatch(updateLinkQso(qsolink,'linkQsoApiResult'));
+                
+          
+    }else{
+         let men = '';
+        if (respuesta.body.message.code==='ER_DUP_ENTRY')
+             men = 'This Qso has already Linked';
+           else
+             men = 'There was an error Linking the Qsos: '+respuesta.body.message.code;
+        
+        //  let qsolink = { "error": 1, "message": men }
+         jsonError = {code: 1, message: men}
+           dispatch(updateLinkQso(jsonError,'linkQsoError'));
+
+      //   dispatch(updateLinkQso(qsolink,'linkQsoApiResult'));
+      }
+
+    dispatch(fetchingApiSuccess(respuesta));
+    
+  }
+  catch (error) {
+    console.log('Api qso-link catch error:', error);
+    dispatch(fetchingApiFailure(error));
+    // Handle exceptions
+  }    
+  };
+};
     
 
       export const updateQslScan = (qslresult) => {

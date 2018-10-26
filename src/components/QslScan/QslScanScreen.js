@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 // import QsoHeader from './QsoHeader';
 import QsoHeaderLink from './QsoHeaderLink';
-import { getQslScan } from '../../actions';
+import { getQslScan, updateLinkQso } from '../../actions';
 // import MediaImages from './MediaImages';
 import MediaImagesLink from './MediaImagesLink';
 // import Likes from './Likes';
@@ -209,9 +209,11 @@ checkInternetScanQR = async (param) => {
       scantype: 'qslScan'
       
     });
-    else
+    else{
+      this.props.updateLinkQso('','clear');
      this.props.navigation.navigate("QsoLink");
-
+    }
+    
  
   });
 
@@ -349,7 +351,8 @@ const styles = StyleSheet.create({
 
 
 const mapDispatchToProps = {
-    getQslScan
+    getQslScan,
+    updateLinkQso
     
    }
 

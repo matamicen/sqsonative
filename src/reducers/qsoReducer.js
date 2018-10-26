@@ -71,6 +71,7 @@ const initialState = {
          qsolink: {
                
                          },
+         qsolinkCodes: {code: 0, message: " "},
         refreshFollowings: false,
         latitude: 0,
         longitude: 0
@@ -734,12 +735,32 @@ const qsoReducer = (state = initialState, action) => {
 
     console.log('REDUCER ACTION ScantType: '+action.scanType)
 
-    if (action.scanType==='mainQsoLink')
+
+    if (action.scanType==='clear')
+    {
+        auxcurrentQso = {
+            ...state.currentQso,
+            qsolink: {},
+            qsolinkCodes: {code: 0, message: " "}
+                
+        };
+        
+    }
+    if (action.scanType==='mainQsoLink' || action.scanType==='linkQsoApiResult')
+     {    
+         let men = " ";
+           if (action.scanType==='linkQsoApiResult')
+              men = {code: 200, message: "These Qsos are succesuful Linked!"}
+             else
+              men = {code: 0, message: " "}
+
                 auxcurrentQso = {
                     ...state.currentQso,
-                    qsolink: action.json
+                    qsolink: action.json,
+                    qsolinkCodes: men
                         
                 };
+            }
 
      if (action.scanType==='linkQso')
       {
@@ -750,33 +771,22 @@ const qsoReducer = (state = initialState, action) => {
         linkaux.links = linkQsoAdded;
         auxcurrentQso = {
             ...state.currentQso,
-            qsolink: linkaux         
+            qsolink: linkaux,
+            qsolinkCodes: {code: 0, message: " "}         
         };
 
       }
-   
-   
-//                 arrsearched = state.currentQso.qraSearched;
-//     if (action.count<4) arrsearched = [];
 
-  
-//     console.log("REDUCER QRAs searched LOCAL: "+ JSON.stringify(arrsearched));
-//     QrasToShow =  filterQras(arrsearched, action.qratosearch);
-//    // string.includes(substring);
+      if (action.scanType==='linkQsoError' )
+                auxcurrentQso = {
+                    ...state.currentQso,
+                    qsolinkCodes: action.json
+                        
+                };
+      
 
-//        function filterQras(arr, qratosearch){
-//            return arr.filter (arr => {
-//                return arr.qra.includes(qratosearch)
-//            })
-//        }
-
-      // console.log("REDUCER QRA searched DESPUES de filtrar LOCAL: "+ JSON.stringify(QrasToShow));
-
-//     auxcurrentQso = {
-//        ...state.currentQso,
-//        qsolink: QrasToShow
-           
-//    };
+      
+    
    newStore = Object.assign({}, state,
        {
            ...state,

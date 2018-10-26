@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import { NavigationActions } from 'react-navigation';
 // import QsoHeader from './QsoHeader';
 import QsoHeaderLink from './QsoHeaderLink';
-import { getQslScan } from '../../actions';
+import { getQslScan,linkQsos, updateLinkQso } from '../../actions';
 // import MediaImages from './MediaImages';
 import MediaImagesLink from './MediaImagesLink';
 // import Likes from './Likes';
@@ -44,10 +44,25 @@ class QsoLink extends Component {
       actindicatorfecthQslCard: false,
       scanQR: false,
       nointernet: false,
-      qsoToLink: false
+      qsoToLink: false,
+      linkCodes: false
      
       
     };
+  }
+
+
+  componentWillReceiveProps(nextProps) {
+    
+  
+if (nextProps.sqsoqsolinkcodes.code!==0)
+    this.setState({
+      linkCodes: true    
+    })
+    else
+    this.setState({
+      linkCodes: false    
+    })
   }
 
 
@@ -223,6 +238,12 @@ checkInternetScanQR = async (param) => {
                 scantype: 'linkQso'
                 
               });
+
+              if (this.micPermission && this.camPermission && param==='linkqsos')
+                 this.props.linkQsos(this.props.sqsoqsolink);
+             
+
+              
         
             
 
@@ -247,6 +268,12 @@ checkInternetScanQR = async (param) => {
       this.setState({nointernet: true});
 
  }
+
+ closeLinksCodesModal = () => {
+  jsonError = {code: 0, message: " "}
+  this.props.updateLinkQso(jsonError,'linkQsoError');
+ // this.setState({linkCodes: false}); 
+}
    
 render() { console.log("RENDER QSL SCAN SCREEN!" );
 console.log('Dimensions Width:'+this.width);
@@ -266,7 +293,7 @@ return   <View style={{flex: 1}}>
        
 
            
-                {(this.props.sqsoqsolinkscanerror===0) &&
+                {(this.props.sqsoqsolink.qra) &&
                 <QsoHeaderLink qra={this.props.sqsoqsolink.qra} mode={this.props.sqsoqsolink.mode} band={this.props.sqsoqsolink.band} type={this.props.sqsoqsolink.type}
                                           profilepic={this.props.sqsoqsolink.profilepic} avatarpic={this.props.sqsoqsolink.avatarpic} qras={this.props.sqsoqsolink.qras} datetime={this.props.sqsoqsolink.datetime} 
                                       />
@@ -280,13 +307,55 @@ return   <View style={{flex: 1}}>
 
        <View style={{ flex: 0.60, width: this.width-10, marginLeft: 3, marginRight: 3, marginTop: 6}}>
 
-       <View style={{marginLeft: 30}}>
+       {/* <View style={{marginLeft: 30}}>
       
         {(this.props.sqsoqsolinkscanerror===1) &&  
-            <Text style={{color:"grey"}}> Sorry, the scanned Qso doesn't exist.</Text> 
+            <Text style={{color:"grey"}}> {this.props.sqsoqsolink.message}</Text> 
              }
 
-        </View>
+        </View> */}
+
+
+
+        <Modal visible ={this.state.linkCodes}  transparent={true} onRequestClose={() => console.log('Close was requested')}>
+                    <View style={{
+                      //  margin:20,
+                          padding:20, 
+                          backgroundColor:  '#475788',
+                          top: 90,
+                          left: 30,
+                          right: 30,
+                          position: 'absolute',
+                          borderBottomLeftRadius: 22,
+                          borderBottomRightRadius: 22,
+                          borderTopLeftRadius: 22,
+                          borderTopRightRadius: 22,
+                                                    
+                        //  alignItems: 'center'                      
+                          }}>
+          
+
+                    <View style={{flex: 1, alignItems: 'center'}}>
+
+                    {/* <Image source={require('../../images/noInternet.png')}  style={{width: 60, height: 60 } } 
+                      resizeMode="contain" />  */}
+
+                     <Text style={{ color: '#FFFFFF', fontSize: 14, padding: 10 }}>{this.props.sqsoqsolinkcodes.message}</Text>
+
+                    <TouchableOpacity  onPress={() =>  this.closeLinksCodesModal() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
+                      <Text style={{ color: '#999', fontSize: 16}}>OK</Text>
+                    </TouchableOpacity>
+                    
+                    </View>
+                    
+                    </View>
+
+               
+               </Modal>
+
+
+
+
 
        <Modal visible={this.state.actindicatorfecthQslCard} position= {'top'} transparent={true}  onRequestClose={() => console.log('Close was requested')}>
              {/* <KeyboardAvoidingView behavior="padding"  > */}
@@ -389,7 +458,7 @@ return   <View style={{flex: 1}}>
        <View style={{flex: 0.22, alignItems: 'center' }}>
        {  (this.props.sqsoqsolink.links) &&
          (this.props.sqsoqsolink.links.length>0) &&
-           <TouchableOpacity  style={{}}  onPress={ () => this.checkInternetScanQR('linkqsoscan')  }>
+           <TouchableOpacity  style={{}}  onPress={ () => this.checkInternetScanQR('linkqsos')  }>
            <Text style={{ fontSize: 12, color: 'orange', marginLeft: 0}}>Ready</Text> 
           <Image source={require('../../images/link2.png')}  style={{width: 24, height: 24 } } 
        resizeMode="contain" />    
@@ -479,14 +548,17 @@ const styles = StyleSheet.create({
         sqsoqsolink: state.sqso.currentQso.qsolink,
       //  sqsoqslscanbody: state.sqso.currentQso.qslscan.body,
       
-        sqsoqsolinkscanerror: state.sqso.currentQso.qsolink.error
+        sqsoqsolinkscanerror: state.sqso.currentQso.qsolink.error,
+        sqsoqsolinkcodes: state.sqso.currentQso.qsolinkCodes
         
      };
 };
 
 
 const mapDispatchToProps = {
-    getQslScan
+    getQslScan,
+    linkQsos,
+    updateLinkQso
     
    }
 
