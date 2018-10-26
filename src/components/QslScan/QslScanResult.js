@@ -364,22 +364,34 @@ return   <View style={{flex: 1}}>
 
        <View style={{ flexDirection: 'row', flex:0.08, marginTop:7, justifyContent: 'center'}}> 
        
-      
+       <View style={{flex: 1, flexDirection: 'row' }}>
+
        {/* this.scanQR() */}
-       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.gotoQslScanScreen()  }>
-          
-          <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
-       resizeMode="contain" />    
-       <Text style={{ fontSize: 12, color: '#999'}}>Back</Text>          
-      </TouchableOpacity> 
-       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qslscan')  }>
+    
+      <View style={{flex: 0.60, alignItems: 'flex-end' }}> 
+       <TouchableOpacity  style={{}}  onPress={ () => this.checkInternetScanQR('qslscan')  }>
           
             <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
          resizeMode="contain" />    
-         <Text style={{ fontSize: 12, color: '#999'}}>Scan Qsl</Text>          
+         <Text style={{ fontSize: 12}}>Scan Qsl</Text>          
         </TouchableOpacity> 
+        </View>
+
+           <View style={{flex: 0.40, alignItems: 'flex-end', marginRight: 10 }}>
+       
+
+        <TouchableOpacity
+                  onPress={() => this.gotoQslScanScreen()}
+                  style = {{ }} >
+                  <Image source={require('../../images/arrow_back_grey.png')}  style={{width: 27, height: 27 } } 
+                  resizeMode="contain" />    
+                  <Text style={{fontSize: 12}}> Back </Text>
+              </TouchableOpacity>
 
 
+      </View> 
+
+      </View>
 
        </View>
        

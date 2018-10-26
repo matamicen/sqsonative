@@ -41,12 +41,13 @@ class QslScanQR extends Component {
     console.log('llamo Screen '+ param);
 
        if (param==='qslScan')
-       {   console.log('llamo QslScanResult '+ param);
-
            this.props.navigation.navigate("QslScanResult");
-       }
-        else
+          
+           if (param==='mainQsoLink' || param==='linkQso' )
            this.props.navigation.navigate("QsoLink");
+
+           if (param==='qslscanScreen')   
+           this.props.navigation.navigate("QslScanScreen");
      }
 
   onSuccess = async function(e) {
@@ -58,14 +59,17 @@ class QslScanQR extends Component {
        //this.ScanQSL2(e);
         this.setState({actindicatorfecthQslCard: true})
        console.log('el codigo Scaneado es: ' +e.data);
-       await this.props.getQslScan(e.data,this.scantype);
+     //  await this.props.getQslScan(e.data,this.scantype);
        this.setState({actindicatorfecthQslCard: false})
       if (this.scantype==='mainQsoLink' || this.scantype==='linkQso')
-      
-      
+       {
+         await this.props.getQslScan(e.data,this.scantype);
          this.gotoQslScanScreen(this.scantype);
+       }
        else
+       {  await this.props.getQslScan(e.data,'qslScan');
          this.gotoQslScanScreen('qslScan');
+       }
   
   
          //   this.setState({scanQR: !this.state.scanQR})
@@ -124,17 +128,25 @@ return   <View style={{flex: 1}}>
              <View style={{flex: 0.1, flexDirection: 'row', justifyContent: 'center'}}>
 
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                   onPress={() => this.gotoQslScanScreen(this.scantype)}
                   style = {styles.capture} >
                   <Text style={{fontSize: 14}}> Go Back </Text>
+              </TouchableOpacity> */}
+
+               <TouchableOpacity
+                  onPress={() => this.gotoQslScanScreen(this.scantype)}
+                  style = {{ marginTop: 7}} >
+                  <Image source={require('../../images/arrow_back_grey.png')}  style={{width: 27, height: 27 } } 
+                  resizeMode="contain" />    
+                  <Text style={{fontSize: 12}}> Back </Text>
               </TouchableOpacity>
 
-              <TouchableOpacity
+              {/* <TouchableOpacity
                   onPress={() => this.onSuccess_test()}
                   style = {styles.capture} >
                   <Text style={{fontSize: 14}}> test </Text>
-              </TouchableOpacity>
+              </TouchableOpacity> */}
               </View>
         </View>
 

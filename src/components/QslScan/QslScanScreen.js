@@ -202,16 +202,16 @@ checkInternetScanQR = async (param) => {
     }
 
 
-  if (this.micPermission && this.camPermission && param==='qslscan')
+  if (this.micPermission && this.camPermission && param==='qslscanScreen')
       // this.props.navigation.navigate("QslScanQR");
 
      this.props.navigation.navigate('QslScanQR', {
-      scantype: 'qslScan'
+      scantype: 'qslscanScreen'
       
     });
     else{
       this.props.updateLinkQso('','clear');
-     this.props.navigation.navigate("QsoLink");
+      this.props.navigation.navigate("QsoLink");
     }
     
  
@@ -246,7 +246,7 @@ return   <View style={{flex: 1}}>
             
        
       
-       <View style={{flex: 0.29, width: this.width-10, marginLeft: 3, marginRight: 3}}>
+       {/* <View style={{flex: 0.29, width: this.width-10, marginLeft: 3, marginRight: 3}}> */}
 
         <NoInternetModal nointernet={this.state.nointernet} closeInternetModal={this.closeNoInternetModal.bind()} />
       
@@ -255,7 +255,7 @@ return   <View style={{flex: 1}}>
       
 
   
-        </View>
+        {/* </View> */}
 
    
        
@@ -263,22 +263,28 @@ return   <View style={{flex: 1}}>
        
      
 
-       <View style={{ flexDirection: 'row', flex:0.71, marginTop:7, justifyContent: 'center'}}> 
+       <View style={{ flex:0.50, justifyContent: 'center', alignItems: 'center'}}> 
        
       
-       {/* this.scanQR() */}
-       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qsolink')  }>
+      
+       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qslscanScreen')  }>
           
-          <Image source={require('../../images/link2.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
+          <Image source={require('../../images/qrcodescan.png')}  style={{width: 40, height: 40, marginLeft: 17 } } 
        resizeMode="contain" />    
-       <Text style={{ fontSize: 12, color: '#999'}}>Link Qso</Text>          
+       <Text style={{ fontSize: 22, color: '#999'}}>Scan Qsl</Text>          
       </TouchableOpacity> 
-       <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qslscan')  }>
+ 
+
+      </View> 
+      
+      <View style={{ flex:0.50, justifyContent: 'center', alignItems: 'center'}}> 
+      
+        <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qsolink')  }>
           
-            <Image source={require('../../images/qrcodescan.png')}  style={{width: 27, height: 27, marginLeft: 9 } } 
-         resizeMode="contain" />    
-         <Text style={{ fontSize: 12, color: '#999'}}>Scan Qsl</Text>          
-        </TouchableOpacity> 
+          <Image source={require('../../images/link2.png')}  style={{width: 40, height: 40, marginLeft: 17 } } 
+       resizeMode="contain" />    
+       <Text style={{ fontSize: 22, color: '#999'}}>Link Qso</Text>          
+      </TouchableOpacity> 
 
 
 
