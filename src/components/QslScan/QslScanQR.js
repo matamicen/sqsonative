@@ -60,15 +60,17 @@ class QslScanQR extends Component {
         this.setState({actindicatorfecthQslCard: true})
        console.log('el codigo Scaneado es: ' +e.data);
      //  await this.props.getQslScan(e.data,this.scantype);
-       this.setState({actindicatorfecthQslCard: false})
+      
       if (this.scantype==='mainQsoLink' || this.scantype==='linkQso')
        {
          await this.props.getQslScan(e.data,this.scantype);
          this.gotoQslScanScreen(this.scantype);
+         this.setState({actindicatorfecthQslCard: false})
        }
        else
        {  await this.props.getQslScan(e.data,'qslScan');
          this.gotoQslScanScreen('qslScan');
+         this.setState({actindicatorfecthQslCard: false})
        }
   
   

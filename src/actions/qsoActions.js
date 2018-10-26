@@ -1438,7 +1438,7 @@ export const linkQsos = (json) => {
 
 
       // armo el array de los qso a Linkear
-      arraux = [];
+        arraux = [];
         json.links.map((m, i) => {
 
          addItem = {"qso": m.idqsos}  
@@ -1483,6 +1483,8 @@ export const linkQsos = (json) => {
              men = 'This Qso has already Linked';
            else
              men = 'There was an error Linking the Qsos: '+respuesta.body.message.code;
+
+             console.log('imprimo en error de /qso-link :' + men )
         
         //  let qsolink = { "error": 1, "message": men }
          jsonError = {code: 1, message: men}

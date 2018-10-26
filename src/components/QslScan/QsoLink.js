@@ -41,11 +41,12 @@ class QsoLink extends Component {
 
     this.state = {
       conta: 0,
-      actindicatorfecthQslCard: false,
+      actindicatorLinkingQsos: false,
       scanQR: false,
       nointernet: false,
       qsoToLink: false,
-      linkCodes: false
+      linkCodes: false,
+      showCodes: false,
      
       
     };
@@ -54,14 +55,25 @@ class QsoLink extends Component {
 
   componentWillReceiveProps(nextProps) {
     
-  
-if (nextProps.sqsoqsolinkcodes.code!==0)
+  console.log('willReceive code: ' + nextProps.sqsoqsolinkcodes.code);
+if (nextProps.sqsoqsolinkcodes.code!==0) {
+  if (nextProps.sqsoqsolinkcodes.code===1 || nextProps.sqsoqsolinkcodes.code===200 )
+ {   this.setState({
+     
+      showCodes: true    
+    });
+  }
+    if (nextProps.sqsoqsolinkcodes.code===300)
     this.setState({
-      linkCodes: true    
-    })
+      showCodes: false,
+      linkCodes: false    
+    }); 
+   }
     else
     this.setState({
-      linkCodes: false    
+      showCodes: false
+     
+
     })
   }
 
@@ -240,7 +252,11 @@ checkInternetScanQR = async (param) => {
               });
 
               if (this.micPermission && this.camPermission && param==='linkqsos')
+              {   
+                 this.setState({linkCodes: true});
                  this.props.linkQsos(this.props.sqsoqsolink);
+
+              }
              
 
               
@@ -270,7 +286,7 @@ checkInternetScanQR = async (param) => {
  }
 
  closeLinksCodesModal = () => {
-  jsonError = {code: 0, message: " "}
+  jsonError = {code: 300, message: " "}
   this.props.updateLinkQso(jsonError,'linkQsoError');
  // this.setState({linkCodes: false}); 
 }
@@ -340,11 +356,19 @@ return   <View style={{flex: 1}}>
                     {/* <Image source={require('../../images/noInternet.png')}  style={{width: 60, height: 60 } } 
                       resizeMode="contain" />  */}
 
-                     <Text style={{ color: '#FFFFFF', fontSize: 14, padding: 10 }}>{this.props.sqsoqsolinkcodes.message}</Text>
+                   { (!this.state.showCodes) &&
+                     <Text style={{ color: '#FFFFFF', fontSize: 14, padding: 10 }}>Linking Qsos ...</Text> 
+                   }
 
-                    <TouchableOpacity  onPress={() =>  this.closeLinksCodesModal() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
-                      <Text style={{ color: '#999', fontSize: 16}}>OK</Text>
-                    </TouchableOpacity>
+                   { (this.state.showCodes) && 
+                     <View>
+                        <Text style={{ color: '#FFFFFF', fontSize: 14, padding: 10 }}>{this.props.sqsoqsolinkcodes.message}</Text>
+                        
+                        <TouchableOpacity  onPress={() =>  this.closeLinksCodesModal() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
+                          <Text style={{ color: '#999', fontSize: 16}}>OK</Text>
+                        </TouchableOpacity>
+                    </View>
+                   }
                     
                     </View>
                     
@@ -357,15 +381,15 @@ return   <View style={{flex: 1}}>
 
 
 
-       <Modal visible={this.state.actindicatorfecthQslCard} position= {'top'} transparent={true}  onRequestClose={() => console.log('Close was requested')}>
-             {/* <KeyboardAvoidingView behavior="padding"  > */}
+       <Modal visible={false} position= {'top'} transparent={true}  onRequestClose={() => console.log('Close was requested')}>
+            
               <View style={{ 
                    padding:10, 
                   backgroundColor : 'rgba(0,0,0,0.85)',
                    marginTop: 210,
                    left: 105,
                    right: 15,
-                   width: 185,
+                   width: 165,
                    height: 35,
                    paddingVertical: 5,
                  //   position: 'absolute',
@@ -373,12 +397,12 @@ return   <View style={{flex: 1}}>
                  //  alignItems: 'center',
                    borderRadius: 12                       
                     }}>
-                   <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15}}>Fetching QSL Card ...</Text>
+                   <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15}}>Linking Qsos ...</Text>
                    
                   
 
                     </View>
-                {/* </KeyboardAvoidingView > */}
+               
                    
                       </Modal>
 

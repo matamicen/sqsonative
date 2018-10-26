@@ -760,6 +760,8 @@ const qsoReducer = (state = initialState, action) => {
                     qsolinkCodes: men
                         
                 };
+
+                console.log('qsolinkcodes en Reducer: ' + men);
             }
 
      if (action.scanType==='linkQso')
@@ -783,7 +785,7 @@ const qsoReducer = (state = initialState, action) => {
                     qsolinkCodes: action.json
                         
                 };
-      
+     
 
       
     
