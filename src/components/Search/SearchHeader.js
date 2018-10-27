@@ -57,7 +57,7 @@ closeNoInternetModal = () => {
             
                 
             <View style={{flex: 0.7,flexDirection: 'column'}}>
-              <QraProfile qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile.jpg?'+this.props.sqsoprofilepicrefresh } />  
+              <QraProfile qra={this.props.qra} imageurl={this.props.rdsurl+'profile/profile_avatar.jpg?'+this.props.sqsoprofilepicrefresh } />  
               <SearchEnterQra openNointernetModal={this.openNoInternetModal.bind(this)}/>
             </View>
 

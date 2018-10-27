@@ -3,6 +3,7 @@ package com.sqsonative;
 import android.app.Application;
 
 import com.facebook.react.ReactApplication;
+import com.reactnative.ivpusic.imagepicker.PickerPackage;
 import com.brentvatne.react.ReactVideoPackage;
 import fr.bamlab.rnimageresizer.ImageResizerPackage;
 import com.rnim.rn.audio.ReactNativeAudioPackage;
@@ -29,6 +30,7 @@ public class MainApplication extends Application implements ReactApplication {
     protected List<ReactPackage> getPackages() {
       return Arrays.<ReactPackage>asList(
           new MainReactPackage(),
+            new PickerPackage(),
             new ReactVideoPackage(),
             new ImageResizerPackage(),
             new ReactNativeAudioPackage(),

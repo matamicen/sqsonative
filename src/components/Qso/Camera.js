@@ -10,6 +10,7 @@ import { connect } from 'react-redux';
 import { openModalConfirmPhoto, sendActualMedia, actindicatorImageDisabled,
          actindicatorImageEnabled } from '../../actions';
 import { RNCamera } from 'react-native-camera';
+import ImagePicker from 'react-native-image-crop-picker';
 
 const landmarkSize = 2;
 
@@ -75,7 +76,8 @@ class CameraScreen extends React.Component {
     buttonStatus: false,
     type: 'back',
     flash: 'auto',
-    flashtext: 'auto'
+    flashtext: 'auto',
+    showCamera: true
   };
 
 }
@@ -634,52 +636,124 @@ class CameraScreen extends React.Component {
       const options = { quality: 0.5, base64: true, forceUpOrientation: true };
     
     const data = await this.camera.takePictureAsync(options)
+      this.setState({showCamera: false});
       console.log(data.uri);
 
     final = new Date();
     total = final - inicial;
     console.log('tardo en total sacar foto: '+ total)
 
+
+       if (this.props.phototype==='profile')
+       {
+                  ImagePicker.openCropper({
+                    path: data.uri,
+                    width: 1000,
+                    height: 1000
+                  }).then(image => {
+                    console.log(image);
+
+                    data.uri = image.path;
+                    console.log('uri de foto: '+ data.uri);
+              
+            
+                    this.setState({
+                      url: data.uri
+                    });
+                  
+                    uri = data.uri;
+  
+                  fileName2 = uri.replace(/^.*[\\\/]/, '');
+                  
+  
+                  console.log('filename2 es: ' + fileName2);
+                  envio = {name: fileName2, url: uri, type: this.props.phototype, sent: 'false', size: '2222', width: this.width, height: this.height } 
+                  
+                  console.log('phototype :'+this.props.phototype)
+                  
+                //  vari2 = await 
+                  this.props.sendActualMedia(envio);
+                  console.log("Fin de espera larga ANDROID")
+                  this.goBack();
+                  
+                  if ( Platform.OS === 'ios')
+                  timer = 1000;
+                    else timer = 500;
+  
+                  setTimeout(() => {
+                    console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+                    //  this.props.actindicatorImageDisabled();
+                      this.props.openModalConfirmPhoto(340);
+                  }, timer);
+  
+  
+                
+                  console.log('este debe aparecer primero');
+  
   
 
-     console.log('uri de foto: '+ data.uri);
+
+
+
+
+                  });
+
+                }
+                else{
+
+
+                  console.log('uri de foto: '+ data.uri);
+              
+            
+                  this.setState({
+                    url: data.uri
+                  });
+                
+                  uri = data.uri;
+
+                fileName2 = uri.replace(/^.*[\\\/]/, '');
+                
+
+                console.log('filename2 es: ' + fileName2);
+                envio = {name: fileName2, url: uri, type: this.props.phototype, sent: 'false', size: '2222', width: this.width, height: this.height } 
+                
+                console.log('phototype :'+this.props.phototype)
+                
+                 
+                vari2 = await this.props.sendActualMedia(envio);
+                console.log("Fin de espera larga ANDROID")
+                this.goBack();
+                
+                if ( Platform.OS === 'ios')
+                timer = 1000;
+                  else timer = 500;
+
+                setTimeout(() => {
+                  console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
+                  //  this.props.actindicatorImageDisabled();
+                    this.props.openModalConfirmPhoto(340);
+                }, timer);
+
+
+              
+                console.log('este debe aparecer primero');
+
+
+
+
+
+
+
+
+                }
+
+
   
- 
-      this.setState({
-        url: data.uri
-      });
-    
-      uri = data.uri;
 
-    fileName2 = uri.replace(/^.*[\\\/]/, '');
-    
+            
+              
+      }
 
-    console.log('filename2 es: ' + fileName2);
-    envio = {name: fileName2, url: uri, type: this.props.phototype, sent: 'false', size: '2222', width: this.width, height: this.height } 
-    
-    
-    
-     vari2 = await this.props.sendActualMedia(envio);
-     console.log("Fin de espera larga ANDROID")
-     this.goBack();
-     
-     if ( Platform.OS === 'ios')
-     timer = 1000;
-      else timer = 500;
-
-     setTimeout(() => {
-       console.log("hago esperar 1200ms para q siempre se abra el modal en qsoScreen");
-      //  this.props.actindicatorImageDisabled();
-        this.props.openModalConfirmPhoto(340);
-    }, timer);
-
-
-  
-    console.log('este debe aparecer primero');
-
-
-   
-  }
   };
 
 
@@ -697,7 +771,7 @@ class CameraScreen extends React.Component {
    return (
      <View style={styles.container}>
   
-
+   {(this.state.showCamera) &&
      <RNCamera
             ref={ref => {
               this.camera = ref;
@@ -762,6 +836,7 @@ class CameraScreen extends React.Component {
 
         </View>
        </RNCamera >
+     }
 
      </View>
     );

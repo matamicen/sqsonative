@@ -8,6 +8,7 @@ import { getDate} from '../../helper';
 import Amplify, { Auth, API, Storage } from 'aws-amplify'
 import awsconfig from '../../aws-exports'
 import ImageResizer from 'react-native-image-resizer';
+import ImagePicker from 'react-native-image-crop-picker';
 
 
 Amplify.configure(awsconfig);
@@ -42,9 +43,23 @@ class Muestro extends Component {
 
   
 
-   componentDidMount() {
+   componentDidMount = async () => {
     
       //  this.props.fetchPeople();
+    //   ImagePicker.openCropper({
+    //     path: this.props.sqsomedia.url,
+    //     width: 150,
+    //     height: 150
+    //   }).then(image => {
+    //     console.log(image);
+
+    //    envio = {name: this.props.sqsomedia.fileName2, url: image.path, type: this.props.sqsomedia.phototype, sent: 'false', size: '2222', width: image.width, height: image.height } 
+    
+   
+    
+    //  //vari2 = await 
+    //         this.props.sendActualMedia(envio);
+    //   });
      
        }
 
@@ -79,8 +94,10 @@ class Muestro extends Component {
           console.log(' entro 1era vez Compress Rotation: '+this.width + ' ' + this.height);
         nuevoWidth = this.width / 5.2;
         nuevoHeight = this.height / 5.2;
-        nuevoWidthAvatar = this.widthAvatar / 30.0;
-        nuevoHeightAvatar = this.heightAvatar / 30.0;
+        // nuevoWidthAvatar = this.widthAvatar / 30.0;
+        // nuevoHeightAvatar = this.heightAvatar / 30.0;
+        nuevoWidthAvatar = this.widthAvatar / 2.0;
+        nuevoHeightAvatar = this.heightAvatar / 2.0;
 
         }else{
           nuevoWidth = this.width; 
@@ -174,18 +191,46 @@ class Muestro extends Component {
 
         nuevoWidth = this.width / 5.2;
         nuevoHeight = this.height / 5.2;
-        nuevoWidthAvatar = this.widthAvatar / 30.0;
-        nuevoHeightAvatar = this.heightAvatar / 30.0;
+        compressRate = 86;
+        // nuevoWidthAvatar = this.widthAvatar / 30.0;
+        // nuevoHeightAvatar = this.heightAvatar / 30.0;
+        if ( Platform.OS === 'ios')
+        {
+
+        nuevoWidthAvatar = this.widthAvatar / 21.0;
+        nuevoHeightAvatar = this.heightAvatar / 21.0;
+        }else
+        {
+        nuevoWidthAvatar = this.widthAvatar / 6.0;
+        nuevoHeightAvatar = this.heightAvatar / 6.0;
+      }
+
+
+        if (this.props.sqsomedia.type==='profile'){
+          // esto es para genrar el Profile.jpg para mostrar en el perfil con mas definicion
+              if ( Platform.OS === 'ios')
+            {
+              nuevoWidth = this.width / 10.0;
+              nuevoHeight = this.height / 10.0;
+            }else{
+              nuevoWidth = this.width / 3.0;
+              nuevoHeight = this.height / 3.0;
+            }
+              compressRate = 86;
+        }
     
         auxoriginalphoto=this.props.sqsomedia.url;
         inicial = new Date();
-        await ImageResizer.createResizedImage(this.props.sqsomedia.url, nuevoWidth , nuevoHeight, 'JPEG', 86).then((response) => {
+        
+        await ImageResizer.createResizedImage(this.props.sqsomedia.url, nuevoWidth , nuevoHeight, 'JPEG', compressRate).then((response) => {
           // response.uri is the URI of the new image that can now be displayed, uploaded...
           // response.path is the path of the new image
           // response.name is the name of the new image with the extension
           // response.size is the size of the new image
        //   data.uri = response.uri;
+    
           this.compressImageURL = response.uri;
+  //    this.compressImageURL = this.props.sqsomedia.url
           this.size = response.size;
           this.width = nuevoWidth;
           this.height = nuevoHeight;
@@ -209,8 +254,10 @@ class Muestro extends Component {
 
         if (this.props.sqsomedia.type==='profile')
         {
+           // esto es para genrar el Profile_avatar.jpg para mostrar en los vatars con menor definicion
           console.log('TERMINO ENTRA avatar '+this.compressRotation); 
           // genero el avatar del profile
+          //iba 86
           await ImageResizer.createResizedImage(auxoriginalphoto, nuevoWidthAvatar , nuevoHeightAvatar, 'JPEG',86).then((response) => {
           
             this.compressImageURLProfileAvatar = response.uri;
@@ -378,7 +425,8 @@ class Muestro extends Component {
           <Image style={styles.faceImageStyleAudio}
                       source={require('../../images/audio.png')}
                           /> }
-            { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && Platform.OS === 'android') &&
+            {/* { ((this.props.sqsomedia.type==='image' || this.props.sqsomedia.type==='profile') && Platform.OS === 'android') && */}
+          { (this.props.sqsomedia.type==='image') &&
                    <TouchableOpacity  onPress={() => this.rotateImage()} >
                            <Image style={{ width: 26, height: 26,  marginTop: 5, marginLeft: 9}}
                       source={require('../../images/rotate.png')}

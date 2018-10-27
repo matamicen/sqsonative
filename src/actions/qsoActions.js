@@ -255,7 +255,7 @@ export const fetchQraProfileUrl = (qra) => {
       console.log("llamo api URL!");
       //console.log("respuesta API:" + JSON.stringify(respuesta));
       console.log("respuesta API url:" + JSON.stringify(respuesta));
-      url = {"url": respuesta.message.url, "following": respuesta.message.following} 
+      url = {"url": respuesta.message.url_avatar, "following": respuesta.message.following} 
     //   console.log("la url que envio:" + url);
     //   console.log("EL QRA:" + qra);
       dispatch(fetchingApiSuccess(respuesta.results));
