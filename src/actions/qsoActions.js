@@ -319,6 +319,7 @@ export const postQsoNew = (bodyqsonew,qsoqras) => {
 
       respuesta =  await API.post(apiName, path, myInit);
       console.log("llamo api QsoNEW!");
+      console.log(respuesta);
     
       console.log("EL QSO Number es:" + respuesta.message);
       dispatch(fetchingApiSuccess(respuesta));
@@ -383,14 +384,15 @@ export const postQsoNew = (bodyqsonew,qsoqras) => {
 
       respuesta = await API.post(apiName, path, myInit);
       console.log("llamo api! QSO_QRA_ADD");
-    
+      console.log(respuesta)
      // console.log("EL QSO Number es:" + respuesta.message);
       dispatch(fetchingApiSuccess(respuesta));
      
-      if (respuesta.error==='0')
+     
+      if (respuesta.body.error===0)
       {
        // dispatch(updateSqlRdsId(respuesta.message));
-        console.log("error es 0 y SALIDA de QsoQraADD: "+JSON.stringify(respuesta.message));
+        console.log("error es 0 y SALIDA de QsoQraADD: "+JSON.stringify(respuesta.body.message));
       //  console.log("FOLLOWING: "+respuesta.message[0].following )
 
         if (type==='ALL')
