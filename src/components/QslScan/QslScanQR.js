@@ -106,6 +106,8 @@ class QslScanQR extends Component {
      render() { console.log("RENDER QSL SCAN SCREEN!" );
      const { params } = this.props.navigation.state;
      this.scantype = params ? params.scantype : null;
+     
+      
     
     console.log("QSL SCAN parametros: "+JSON.stringify(this.scantype) );
   
@@ -171,7 +173,7 @@ return   <View style={{flex: 1}}>
                  //  alignItems: 'center',
                    borderRadius: 12                       
                     }}>
-                   <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15}}>Fetching QSL Card ...</Text>
+                   <Text style={{ color: 'white', fontWeight: 'bold', fontSize: 15}}>Fetching QSO ...</Text>
                    
                   
 

@@ -1482,7 +1482,7 @@ export const linkQsos = (json) => {
         if (respuesta.body.message.code==='ER_DUP_ENTRY')
              men = 'This Qso has already Linked';
            else
-             men = 'There was an error Linking the Qsos: '+respuesta.body.message.code;
+             men = 'There was an error Linking the Qsos: '+respuesta.body.message;
 
              console.log('imprimo en error de /qso-link :' + men )
         

@@ -750,16 +750,26 @@ const qsoReducer = (state = initialState, action) => {
      {    
          let men = " ";
            if (action.scanType==='linkQsoApiResult')
-              men = {code: 200, message: "These Qsos are succesuful Linked!"}
-             else
-              men = {code: 0, message: " "}
-
-                auxcurrentQso = {
+             { 
+                 men = {code: 200, message: "These Qsos are succesuful Linked!"}
+                 auxcurrentQso = {
                     ...state.currentQso,
-                    qsolink: action.json,
                     qsolinkCodes: men
-                        
-                };
+                    
+                  };
+             }
+             else{
+              men = {code: 0, message: " "}
+              auxcurrentQso = {
+                ...state.currentQso,
+                qsolink: action.json,
+                qsolinkCodes: men
+                
+              };
+
+             }
+
+               
 
                 console.log('qsolinkcodes en Reducer: ' + men);
             }
@@ -780,11 +790,30 @@ const qsoReducer = (state = initialState, action) => {
       }
 
       if (action.scanType==='linkQsoError' )
+           if (action.json.code===300 || action.json.code===301)
+          { if (action.json.code===300)
                 auxcurrentQso = {
                     ...state.currentQso,
+                    qsolink: {},
                     qsolinkCodes: action.json
                         
                 };
+                if (action.json.code===301)
+                auxcurrentQso = {
+                    ...state.currentQso,
+                   
+                    qsolinkCodes: action.json
+                        
+                };
+            }
+            else
+            auxcurrentQso = {
+                ...state.currentQso,
+              
+                qsolinkCodes: action.json
+                    
+            };
+ 
      
 
       

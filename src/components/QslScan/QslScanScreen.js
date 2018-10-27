@@ -269,9 +269,9 @@ return   <View style={{flex: 1}}>
       
        <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qslscanScreen')  }>
           
-          <Image source={require('../../images/qrcodescan.png')}  style={{width: 40, height: 40, marginLeft: 17 } } 
+          <Image source={require('../../images/qrcodescan.png')}  style={{width: 40, height: 40, marginLeft: 37 } } 
        resizeMode="contain" />    
-       <Text style={{ fontSize: 22, color: '#999'}}>Scan Qsl</Text>          
+       <Text style={{ fontSize: 22, color: '#999'}}>Scan Qsl Card</Text>          
       </TouchableOpacity> 
  
 

@@ -63,7 +63,7 @@ if (nextProps.sqsoqsolinkcodes.code!==0) {
       showCodes: true    
     });
   }
-    if (nextProps.sqsoqsolinkcodes.code===300)
+    if (nextProps.sqsoqsolinkcodes.code===300 || nextProps.sqsoqsolinkcodes.code===301)
     this.setState({
       showCodes: false,
       linkCodes: false    
@@ -286,7 +286,11 @@ checkInternetScanQR = async (param) => {
  }
 
  closeLinksCodesModal = () => {
-  jsonError = {code: 300, message: " "}
+   if (this.props.sqsoqsolinkcodes.code===200)
+       jsonError = {code: 300, message: " "}
+      else
+       jsonError = {code: 301, message: " "}
+
   this.props.updateLinkQso(jsonError,'linkQsoError');
  // this.setState({linkCodes: false}); 
 }
@@ -351,7 +355,7 @@ return   <View style={{flex: 1}}>
                           }}>
           
 
-                    <View style={{flex: 1, alignItems: 'center'}}>
+                    <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
 
                     {/* <Image source={require('../../images/noInternet.png')}  style={{width: 60, height: 60 } } 
                       resizeMode="contain" />  */}
@@ -361,10 +365,10 @@ return   <View style={{flex: 1}}>
                    }
 
                    { (this.state.showCodes) && 
-                     <View>
+                     <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
                         <Text style={{ color: '#FFFFFF', fontSize: 14, padding: 10 }}>{this.props.sqsoqsolinkcodes.message}</Text>
                         
-                        <TouchableOpacity  onPress={() =>  this.closeLinksCodesModal() } style={{ paddingTop: 8, paddingBottom: 4, flex: 0.5}}>
+                        <TouchableOpacity  onPress={() =>  this.closeLinksCodesModal() } style={{ }}>
                           <Text style={{ color: '#999', fontSize: 16}}>OK</Text>
                         </TouchableOpacity>
                     </View>
