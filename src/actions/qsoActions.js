@@ -321,20 +321,20 @@ export const postQsoNew = (bodyqsonew,qsoqras) => {
       console.log("llamo api QsoNEW!");
       console.log(respuesta);
     
-      console.log("EL QSO Number es:" + respuesta.message);
+      console.log("EL QSO Number es:" + respuesta.body.message);
       dispatch(fetchingApiSuccess(respuesta));
      
-      if (respuesta.error==='0')
+      if (respuesta.body.error===0)
       {
 
       //  dispatch(actindicatorPostQsoNewFalse());
        
-        console.log("error es 0 y sqlrdsid: "+respuesta.message);
+        console.log("error es 0 y sqlrdsid: "+respuesta.body.message);
       if (bodyqsonew.type==='POST')
-         dispatch(updateQsoStatusSentAndSqlRdsId (respuesta.message,true,false,false));
+         dispatch(updateQsoStatusSentAndSqlRdsId (respuesta.body.message,true,false,false));
       else
-        dispatch(updateQsoStatusSentAndSqlRdsId (respuesta.message,true,true,true));
-        await dispatch(postQsoQras("ALL",respuesta.message, qsoqras));
+        dispatch(updateQsoStatusSentAndSqlRdsId (respuesta.body.message,true,true,true));
+        await dispatch(postQsoQras("ALL",respuesta.body.message, qsoqras));
 
       }
 
