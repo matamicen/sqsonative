@@ -471,7 +471,7 @@ return   <View style={{flex: 1}}>
        
           } 
       </View>  */}
-       <View style={{flex: 0.30, alignItems: 'flex-start' }}>
+       <View style={{flex: 0.34, alignItems: 'flex-start' }}>
        { (this.props.sqsoqsolink.qra) &&
            <TouchableOpacity  style={{}}  onPress={ () => this.checkInternetScanQR('linkqsoscan')  }>
            <Text style={{ fontSize: 12, color: 'orange', marginLeft: 24}}>Step 2</Text> 
@@ -483,7 +483,7 @@ return   <View style={{flex: 1}}>
           } 
       </View>  
 
-       <View style={{flex: 0.22, alignItems: 'center' }}>
+       <View style={{flex: 0.20, alignItems: 'center' }}>
        {  (this.props.sqsoqsolink.links) &&
          (this.props.sqsoqsolink.links.length>0) &&
            <TouchableOpacity  style={{}}  onPress={ () => this.checkInternetScanQR('linkqsos')  }>
@@ -497,7 +497,7 @@ return   <View style={{flex: 1}}>
          
       </View>  
        
-     <View style={{flex: 0.15, alignItems: 'flex-end', marginRight: 5}}>
+     <View style={{flex: 0.13, alignItems: 'flex-end', marginRight: 5}}>
       <TouchableOpacity
                   onPress={() => this.gotoQslScanScreen()}
                   style = {{ marginTop: 12}} >

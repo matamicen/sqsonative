@@ -269,7 +269,7 @@ return   <View style={{flex: 1}}>
       
        <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qslscanScreen')  }>
           
-          <Image source={require('../../images/qrcodescan.png')}  style={{width: 40, height: 40, marginLeft: 37 } } 
+          <Image source={require('../../images/qrcodescan.png')}  style={{width: 40, height: 40, marginLeft: 40 } } 
        resizeMode="contain" />    
        <Text style={{ fontSize: 22, color: '#999'}}>Scan Qsl Card</Text>          
       </TouchableOpacity> 
@@ -281,7 +281,7 @@ return   <View style={{flex: 1}}>
       
         <TouchableOpacity  style={{marginLeft:10}}  onPress={ () => this.checkInternetScanQR('qsolink')  }>
           
-          <Image source={require('../../images/link2.png')}  style={{width: 40, height: 40, marginLeft: 17 } } 
+          <Image source={require('../../images/link2.png')}  style={{width: 40, height: 40, marginLeft: 21 } } 
        resizeMode="contain" />    
        <Text style={{ fontSize: 22, color: '#999'}}>Link Qso</Text>          
       </TouchableOpacity> 

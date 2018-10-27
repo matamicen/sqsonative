@@ -29,7 +29,8 @@ class QslScanQR extends Component {
       conta: 0,
       actindicatorfecthQslCard: false,
       scanQR: false,
-      hasPermission: undefined
+      hasPermission: undefined,
+      showCamera: true
       
     };
   }
@@ -65,12 +66,14 @@ class QslScanQR extends Component {
        {
          await this.props.getQslScan(e.data,this.scantype);
          this.gotoQslScanScreen(this.scantype);
-         this.setState({actindicatorfecthQslCard: false})
+         this.setState({actindicatorfecthQslCard: false,
+          showCamera: false})
        }
        else
        {  await this.props.getQslScan(e.data,'qslScan');
          this.gotoQslScanScreen('qslScan');
-         this.setState({actindicatorfecthQslCard: false})
+         this.setState({actindicatorfecthQslCard: false,
+                        showCamera: false})
        }
   
   
@@ -116,6 +119,7 @@ class QslScanQR extends Component {
 return   <View style={{flex: 1}}>
       
     { (!this.state.actindicatorfecthQslCard) &&
+      (this.state.showCamera) &&
 
     <View style={{flex: 0.9, justifyContent: 'center'}}>
       <QRCodeScanner
@@ -164,8 +168,8 @@ return   <View style={{flex: 1}}>
                   backgroundColor : 'rgba(0,0,0,0.85)',
                    marginTop: 210,
                    left: 95,
-                   right: 15,
-                   width: 185,
+                   right: 25,
+                   width: 160,
                    height: 35,
                    paddingVertical: 5,
                  //   position: 'absolute',
