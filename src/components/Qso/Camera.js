@@ -696,7 +696,11 @@ class CameraScreen extends React.Component {
 
 
 
-                  });
+                  }).catch((err) => {
+                    console.log("cropImage Error", err.message);
+                    this.setState({showCamera: true});
+                    this.setState({buttonStatus: false});
+                });
 
                 }
                 else{
