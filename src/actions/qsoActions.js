@@ -1192,7 +1192,7 @@ export const followAdd = (qra, date) => {
       console.log("llamo api getFollowingFollowers");
       //console.log("respuesta API:" + JSON.stringify(respuesta));
       console.log("respuesta API getFollowingFollowers:" + JSON.stringify(respuesta));
-      followings = respuesta.body.message.followings;
+      followings = respuesta.body.message.following;
       followers = respuesta.body.message.followers;
     //   console.log("la url que envio:" + url);
     //   console.log("EL QRA:" + qra);
