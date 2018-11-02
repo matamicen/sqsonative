@@ -136,7 +136,7 @@ close_confirmSignup = () => {
   if (this.state.day<10) dia = '0'+this.state.day;
   else dia = this.state.day;
   if (this.state.month<10) mes = '0'+this.state.month;
-  else mes = this.state.mes;
+  else mes = this.state.month;
   fechanac = mes+'/'+dia+'/'+this.state.year;
   console.log('fecha cumple:'+fechanac);
   return fechanac;
@@ -222,9 +222,9 @@ signUp = async () => {
 
           Auth.signUp({username: this.state.qra.toUpperCase(), 
           password: this.state.password,
-          attributes: {
-          email: this.state.email,
-          birthdate: fechanac,
+          'attributes': {
+          'email': this.state.email,
+          'birthdate': fechanac,
           'custom:firstName': this.state.firstname ,
           'custom:lastName': this.state.lastname,
           'custom:country': this.state.country
@@ -235,7 +235,7 @@ signUp = async () => {
                   this.qraAlreadySignUp = this.state.qra;
                   this.setState({heightindicator: 0, indicator: 0, confirmSignup: true});})
       .catch (err => {console.log('SignUp error: ', err.message)
-                     this.setState({errormessage: 'SignUp error: '+err.message,heightindicator: 0,  indicator: 0,heighterror: 25,  loginerror: 1 });
+                     this.setState({errormessage: +' SignUp error: '+err.message,heightindicator: 0,  indicator: 0,heighterror: 25,  loginerror: 1 });
                      Keyboard.dismiss();
               })
           
